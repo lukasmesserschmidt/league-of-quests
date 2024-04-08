@@ -1,0 +1,18 @@
+{
+    "general": {
+        "firstquest": 30,
+        "questduration": 1,
+        "completionduration": 1
+    },
+    "quests": {
+        "easy": {
+            "test": {"unlocked": 1, "questduration": 300, "completionduration": 20}
+        },
+        "mid": {
+            "test": {"unlocked": 1, "questduration": 300, "completionduration": 20}
+        },
+        "hard": {
+            "test": {"unlocked": 1, "questduration": 300, "completionduration": 20}
+        }
+    }
+}
