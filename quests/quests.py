@@ -2,7 +2,7 @@ import tkinter as tk
 import threading
 import time
 
-from ..lol_data import LolData
+from ..lol_data.live_game_data import LolData
 from .. import settings_manager
 
 
@@ -26,7 +26,7 @@ class QuestBase:
         cls.unlocked = my_quest_settings["unlocked"]
         cls.quest_duration = my_quest_settings["qduration"]
         cls.completion_duration = my_quest_settings["cduration"]
-    
+
     @classmethod
     def start(cls):
         quest = threading.Thread(target=cls.run_quest)
@@ -40,14 +40,15 @@ class QuestBase:
             cls.remaining_time = end_time - time.time()
             if cls.quest_content():
                 break
-        
+
     @classmethod
     def on_quest_start(cls):
         pass
-        
+
     @classmethod
     def quest_content(cls):
         raise NotImplementedError()
+
 
 ###quest classes###
 class Test(QuestBase):
@@ -68,5 +69,6 @@ class Test(QuestBase):
 
         cls.last_gold = current_gold
 
-#LolData.init()
-#Test.start()
+
+# LolData.init()
+# Test.start()

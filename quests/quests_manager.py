@@ -3,7 +3,7 @@ import threading
 import time
 
 from . import quests as qu
-from ..lol_data import LolData
+from ..lol_data.live_game_data import LolData
 
 
 class QuestManager:
@@ -12,7 +12,7 @@ class QuestManager:
     ]
 
     available_quests: list
-    
+
     active_quests: list
 
     sync_time = 60
@@ -27,26 +27,26 @@ class QuestManager:
         cls.available_quests = [[], [], []]
 
         for quest in cls.all_quests:
-            if (quest not in cls.active_quests and
-                    quest.check_dependencies):
+            if quest not in cls.active_quests and quest.check_dependencies:
                 cls.available_quests[quest.difficulty].append(quest)
-        
+
     @classmethod
     def get_difficulty(cls):
         all_chances = cls.easy_chance + cls.mid_chance + cls.hard_chance
         roll = randint(1, all_chances)
 
-        if (len(cls.available_quests[2]) > 0 and
-                roll <= cls.hard_chance):
-            return  2
-        elif (len(cls.available_quests[1]) > 0 and
-                roll <= cls.mid_chance + cls.hard_chance):
-            return  1
+        if len(cls.available_quests[2]) > 0 and roll <= cls.hard_chance:
+            return 2
+        elif (
+            len(cls.available_quests[1]) > 0
+            and roll <= cls.mid_chance + cls.hard_chance
+        ):
+            return 1
         elif len(cls.available_quests[0]) > 0:
-            return  0
-        
+            return 0
+
         return None
-    
+
     @classmethod
     def start(cls):
         start_time = time.time() + cls.sync_time
@@ -55,7 +55,7 @@ class QuestManager:
 
         activate_quests = threading.Thread(target=cls.activate_quests, daemon=True)
         activate_quests.start()
-    
+
     @classmethod
     def activate_quests(cls):
         while True:
@@ -67,5 +67,5 @@ class QuestManager:
                 quest = cls.available_quests[difficulty][rand_quest_idx]
                 quest.start()
                 cls.active_quests.append(quest)
-            
+
             time.sleep(60)

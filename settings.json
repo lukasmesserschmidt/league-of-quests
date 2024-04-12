@@ -1,18 +1,12 @@
 {
-    "general": {
-        "firstquest": 30,
-        "questduration": 1,
-        "completionduration": 1
+    "quest_settings": {
+        "quest_on_death": true,
+        "quest_after_time": {"ischecked": false, "time": 240},
+        "quest_duration": 360
     },
-    "quests": {
-        "easy": {
-            "test": {"unlocked": 1, "questduration": 300, "completionduration": 20}
-        },
-        "mid": {
-            "test": {"unlocked": 1, "questduration": 300, "completionduration": 20}
-        },
-        "hard": {
-            "test": {"unlocked": 1, "questduration": 300, "completionduration": 20}
-        }
+    "quest_rarity_settings": {
+        "easy": {"quest": 60, "restriction": 60},
+        "mid": {"quest": 30, "restriction": 30},
+        "hard": {"quest": 10, "restriction": 10}
     }
 }

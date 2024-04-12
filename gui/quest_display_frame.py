@@ -9,3 +9,4 @@ class QuestDisplayFrame(QFrame):
 
         self.frame = Ui_QuestDisplayFrame()
         self.frame.setupUi(self)
+        self.setMaximumHeight(50)

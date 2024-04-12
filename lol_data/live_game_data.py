@@ -8,13 +8,13 @@ class LolData:
     all_data: dict
 
     @classmethod
-    def init(cls):
-        get_data = threading.Thread(target=cls.get_data, daemon=True)
-        get_data.start()
-        time.sleep(0.1)
+    def get_data(cls):
+        cls.terminate_flag = False
+        request_data = threading.Thread(target=cls.request_data, daemon=True)
+        request_data.start()
 
     @classmethod
-    def get_data(cls):
+    def request_data(cls):
         while True:
             url = "https://127.0.0.1:2999/liveclientdata/allgamedata"
             warnings.simplefilter("ignore")
@@ -24,6 +24,9 @@ class LolData:
                 cls.all_data = response.json()
             except requests.exceptions.RequestException as e:
                 print(e)
+
+            if cls.terminate_flag:
+                break
 
             # time.sleep(0.1)
 

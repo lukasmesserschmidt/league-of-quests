@@ -33,11 +33,11 @@ from PySide6.QtGui import (
 from PySide6.QtWidgets import (
     QApplication,
     QFrame,
-    QScrollArea,
+    QGridLayout,
+    QLabel,
     QSizePolicy,
     QVBoxLayout,
     QWidget,
-    QLabel,
 )
 
 
@@ -45,27 +45,72 @@ class Ui_QuestDisplay(object):
     def setupUi(self, QuestDisplay):
         if not QuestDisplay.objectName():
             QuestDisplay.setObjectName("QuestDisplay")
-        QuestDisplay.resize(250, 300)
-        self.display_vertical_Layout = QVBoxLayout(QuestDisplay)
-        self.display_vertical_Layout.setSpacing(0)
-        self.display_vertical_Layout.setObjectName("display_vertical_Layout")
-        self.display_vertical_Layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_area = QScrollArea(QuestDisplay)
-        self.scroll_area.setObjectName("scroll_area")
-        self.scroll_area.setStyleSheet("background-color: rgba(255, 255, 255, 0)")
-        self.scroll_area.setFrameShape(QFrame.NoFrame)
-        self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.scroll_area.setWidgetResizable(True)
-        self.scroll_area_container = QWidget()
-        self.scroll_area_container.setObjectName("scroll_area_container")
-        self.scroll_area_vertical_Layout = QVBoxLayout(self.scroll_area_container)
-        self.scroll_area_vertical_Layout.setSpacing(4)
-        self.scroll_area_vertical_Layout.setObjectName("scroll_area_vertical_Layout")
-        self.scroll_area_vertical_Layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_area.setWidget(self.scroll_area_container)
+        QuestDisplay.resize(250, 280)
+        self.base_layout = QVBoxLayout(QuestDisplay)
+        self.base_layout.setSpacing(0)
+        self.base_layout.setObjectName("base_layout")
+        self.base_layout.setContentsMargins(0, 0, 0, 0)
+        self.info_frame = QFrame(QuestDisplay)
+        self.info_frame.setObjectName("info_frame")
+        self.info_frame.setMaximumSize(QSize(16777215, 30))
+        self.info_frame.setFrameShape(QFrame.NoFrame)
+        self.info_frame.setFrameShadow(QFrame.Raised)
+        self.info_frame.setStyleSheet(
+            "background-color: rgb(51, 51, 51);\n" "border-radius:7px"
+        )
+        self.info_frame_layout = QGridLayout(self.info_frame)
+        self.info_frame_layout.setObjectName("info_frame_layout")
+        self.info_frame_layout.setHorizontalSpacing(3)
+        self.info_frame_layout.setVerticalSpacing(0)
+        self.info_frame_layout.setContentsMargins(3, 3, 3, 3)
+        self.quest_count_title_label = QLabel(self.info_frame)
+        self.quest_count_title_label.setObjectName("quest_count_title_label")
+        self.quest_count_title_label.setStyleSheet("color: rgb(235, 235, 235)")
+        self.quest_count_title_label.setAlignment(
+            Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter
+        )
 
-        self.display_vertical_Layout.addWidget(self.scroll_area)
+        self.info_frame_layout.addWidget(self.quest_count_title_label, 1, 0, 1, 1)
+
+        self.quest_count_label = QLabel(self.info_frame)
+        self.quest_count_label.setObjectName("quest_count_label")
+        self.quest_count_label.setStyleSheet("color: rgb(235, 235, 235)")
+        self.quest_count_label.setAlignment(
+            Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter
+        )
+
+        self.info_frame_layout.addWidget(self.quest_count_label, 1, 1, 1, 1)
+
+        self.next_quest_time_label = QLabel(self.info_frame)
+        self.next_quest_time_label.setObjectName("next_quest_time_label")
+        self.next_quest_time_label.setStyleSheet("color: rgb(235, 235, 235)")
+        self.next_quest_time_label.setAlignment(
+            Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter
+        )
+
+        self.info_frame_layout.addWidget(self.next_quest_time_label, 0, 1, 1, 1)
+
+        self.next_quest_title_label = QLabel(self.info_frame)
+        self.next_quest_title_label.setObjectName("next_quest_title_label")
+        self.next_quest_title_label.setStyleSheet("color: rgb(235, 235, 235)")
+        self.next_quest_title_label.setAlignment(
+            Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter
+        )
+
+        self.info_frame_layout.addWidget(self.next_quest_title_label, 0, 0, 1, 1)
+
+        self.base_layout.addWidget(self.info_frame, 0, Qt.AlignRight | Qt.AlignTop)
+
+        self.quest_frame = QFrame(QuestDisplay)
+        self.quest_frame.setObjectName("quest_frame")
+        self.quest_frame.setFrameShape(QFrame.NoFrame)
+        self.quest_frame.setFrameShadow(QFrame.Raised)
+        self.quest_frame_layout = QVBoxLayout(self.quest_frame)
+        self.quest_frame_layout.setSpacing(3)
+        self.quest_frame_layout.setObjectName("quest_frame_layout")
+        self.quest_frame_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.base_layout.addWidget(self.quest_frame, 1)
 
         self.retranslateUi(QuestDisplay)
 
@@ -74,6 +119,18 @@ class Ui_QuestDisplay(object):
     # setupUi
 
     def retranslateUi(self, QuestDisplay):
+        self.quest_count_title_label.setText(
+            QCoreApplication.translate("QuestDisplay", "Quests:", None)
+        )
+        self.quest_count_label.setText(
+            QCoreApplication.translate("QuestDisplay", "0/5", None)
+        )
+        self.next_quest_time_label.setText(
+            QCoreApplication.translate("QuestDisplay", "00:00", None)
+        )
+        self.next_quest_title_label.setText(
+            QCoreApplication.translate("QuestDisplay", "Next Quest in:", None)
+        )
         pass
 
     # retranslateUi

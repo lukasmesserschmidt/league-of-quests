@@ -8,7 +8,6 @@ import keyboard
 # import win32con
 
 from .quest_display_base import Ui_QuestDisplay
-from .. import constants
 
 
 # class QuestDisplay1(ctk.CTkToplevel):
@@ -49,16 +48,15 @@ class QuestDisplay(QWidget):
     def __init__(self):
         super().__init__()
         self.setGeometry(1000, 1000, 250, 300)
-        # self.setStyleSheet("background-color: rgb(62, 155, 84, 0)")
+        self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlags(
             Qt.WindowStaysOnTopHint
             | Qt.WindowTransparentForInput
             | Qt.FramelessWindowHint
         )
-        self.setAttribute(Qt.WA_TranslucentBackground)
 
-        self.display = Ui_QuestDisplay()
-        self.display.setupUi(self)
+        self.ui = Ui_QuestDisplay()
+        self.ui.setupUi(self)
 
         self.move_timer = QTimer(self)
         self.move_timer.timeout.connect(self.move_to_mouse)

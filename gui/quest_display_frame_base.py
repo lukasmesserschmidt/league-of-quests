@@ -33,6 +33,7 @@ from PySide6.QtGui import (
 from PySide6.QtWidgets import (
     QApplication,
     QFrame,
+    QHBoxLayout,
     QLabel,
     QSizePolicy,
     QVBoxLayout,
@@ -44,39 +45,56 @@ class Ui_QuestDisplayFrame(object):
     def setupUi(self, QuestDisplayFrame):
         if not QuestDisplayFrame.objectName():
             QuestDisplayFrame.setObjectName("QuestDisplayFrame")
-        QuestDisplayFrame.resize(195, 84)
+        QuestDisplayFrame.resize(111, 49)
         QuestDisplayFrame.setStyleSheet(
-            "background-color: rgb(66, 164, 89);\n" "border-radius:12px\n" "\n" ""
+            "background-color: rgb(66, 164, 89);\n" "border-radius:7px\n" "\n" ""
         )
         self.verticalLayout = QVBoxLayout(QuestDisplayFrame)
+        self.verticalLayout.setSpacing(3)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.verticalLayout.setContentsMargins(5, 5, 5, 5)
-        self.title_label = QLabel(QuestDisplayFrame)
-        self.title_label.setObjectName("title_label")
-        self.title_label.setStyleSheet(
-            "background-color: rgb(62, 155, 84);\n" "border-radius:7px\n" "\n" ""
+        self.verticalLayout.setContentsMargins(3, 3, 3, 3)
+        self.title_frame = QFrame(QuestDisplayFrame)
+        self.title_frame.setObjectName("frame")
+        self.title_frame.setStyleSheet(
+            "background-color: rgb(62, 155, 84);\n" "border-radius:4px\n" "\n" ""
         )
-        self.title_label.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
-        self.title_label.setMargin(5)
-
-        self.verticalLayout.addWidget(self.title_label)
-
-        self.time_label = QLabel(QuestDisplayFrame)
+        self.title_frame.setFrameShape(QFrame.StyledPanel)
+        self.title_frame.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout = QHBoxLayout(self.title_frame)
+        self.horizontalLayout.setSpacing(3)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.horizontalLayout.setContentsMargins(3, 3, 3, 3)
+        self.time_label = QLabel(self.title_frame)
         self.time_label.setObjectName("time_label")
-        self.time_label.setMaximumSize(QSize(40, 16777215))
+        self.time_label.setMinimumSize(QSize(35, 0))
+        self.time_label.setMaximumSize(QSize(35, 16777215))
         self.time_label.setStyleSheet(
-            "background-color: rgb(200, 200, 200);\n" "border-radius:5px\n" "\n" ""
+            "background-color: rgb(235, 235, 235);\n" "border-radius:5px\n" "\n" ""
         )
         self.time_label.setAlignment(Qt.AlignCenter)
+        self.time_label.setMargin(1)
 
-        self.verticalLayout.addWidget(self.time_label)
+        self.horizontalLayout.addWidget(self.time_label)
+
+        self.title_label = QLabel(self.title_frame)
+        self.title_label.setObjectName("title_label")
+        self.title_label.setStyleSheet(
+            "background-color: rgb(62, 155, 84);\n" "border-radius:7px\n" "\n" "\n" ""
+        )
+        self.title_label.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignVCenter)
+        self.title_label.setMargin(0)
+
+        self.horizontalLayout.addWidget(self.title_label)
+
+        self.verticalLayout.addWidget(self.title_frame)
 
         self.restriction_label = QLabel(QuestDisplayFrame)
         self.restriction_label.setObjectName("restriction_label")
         self.restriction_label.setStyleSheet(
-            "background-color: rgb(62, 155, 84);\n" "border-radius:7px\n" "\n" ""
+            "background-color: rgb(62, 155, 84);\n" "border-radius:4px\n" "\n" ""
         )
-        self.restriction_label.setMargin(5)
+        self.restriction_label.setAlignment(Qt.AlignCenter)
+        self.restriction_label.setMargin(2)
 
         self.verticalLayout.addWidget(self.restriction_label)
 
@@ -87,25 +105,31 @@ class Ui_QuestDisplayFrame(object):
     # setupUi
 
     def retranslateUi(self, QuestDisplayFrame):
-        QuestDisplayFrame.setWindowTitle(
-            QCoreApplication.translate("QuestDisplayFrame", "Frame", None)
+        self.time_label.setText(
+            QCoreApplication.translate("QuestDisplayFrame", "00:00", None)
         )
         self.title_label.setText(
             QCoreApplication.translate(
                 "QuestDisplayFrame",
-                "<html><head/><body><p>Kill Player X!</p></body></html>",
+                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
+                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
+                "p, li { white-space: pre-wrap; }\n"
+                "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
+                '<p style=" margin-top:2px; margin-bottom:2px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Kill Player X!</p></body></html>',
                 None,
             )
-        )
-        self.time_label.setText(
-            QCoreApplication.translate("QuestDisplayFrame", "00:00", None)
         )
         self.restriction_label.setText(
             QCoreApplication.translate(
                 "QuestDisplayFrame",
-                "<html><head/><body><p>Ability 1 locked!</p></body></html>",
+                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
+                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
+                "p, li { white-space: pre-wrap; }\n"
+                "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
+                '<p style=" margin-top:2px; margin-bottom:2px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Ability 1 locked!</p></body></html>',
                 None,
             )
         )
+        pass
 
     # retranslateUi
