@@ -1,21 +1,18 @@
-from PySide6.QtWidgets import QFrame
-
+from .cover_frame_base import CoverFrameBase
 from .. import app
-from ...lol_data.lol_settings import LolSettings
+from ...utils.game_overlay_scaling import get_map_size
 
 
-class MapCover(QFrame):
+class MapCover(CoverFrameBase):
     def __init__(self, parent):
         super().__init__(parent)
+        self.set_geometry = lambda: self.setgeometry()
+
         self.setStyleSheet("background-color: rgb(0, 0, 0);\n" "border-radius: 10px")
 
-    def show(self):
+    def setgeometry(self):
         x, y = app.app.primaryScreen().size().toTuple()
-        max_size = 800 / 3840 * x
-        min_size = 400 / 3840 * x
-        scale = ((max_size - min_size) / 3) * LolSettings.get_map_scale() + min_size
-        x -= scale
-        y -= scale
-        self.setGeometry(x, y, scale, scale)
-
-        super().show()
+        size = get_map_size()
+        x -= size
+        y -= size
+        self.setGeometry(x, y, size, size)

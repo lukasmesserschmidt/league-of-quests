@@ -40,14 +40,23 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from ..utils.constants import difficulty_colors
+
 
 class Ui_QuestDisplayFrame(object):
     def setupUi(self, QuestDisplayFrame):
+        quest_bg = difficulty_colors[QuestDisplayFrame.quest.difficulty]["bg"]
+        quest_fg = difficulty_colors[QuestDisplayFrame.quest.difficulty]["fg"]
+        restriction_fg = difficulty_colors[QuestDisplayFrame.restriction.difficulty][
+            "fg"
+        ]
+
         if not QuestDisplayFrame.objectName():
             QuestDisplayFrame.setObjectName("QuestDisplayFrame")
         QuestDisplayFrame.resize(111, 49)
+        QuestDisplayFrame.setMaximumHeight(50)
         QuestDisplayFrame.setStyleSheet(
-            "background-color: rgb(66, 164, 89);\n" "border-radius:7px\n" "\n" ""
+            f"background-color: {quest_bg};\n" "border-radius:7px\n" "\n" ""
         )
         self.verticalLayout = QVBoxLayout(QuestDisplayFrame)
         self.verticalLayout.setSpacing(3)
@@ -56,7 +65,7 @@ class Ui_QuestDisplayFrame(object):
         self.title_frame = QFrame(QuestDisplayFrame)
         self.title_frame.setObjectName("frame")
         self.title_frame.setStyleSheet(
-            "background-color: rgb(62, 155, 84);\n" "border-radius:4px\n" "\n" ""
+            f"background-color: {quest_bg};\n" "border-radius:4px\n" "\n" ""
         )
         self.title_frame.setFrameShape(QFrame.StyledPanel)
         self.title_frame.setFrameShadow(QFrame.Raised)
@@ -79,7 +88,7 @@ class Ui_QuestDisplayFrame(object):
         self.title_label = QLabel(self.title_frame)
         self.title_label.setObjectName("title_label")
         self.title_label.setStyleSheet(
-            "background-color: rgb(62, 155, 84);\n" "border-radius:7px\n" "\n" "\n" ""
+            f"background-color: {quest_bg};\n" "border-radius:7px\n" "\n" "\n" ""
         )
         self.title_label.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignVCenter)
         self.title_label.setMargin(0)
@@ -91,7 +100,7 @@ class Ui_QuestDisplayFrame(object):
         self.restriction_label = QLabel(QuestDisplayFrame)
         self.restriction_label.setObjectName("restriction_label")
         self.restriction_label.setStyleSheet(
-            "background-color: rgb(62, 155, 84);\n" "border-radius:4px\n" "\n" ""
+            f"background-color: {restriction_fg};\n" "border-radius:4px\n" "\n" ""
         )
         self.restriction_label.setAlignment(Qt.AlignCenter)
         self.restriction_label.setMargin(2)

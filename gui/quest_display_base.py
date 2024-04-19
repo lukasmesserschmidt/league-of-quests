@@ -47,7 +47,7 @@ class Ui_QuestDisplay(object):
             QuestDisplay.setObjectName("QuestDisplay")
         QuestDisplay.resize(250, 280)
         self.base_layout = QVBoxLayout(QuestDisplay)
-        self.base_layout.setSpacing(0)
+        self.base_layout.setSpacing(3)
         self.base_layout.setObjectName("base_layout")
         self.base_layout.setContentsMargins(0, 0, 0, 0)
         self.info_frame = QFrame(QuestDisplay)
@@ -110,7 +110,7 @@ class Ui_QuestDisplay(object):
         self.quest_frame_layout.setObjectName("quest_frame_layout")
         self.quest_frame_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.base_layout.addWidget(self.quest_frame, 1)
+        self.base_layout.addWidget(self.quest_frame, 1, Qt.AlignTop)
 
         self.retranslateUi(QuestDisplay)
 

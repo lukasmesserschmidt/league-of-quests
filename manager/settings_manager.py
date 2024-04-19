@@ -64,3 +64,11 @@ class Settings:
         )
 
         print(cls.all_settings)
+
+    @classmethod
+    def get_setting(cls, *args):
+        setting = cls.all_settings
+        for arg in args:
+            setting = setting[arg]
+
+        return setting

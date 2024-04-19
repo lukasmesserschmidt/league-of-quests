@@ -10,3 +10,6 @@ def create_app():
 
 def start():
     app.exec()
+
+
+app = QApplication(sys.argv)

@@ -1,8 +1,0 @@
-# colors
-GRAY92 = "#ebebeb"
-GRAY81 = "#cfcfcf"
-GRAY20 = "#333333"
-GRAY14 = "#242424"
-EASY_COLOR = "#42a459"
-TEXT_COLOR = GRAY92  # ffffff
-FG_COLOR = GRAY14  # 222222
