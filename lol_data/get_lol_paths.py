@@ -14,19 +14,17 @@ def get_riot_games_path():
     return riot_games_path
 
 
-def get_lol_settings_path():
+def get_lol_config_path():
     riot_games_path = get_riot_games_path()
 
-    lol_settings_path = (
-        riot_games_path + "/League of Legends/Config/PersistedSettings.json"
-    )
+    lol_config_path = riot_games_path + "/League of Legends/Config"
+
+    return lol_config_path
+
+
+def get_lol_settings_path():
+    lol_config_path = get_lol_config_path()
+
+    lol_settings_path = lol_config_path + "/PersistedSettings.json"
 
     return lol_settings_path
-
-
-def get_lol_exe_path():
-    riot_games_path = get_riot_games_path()
-
-    lol_exe_path = riot_games_path + "/League of Legends/Game/League of Legends.exe"
-
-    return lol_exe_path

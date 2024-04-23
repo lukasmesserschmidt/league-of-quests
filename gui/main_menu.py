@@ -7,6 +7,7 @@ import threading
 from .main_menu_base import Ui_MainWindow
 from ..manager.main_manager import MainManager
 from ..manager.settings_manager import Settings
+from ..lol_data.get_lol_settings import GetLolSettings
 from ..lol_data.game_data import GameData
 
 
@@ -91,6 +92,11 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event: QCloseEvent) -> None:
         super().closeEvent(event)
+        MainManager.terminat_flag = True
+        for quest_frame in MainManager.active_quest_frames:
+            MainManager.delete_quest_frame(quest_frame)
+        GetLolSettings.stop()
+
         QApplication.quit()
 
 

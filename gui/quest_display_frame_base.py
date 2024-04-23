@@ -40,7 +40,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from ..utils.constants import difficulty_colors
+from ..utils.colors import difficulty_colors
 
 
 class Ui_QuestDisplayFrame(object):

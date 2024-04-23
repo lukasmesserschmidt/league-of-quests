@@ -2,8 +2,7 @@ import time
 
 from .quest_base import QuestBase
 from ..lol_data.active_player_data import AcitvePlayerData
-from ..manager.settings_manager import Settings
-from ..utils.constants import GOLD
+from ..utils.attributes import GOLD
 
 
 class SpendGoldTimer(QuestBase):
@@ -13,9 +12,9 @@ class SpendGoldTimer(QuestBase):
 
     @classmethod
     def quest_loop(cls):
-        cls.on_quest_start()
+        cls.on_start()
         gold_spend = False
-        duration = Settings.all_settings["quest_settings"]["quest_duration"] / 12
+        duration = cls.get_end_time(1 / 12, True)
 
         for _ in range(4):
             end_time = time.time() + duration
@@ -34,7 +33,7 @@ class SpendGoldTimer(QuestBase):
         cls.terminate_flag = True
 
     @classmethod
-    def on_quest_start(cls):
+    def on_start(cls):
         cls.last_gold = AcitvePlayerData.get_current_gold()
 
     @classmethod

@@ -142,15 +142,20 @@ class MainManager:
         for quest_frame in cls.active_quest_frames:
             quest_frame: QuestDisplayFrame
             if quest_frame.quest.terminate_flag:
-                quest_frame.restriction.terminate_flag = True
-                QuestManager.active_objects.remove(quest_frame.quest)
-                RestrictionManager.active_objects.remove(quest_frame.restriction)
-                quest_frame.deleteLater()
-                cls.active_quest_frames.remove(quest_frame)
+                cls.delete_quest_frame(quest_frame)
 
                 cls.receive_enabled = True
 
                 cls.update_quest_count()
+
+    @classmethod
+    def delete_quest_frame(cls, quest_frame):
+        quest_frame.quest.terminate_flag = True
+        quest_frame.restriction.terminate_flag = True
+        QuestManager.active_objects.remove(quest_frame.quest)
+        RestrictionManager.active_objects.remove(quest_frame.restriction)
+        quest_frame.deleteLater()
+        cls.active_quest_frames.remove(quest_frame)
 
     @classmethod
     def update_quest_count(cls):

@@ -19,10 +19,3 @@ difficulty_colors = [
     {"fg": MID_COLOR, "bg": MID_BG_COLOR},
     {"fg": HARD_COLOR, "bg": HARD_BG_COLOR},
 ]
-
-# attributes
-GOLD = "gold"
-ABILITY0 = "ability0"
-ABILITY1 = "ability1"
-ABILITY2 = "ability2"
-ABILITY3 = "ability3"

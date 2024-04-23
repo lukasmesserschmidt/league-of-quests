@@ -26,17 +26,18 @@ class GameOverlay(QWidget):
 
         self.ability_cover = AbilityCover(self)
         self.summoner_spell_cover = SummonerSpellCover(self)
-        self.resource_cover = ResourceCover(self)
         self.map_cover = MapCover(self)
         self.trinket_cover = TrinketCover(self)
         self.teleport_cover = TeleportCover(self)
 
-        # self.abilitey_cover.activate_cover(0, 1, 2, 3)
-        # self.summoner_spell_cover.activate_cover(0, 1)
-        # self.resource_cover.activate_cover((0, 0.3), (1, 0.5))
-        # self.map_cover.show()
-        # self.trinket_cover.show()
-        # self.teleport_cover.show()
+        self.resource_cover = ResourceCover(self)
+
+    def disable_cover(self, disable: bool, overlay_type: str, *args: int):
+        overlay_type = getattr(self, f"{overlay_type}_cover")
+        if disable:
+            overlay_type.hide(*args)
+        else:
+            overlay_type.show(*args)
 
 
 game_overlay = GameOverlay()

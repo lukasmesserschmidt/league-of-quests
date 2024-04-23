@@ -6,6 +6,7 @@ from ..manager.settings_manager import Settings
 
 class QuestBase:
     title: str
+    update_title = False
     difficulty: int
     attributes = []
 
@@ -19,6 +20,7 @@ class QuestBase:
 
     @classmethod
     def start(cls):
+        cls.on_start()
         cls.terminate_flag = False
         cls.finish_color_enabled = False
         quest_loop_thread = threading.Thread(target=cls.quest_loop, daemon=True)
@@ -26,10 +28,7 @@ class QuestBase:
 
     @classmethod
     def quest_loop(cls):
-        cls.on_quest_start()
-        end_time = (
-            time.time() + Settings.all_settings["quest_settings"]["quest_duration"]
-        )
+        end_time = cls.get_end_time()
 
         while time.time() < end_time:
             cls.remaining_time = end_time - time.time()
@@ -41,10 +40,24 @@ class QuestBase:
 
         cls.terminate_flag = True
 
+        cls.on_end()
+
     @classmethod
-    def on_quest_start(cls):
+    def get_end_time(cls, multiplier: float = 1, duration_only: bool = False):
+        end_time = (0 if duration_only else time.time()) + Settings.all_settings[
+            "quest_settings"
+        ]["quest_duration"] * multiplier
+
+        return end_time
+
+    @classmethod
+    def on_start(cls):
         pass
 
     @classmethod
     def quest_content(cls):
         raise NotImplementedError()
+
+    @classmethod
+    def on_end(cls):
+        pass

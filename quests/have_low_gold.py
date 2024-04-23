@@ -1,7 +1,7 @@
 from .quest_completion_base import QuestCompletionBase
 
 from ..lol_data.active_player_data import AcitvePlayerData
-from ..utils.constants import GOLD
+from ..utils.attributes import GOLD
 
 
 class HaveLowGold(QuestCompletionBase):
@@ -22,5 +22,3 @@ class HaveLowGold(QuestCompletionBase):
         current_gold = AcitvePlayerData.get_current_gold()
         if current_gold < 100:
             return True
-
-        return False

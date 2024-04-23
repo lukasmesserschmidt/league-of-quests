@@ -136,7 +136,7 @@ class Ui_MainWindow(object):
 
         self.quest_settings_frame_layout.addWidget(self.label_10, 7, 0, 1, 1)
 
-        self.quest_after_time_lineedit = LineEdit(self.quest_settings_frame, "s")
+        self.quest_after_time_lineedit = LineEdit(self.quest_settings_frame, "s", 36000)
         self.quest_after_time_lineedit.setObjectName("quest_after_time_lineedit")
         self.quest_after_time_lineedit.setStyleSheet(
             "color: rgb(235, 235, 235);\n"
@@ -149,7 +149,7 @@ class Ui_MainWindow(object):
             self.quest_after_time_lineedit, 5, 2, 1, 1
         )
 
-        self.quest_duration_lineedit = LineEdit(self.quest_settings_frame, "s")
+        self.quest_duration_lineedit = LineEdit(self.quest_settings_frame, "s", 36000)
         self.quest_duration_lineedit.setObjectName("quest_duration_lineedit")
         self.quest_duration_lineedit.setEnabled(True)
         self.quest_duration_lineedit.setStyleSheet(
@@ -200,7 +200,9 @@ class Ui_MainWindow(object):
         self.quest_rarity_settings_frame_layout.setObjectName(
             "quest_rarity_settings_frame_layout"
         )
-        self.mid_restriction_lineedit = LineEdit(self.quest_rarity_settings_frame, "%")
+        self.mid_restriction_lineedit = LineEdit(
+            self.quest_rarity_settings_frame, "%", 100
+        )
         self.mid_restriction_lineedit.setObjectName("mid_restriction_lineedit")
         self.mid_restriction_lineedit.setStyleSheet(
             "color: rgb(235, 235, 235);\n"
@@ -234,7 +236,7 @@ class Ui_MainWindow(object):
 
         self.quest_rarity_settings_frame_layout.addWidget(self.hard_label, 3, 1, 1, 1)
 
-        self.easy_quest_lineedit = LineEdit(self.quest_rarity_settings_frame, "%")
+        self.easy_quest_lineedit = LineEdit(self.quest_rarity_settings_frame, "%", 100)
         self.easy_quest_lineedit.setObjectName("easy_quest_lineedit")
         self.easy_quest_lineedit.setStyleSheet(
             "color: rgb(235, 235, 235);\n"
@@ -261,7 +263,9 @@ class Ui_MainWindow(object):
 
         self.quest_rarity_settings_frame_layout.addWidget(self.easy_label, 1, 1, 1, 1)
 
-        self.easy_restriction_lineedit = LineEdit(self.quest_rarity_settings_frame, "%")
+        self.easy_restriction_lineedit = LineEdit(
+            self.quest_rarity_settings_frame, "%", 100
+        )
         self.easy_restriction_lineedit.setObjectName("easy_restriction_lineedit")
         self.easy_restriction_lineedit.setStyleSheet(
             "color: rgb(235, 235, 235);\n"
@@ -274,7 +278,7 @@ class Ui_MainWindow(object):
             self.easy_restriction_lineedit, 1, 3, 1, 1
         )
 
-        self.mid_quest_lineedit = LineEdit(self.quest_rarity_settings_frame, "%")
+        self.mid_quest_lineedit = LineEdit(self.quest_rarity_settings_frame, "%", 100)
         self.mid_quest_lineedit.setObjectName("mid_quest_lineedit")
         self.mid_quest_lineedit.setStyleSheet(
             "color: rgb(235, 235, 235);\n"
@@ -287,7 +291,9 @@ class Ui_MainWindow(object):
             self.mid_quest_lineedit, 2, 2, 1, 1
         )
 
-        self.hard_restriction_lineedit = LineEdit(self.quest_rarity_settings_frame, "%")
+        self.hard_restriction_lineedit = LineEdit(
+            self.quest_rarity_settings_frame, "%", 100
+        )
         self.hard_restriction_lineedit.setObjectName("hard_restriction_lineedit")
         self.hard_restriction_lineedit.setStyleSheet(
             "color: rgb(235, 235, 235);\n"
@@ -300,7 +306,7 @@ class Ui_MainWindow(object):
             self.hard_restriction_lineedit, 3, 3, 1, 1
         )
 
-        self.hard_quest_lineedit = LineEdit(self.quest_rarity_settings_frame, "%")
+        self.hard_quest_lineedit = LineEdit(self.quest_rarity_settings_frame, "%", 100)
         self.hard_quest_lineedit.setObjectName("hard_quest_lineedit")
         self.hard_quest_lineedit.setStyleSheet(
             "color: rgb(235, 235, 235);\n"

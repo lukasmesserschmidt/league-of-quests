@@ -1,4 +1,4 @@
-from .live_client_data import request_data
+from .get_live_client_data import request_data
 
 
 class EventData:

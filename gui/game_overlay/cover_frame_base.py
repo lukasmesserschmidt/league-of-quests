@@ -17,6 +17,9 @@ class CoverFrameBase(QFrame):
     def setgeometry(self):
         raise NotImplementedError
 
-    def show(self):
+    def show(self, *args):
         super().show()
         self.set_geometry()
+
+    def hide(self, *args):
+        return super().hide()

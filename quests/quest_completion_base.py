@@ -1,8 +1,6 @@
 from .quest_base import QuestBase
 import time
 
-from ..manager.settings_manager import Settings
-
 
 class QuestCompletionBase(QuestBase):
     completion_duration = 20
@@ -10,10 +8,8 @@ class QuestCompletionBase(QuestBase):
 
     @classmethod
     def quest_loop(cls):
-        cls.on_quest_start()
-        end_time = (
-            time.time() + Settings.all_settings["quest_settings"]["quest_duration"]
-        )
+        cls.on_start()
+        end_time = cls.get_end_time()
 
         while time.time() < end_time:
             cls.remaining_quest_time = end_time - time.time()
@@ -27,6 +23,8 @@ class QuestCompletionBase(QuestBase):
 
         cls.terminate_flag = True
 
+        cls.on_end()
+
     @classmethod
     def completion_loop(cls):
         cls.finish_color_enabled = True
@@ -34,7 +32,7 @@ class QuestCompletionBase(QuestBase):
         end_time = time.time() + cls.completion_duration
         while time.time() < end_time:
             cls.remaining_time = end_time - time.time()
-            if cls.quest_content() == False:
+            if cls.quest_content() == None:
                 cls.finish_color_enabled = False
                 break
         else:

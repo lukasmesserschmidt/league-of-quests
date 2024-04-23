@@ -34,6 +34,9 @@ class QuestDisplayFrame(QFrame):
     def main_loop(self):
         self.update_quest_time()
 
+        if self.quest.update_title:
+            self.set_quest_title()
+
         if self.quest.finish_color_enabled:
             self.change_timer_color((13, 219, 13))
         else:

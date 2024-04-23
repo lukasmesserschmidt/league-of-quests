@@ -1,14 +1,19 @@
 from .restriction_base import RestrictionBase
-from ..manager.hotkey_manager import HotkeyManager
+from ..manager.disable_manager import DisableManager
 
 
-class DisableAbilityBase(RestrictionBase):
+class DisableHotkeyBase(RestrictionBase):
     ability_num: list[int]
-
-    @classmethod
-    def on_loop_end(cls):
-        HotkeyManager.enable_ability(True, *cls.ability_num)
+    hotkey_type: str
 
     @classmethod
     def restriction_content(cls):
-        HotkeyManager.enable_ability(False, *cls.ability_num)
+        cls.enable_type(False)
+
+    @classmethod
+    def on_end(cls):
+        cls.enable_type(True)
+
+    @classmethod
+    def enable_type(cls, enable: bool):
+        DisableManager.enable_type(enable, cls.hotkey_type, *cls.ability_num)

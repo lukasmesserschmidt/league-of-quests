@@ -1,11 +1,11 @@
-from random import randint
+from random import randint, shuffle
 
 from .settings_manager import Settings
 
 
 class ManagerBase:
     object_type: str
-    all_objects = []
+    all_objects: list
     active_objects = []
 
     @classmethod
@@ -19,6 +19,9 @@ class ManagerBase:
                 and cls.check_attributes(object)
             ):
                 available_objects[object.difficulty].append(object)
+
+        for i in range(3):
+            shuffle(available_objects[i])
 
         return available_objects
 
