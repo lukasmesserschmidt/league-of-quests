@@ -1,21 +1,17 @@
-from .get_live_client_data import request_data
+from .all_player_data import AllPlayerDate
 
 
 class ScoreData:
     @classmethod
     def get_data(cls, summoner_name: str):
-        url = (
-            "https://127.0.0.1:2999/liveclientdata/playerscores?summonerName="
-            + summoner_name
-        )
-        return request_data(url)
+        return AllPlayerDate.get_player_data(summoner_name)["scores"]
 
     @classmethod
-    def get_cs(cls, summoner_name):
+    def get_cs(cls, summoner_name: str):
         return cls.get_data(summoner_name)["creepScore"]
 
     @classmethod
-    def get_k_d_a(cls, summoner_name):
+    def get_k_d_a(cls, summoner_name: str):
         scores = cls.get_data(summoner_name)
         kda = {"k": scores["kills"], "d": scores["deaths"], "a": scores["assists"]}
 

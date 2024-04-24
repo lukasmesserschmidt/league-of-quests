@@ -1,11 +1,10 @@
-from .get_live_client_data import request_data
+from .live_client_data import LiveClientData
 
 
 class GameData:
     @classmethod
     def get_data(cls):
-        url = "https://127.0.0.1:2999/liveclientdata/gamestats"
-        return request_data(url)
+        return LiveClientData.request_data()["gameData"]
 
     @classmethod
     def get_game_time(cls):

@@ -1,4 +1,4 @@
-from .get_live_client_data import request_data
+from .live_client_data import LiveClientData
 from .event_data import EventData
 from .all_player_data import AllPlayerDate
 
@@ -6,13 +6,11 @@ from .all_player_data import AllPlayerDate
 class AcitvePlayerData:
     @classmethod
     def get_data(cls):
-        url = "https://127.0.0.1:2999/liveclientdata/activeplayer"
-        return request_data(url)
+        return LiveClientData.request_data()["activePlayer"]
 
     @classmethod
     def get_summoner_name(cls):
-        url = "https://127.0.0.1:2999/liveclientdata/activeplayername"
-        return request_data(url).split("#")[0]
+        return cls.get_data()["summonerName"].split("#")[0]
 
     @classmethod
     def get_champion_stats(cls):

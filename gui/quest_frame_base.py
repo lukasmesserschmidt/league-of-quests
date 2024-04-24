@@ -43,7 +43,7 @@ from PySide6.QtWidgets import (
 from ..utils.colors import difficulty_colors
 
 
-class Ui_QuestDisplayFrame(object):
+class Ui_QuestFrame(object):
     def setupUi(self, QuestDisplayFrame):
         quest_bg = difficulty_colors[QuestDisplayFrame.quest.difficulty]["bg"]
         quest_fg = difficulty_colors[QuestDisplayFrame.quest.difficulty]["fg"]

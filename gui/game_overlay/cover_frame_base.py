@@ -1,7 +1,6 @@
 from typing import Callable
 
 from PySide6.QtWidgets import QFrame
-from PySide6.QtCore import QTimer
 
 
 class CoverFrameBase(QFrame):

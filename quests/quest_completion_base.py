@@ -21,9 +21,8 @@ class QuestCompletionBase(QuestBase):
             if cls.terminate_flag:
                 break
 
-        cls.terminate_flag = True
-
         cls.on_end()
+        cls.terminate_flag = True
 
     @classmethod
     def completion_loop(cls):
@@ -34,6 +33,9 @@ class QuestCompletionBase(QuestBase):
             cls.remaining_time = end_time - time.time()
             if cls.quest_content() == None:
                 cls.finish_color_enabled = False
+                break
+
+            if cls.terminate_flag:
                 break
         else:
             cls.terminate_flag = True

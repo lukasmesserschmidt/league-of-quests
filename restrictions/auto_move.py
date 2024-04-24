@@ -1,7 +1,7 @@
 import pyautogui
 
 from .restriction_base import RestrictionBase
-from ..utils.top_window_is_lol import get_top_window_is_lol
+from ..utils.top_window_is_lol import lol_is_top
 
 
 class AutoMove(RestrictionBase):
@@ -10,5 +10,5 @@ class AutoMove(RestrictionBase):
 
     @classmethod
     def restriction_content(cls):
-        if get_top_window_is_lol():
+        if lol_is_top:
             pyautogui.rightClick()

@@ -8,7 +8,9 @@ from .main_menu_base import Ui_MainWindow
 from ..manager.main_manager import MainManager
 from ..manager.settings_manager import Settings
 from ..lol_data.get_lol_settings import GetLolSettings
+from ..lol_data.live_client_data import LiveClientData
 from ..lol_data.game_data import GameData
+from ..manager.active_quest_frames import active_quest_frames
 
 
 class MainWindow(QMainWindow):
@@ -70,8 +72,12 @@ class MainWindow(QMainWindow):
         self.start_timer = QTimer(self)
         self.start_timer.timeout.connect(self.wait_for_start)
         self.start_timer.start(100)
-        self.start_loop = threading.Thread(target=self.wait_for_game_start, daemon=True)
-        self.start_loop.start()
+
+        self.terminate_flag = False
+        self.wait_for_game_start_thread = threading.Thread(
+            target=self.wait_for_game_start
+        )
+        self.wait_for_game_start_thread.start()
 
     def stop_command(self):
         self.set_start_button("Start", (31, 106, 165), self.start_command)
@@ -86,15 +92,26 @@ class MainWindow(QMainWindow):
 
     def wait_for_game_start(self):
         while self.ui.start_button.text() == "Waiting":
-            if GameData.get_data() and GameData.get_game_time() > 0:
+            if LiveClientData.all_data and GameData.get_game_time() > 0:
                 self.start = True
+                break
+
+            if self.terminate_flag:
                 break
 
     def closeEvent(self, event: QCloseEvent) -> None:
         super().closeEvent(event)
-        MainManager.terminat_flag = True
-        for quest_frame in MainManager.active_quest_frames:
-            MainManager.delete_quest_frame(quest_frame)
+        try:
+            self.terminate_flag = True
+            self.wait_for_game_start_thread.join()
+        except:
+            pass
+
+        try:
+            MainManager.stop()
+        except:
+            pass
+
         GetLolSettings.stop()
 
         QApplication.quit()

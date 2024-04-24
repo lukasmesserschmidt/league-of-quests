@@ -12,7 +12,6 @@ class SpendGoldTimer(QuestBase):
 
     @classmethod
     def quest_loop(cls):
-        cls.on_start()
         gold_spend = False
         duration = cls.get_end_time(1 / 12, True)
 
@@ -25,10 +24,18 @@ class SpendGoldTimer(QuestBase):
                     gold_spend = True
                     cls.finish_color_enabled = True
 
-            if cls.terminate_flag or gold_spend:
-                break
+                if cls.terminate_flag:
+                    break
+            else:
 
-            duration *= 2
+                if gold_spend:
+                    break
+
+                duration *= 2
+
+                continue
+
+            break
 
         cls.terminate_flag = True
 

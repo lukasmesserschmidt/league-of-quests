@@ -1,4 +1,3 @@
-from PySide6.QtCore import QTimer
 import threading
 
 
@@ -6,6 +5,8 @@ class RestrictionBase:
     title: str
     difficulty: int
     attributes = []
+
+    terminate_flag: bool
 
     @classmethod
     def check_dependencies(cls):
@@ -15,10 +16,13 @@ class RestrictionBase:
     def start(cls):
         cls.on_start()
         cls.terminate_flag = False
-        restriction_loop_thread = threading.Thread(
-            target=cls.restriction_loop, daemon=True
-        )
-        restriction_loop_thread.start()
+        cls.restriction_loop_thread = threading.Thread(target=cls.restriction_loop)
+        cls.restriction_loop_thread.start()
+
+    @classmethod
+    def stop(cls):
+        cls.terminate_flag = True
+        cls.restriction_loop_thread.join()
 
     @classmethod
     def restriction_loop(cls):

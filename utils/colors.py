@@ -5,14 +5,14 @@ GRAY20 = "#333333"
 GRAY14 = "#242424"
 
 # difficulty colors
-EAYS_COLOR = "#3d6f43"
+EAYS_COLOR = "#48844f"
 EASY_BG_COLOR = "#42a459"
 
 MID_COLOR = "#e88a36"
 MID_BG_COLOR = "#f8c53a"
 
-HARD_COLOR = "#7e231a"
-HARD_BG_COLOR = "#9c2418"
+HARD_COLOR = "#9c2418"
+HARD_BG_COLOR = "#be3427"
 
 difficulty_colors = [
     {"fg": EAYS_COLOR, "bg": EASY_BG_COLOR},

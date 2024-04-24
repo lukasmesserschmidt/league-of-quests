@@ -11,6 +11,30 @@ class Settings:
         cls.all_settings = data
 
     @classmethod
+    def get_quest_settings(cls):
+        return cls.all_settings["quest_settings"]
+
+    @classmethod
+    def get_quest_on_death(cls):
+        return cls.get_quest_settings()["quest_on_death"]
+
+    @classmethod
+    def get_quest_after_time(cls):
+        return cls.get_quest_settings()["quest_after_time"]
+
+    @classmethod
+    def get_quest_duration(cls):
+        return cls.get_quest_settings()["quest_duration"]
+
+    @classmethod
+    def get_setting(cls, *args):
+        setting = cls.all_settings
+        for arg in args:
+            setting = setting[arg]
+
+        return setting
+
+    @classmethod
     def update(cls, ui):
         def get_value(lineedit):
             text = lineedit.text()
@@ -62,13 +86,3 @@ class Settings:
         quest_rarity_settings["hard"]["restriction"] = get_value(
             ui.hard_restriction_lineedit
         )
-
-        print(cls.all_settings)
-
-    @classmethod
-    def get_setting(cls, *args):
-        setting = cls.all_settings
-        for arg in args:
-            setting = setting[arg]
-
-        return setting

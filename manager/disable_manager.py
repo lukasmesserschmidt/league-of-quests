@@ -2,7 +2,7 @@ import keyboard
 
 from ..lol_data.lol_settings import LolSettings
 from ..gui.game_overlay.game_overlay_window import game_overlay
-from ..utils.top_window_is_lol import get_top_window_is_lol
+from ..utils.top_window_is_lol import lol_is_top
 
 
 class DisableManager:
@@ -42,21 +42,12 @@ class DisableManager:
 
     @classmethod
     def enable_type(cls, enable: bool, overlay_type: str, *args: int):
-        if get_top_window_is_lol():
+        if lol_is_top:
             cls.enable_key(True, overlay_type, *args)
             cls.update_hotkeys(overlay_type, *args)
 
             cls.enable_key(enable, overlay_type, *args)
             game_overlay.disable_cover(enable, overlay_type, *args)
-            # if enable:
-            #     cls.enable_key(True, overlay_type, args)
-            #     game_overlay.disable_cover(True, overlay_type, args)
-            # else:
-            #     cls.enable_key(True, overlay_type, args)
-            #     cls.update_hotkeys(overlay_type, args)
-
-            #     cls.enable_key(False, overlay_type, args)
-            #     game_overlay.disable_cover(False, overlay_type, args)
         else:
             keyboard.unhook_all()
             game_overlay.disable_cover(True, overlay_type, *args)
@@ -64,7 +55,7 @@ class DisableManager:
     @classmethod
     def enable_ability(cls, enable: bool, *args: int):
         for arg in args:
-            if get_top_window_is_lol():
+            if lol_is_top:
                 if enable:
                     keyboard.unhook_all()
                     game_overlay.ability_cover.deactivate_cover(arg)
@@ -83,7 +74,7 @@ class DisableManager:
     @classmethod
     def enable_summoner_spell(cls, enable: bool, *args: int):
         for arg in args:
-            if get_top_window_is_lol():
+            if lol_is_top:
                 if enable:
                     keyboard.unhook_all()
                     game_overlay.summoner_spell_cover.deactivate_cover(arg)
@@ -101,7 +92,7 @@ class DisableManager:
 
     @classmethod
     def enable_trinket(cls, enable: bool):
-        if get_top_window_is_lol():
+        if lol_is_top:
             if enable:
                 keyboard.unhook_all()
                 game_overlay.trinket_cover.hide()
@@ -119,7 +110,7 @@ class DisableManager:
 
     @classmethod
     def enable_teleport(cls, enable: bool):
-        if get_top_window_is_lol():
+        if lol_is_top:
             if enable:
                 keyboard.unhook_all()
                 game_overlay.teleport_cover.hide()
@@ -137,7 +128,7 @@ class DisableManager:
 
     @classmethod
     def enable_map(cls, enable: bool):
-        if get_top_window_is_lol:
+        if lol_is_top:
             if enable:
                 game_overlay.map_cover.show()
             else:

@@ -1,18 +1,14 @@
-from .get_live_client_data import request_data
+from .all_player_data import AllPlayerDate
 
 
 class ItemData:
 
     @classmethod
     def get_data(cls, summoner_name: str):
-        url = (
-            "https://127.0.0.1:2999/liveclientdata/playeritems?summonerName="
-            + summoner_name
-        )
-        return request_data(url)
+        return AllPlayerDate.get_player_data(summoner_name)["items"]
 
     @classmethod
-    def get_has_item(cls, summoner_name, item_id):
+    def get_has_item(cls, summoner_name: str, item_id: int):
         items = cls.get_data(summoner_name)
 
         for item in items:

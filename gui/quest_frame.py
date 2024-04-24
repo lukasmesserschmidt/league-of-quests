@@ -1,13 +1,13 @@
 from PySide6.QtWidgets import QFrame
 from PySide6.QtCore import QTimer
 
-from .quest_display_frame_base import Ui_QuestDisplayFrame
+from .quest_frame_base import Ui_QuestFrame
 from ..quests.quest_base import QuestBase
 from ..restrictions.restriction_base import RestrictionBase
 from ..utils.time import convert_time
 
 
-class QuestDisplayFrame(QFrame):
+class QuestFrame(QFrame):
     def __init__(self, quest, restriction):
         super().__init__()
         self.quest: QuestBase
@@ -15,7 +15,7 @@ class QuestDisplayFrame(QFrame):
         self.restriction: RestrictionBase
         self.restriction = restriction
 
-        self.ui = Ui_QuestDisplayFrame()
+        self.ui = Ui_QuestFrame()
         self.ui.setupUi(self)
 
         self.set_quest_title()

@@ -12,6 +12,7 @@ class QuestBase:
 
     remaining_time = 0
 
+    terminate_flag: bool
     finish_color_enabled = False
 
     @classmethod
@@ -23,8 +24,13 @@ class QuestBase:
         cls.on_start()
         cls.terminate_flag = False
         cls.finish_color_enabled = False
-        quest_loop_thread = threading.Thread(target=cls.quest_loop, daemon=True)
-        quest_loop_thread.start()
+        cls.quest_loop_thread = threading.Thread(target=cls.quest_loop)
+        cls.quest_loop_thread.start()
+
+    @classmethod
+    def stop(cls):
+        cls.terminate_flag = True
+        cls.quest_loop_thread.join()
 
     @classmethod
     def quest_loop(cls):
@@ -38,9 +44,8 @@ class QuestBase:
             if cls.terminate_flag:
                 break
 
-        cls.terminate_flag = True
-
         cls.on_end()
+        cls.terminate_flag = True
 
     @classmethod
     def get_end_time(cls, multiplier: float = 1, duration_only: bool = False):
