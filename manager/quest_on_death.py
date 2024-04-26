@@ -1,4 +1,5 @@
 import threading
+import time
 
 from .quest_frame_manager import QuestFrameManager
 from ..lol_data.active_player_data import AcitvePlayerData
@@ -27,3 +28,5 @@ class QuestOnDeath:
             if cls.last_death_cont < death_cont:
                 QuestFrameManager.create_quest_frame_amount += 1
                 cls.last_death_cont = death_cont
+
+            time.sleep(0.2)

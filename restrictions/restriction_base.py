@@ -1,4 +1,5 @@
 import threading
+import time
 
 
 class RestrictionBase:
@@ -26,12 +27,12 @@ class RestrictionBase:
 
     @classmethod
     def restriction_loop(cls):
-        while True:
+        while not cls.terminate_flag:
             cls.restriction_content()
 
-            if cls.terminate_flag:
-                cls.on_end()
-                break
+            time.sleep(0.2)
+
+        cls.on_end()
 
     @classmethod
     def on_start(cls):

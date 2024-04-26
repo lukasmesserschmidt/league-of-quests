@@ -1,5 +1,6 @@
 from PySide6.QtCore import QTimer
 import threading
+import time
 
 from .quest_frame_creator import QuestFrameCreator
 from ..gui.quest_frame import QuestFrame
@@ -18,7 +19,7 @@ class QuestFrameManager:
 
         cls.create_quest_frame_loop_timer = QTimer()
         cls.create_quest_frame_loop_timer.timeout.connect(cls.create_quest_frame_loop)
-        cls.create_quest_frame_loop_timer.start(100)
+        cls.create_quest_frame_loop_timer.start(500)
 
         cls.terminate_flag = False
         cls.update_quest_frame_loop_thread = threading.Thread(
@@ -59,6 +60,8 @@ class QuestFrameManager:
             for quest_frame in cls.active_quest_frames:
                 if quest_frame.quest.terminate_flag:
                     cls.delete_quest_frame(quest_frame)
+
+            time.sleep(0.2)
 
     @classmethod
     def delete_quest_frame(cls, quest_frame: QuestFrame):

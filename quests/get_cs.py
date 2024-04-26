@@ -10,7 +10,8 @@ class GetCs(QuestBase):
     attributes = [CS]
 
     @classmethod
-    def on_start(cls):
+    def init(cls):
+        super().init()
         cls.summoner_name = AcitvePlayerData.get_summoner_name()
         cls.goal_cs = ScoreData.get_cs(cls.summoner_name) + 20
         cls.title = f"Have {cls.goal_cs} cs!"
@@ -20,6 +21,4 @@ class GetCs(QuestBase):
         cs = ScoreData.get_cs(cls.summoner_name)
 
         if cs >= cls.goal_cs:
-            return True
-
-        return False
+            cls.terminate_flag = True

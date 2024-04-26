@@ -10,7 +10,6 @@ from ..manager.settings_manager import Settings
 from ..lol_data.get_lol_settings import GetLolSettings
 from ..lol_data.live_client_data import LiveClientData
 from ..lol_data.game_data import GameData
-from ..manager.active_quest_frames import active_quest_frames
 
 
 class MainWindow(QMainWindow):
@@ -32,10 +31,6 @@ class MainWindow(QMainWindow):
         self.show()
 
     def config_widgets(self):
-        self.config_checkbox()
-        self.config_button()
-
-    def config_checkbox(self):
         self.ui.quest_on_death_checkbox.stateChanged.connect(
             lambda state: self.check_checkbox(self.ui.quest_after_time_checkbox, state)
         )
@@ -44,12 +39,11 @@ class MainWindow(QMainWindow):
             lambda state: self.check_checkbox(self.ui.quest_on_death_checkbox, state)
         )
 
+        self.ui.start_button.clicked.connect(self.start_command)
+
     def check_checkbox(self, checkbox, state):
         if state == 0:
             checkbox.setChecked(True)
-
-    def config_button(self):
-        self.ui.start_button.clicked.connect(self.start_command)
 
     def set_start_button(self, text: str, color: tuple, command):
         self.ui.start_button.setText(text)
@@ -91,16 +85,16 @@ class MainWindow(QMainWindow):
             # self.hide()
 
     def wait_for_game_start(self):
-        while self.ui.start_button.text() == "Waiting":
+        while not self.terminate_flag:
             if LiveClientData.all_data and GameData.get_game_time() > 0:
                 self.start = True
                 break
 
-            if self.terminate_flag:
-                break
-
     def closeEvent(self, event: QCloseEvent) -> None:
         super().closeEvent(event)
+
+        QApplication.quit()
+
         try:
             self.terminate_flag = True
             self.wait_for_game_start_thread.join()
@@ -113,8 +107,6 @@ class MainWindow(QMainWindow):
             pass
 
         GetLolSettings.stop()
-
-        QApplication.quit()
 
 
 main_menu = MainWindow()

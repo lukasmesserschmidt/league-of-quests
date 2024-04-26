@@ -15,10 +15,7 @@ class HaveLowGold(QuestCompletionBase):
         if current_gold >= 150:
             return True
 
-        return False
-
     @classmethod
     def quest_content(cls):
         current_gold = AcitvePlayerData.get_current_gold()
-        if current_gold < 100:
-            return True
+        cls.set_complete(current_gold < 100)

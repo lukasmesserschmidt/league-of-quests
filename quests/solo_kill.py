@@ -17,7 +17,8 @@ class SoloKill(QuestBase):
         return cls.get_target()
 
     @classmethod
-    def on_start(cls):
+    def init(cls):
+        super().init()
         cls.target = cls.get_target()
         cls.title = f"Solo kill {cls.target["championName"]} ({cls.target["summonerName"]})!"
         cls.summoner_name = AcitvePlayerData.get_summoner_name()
@@ -26,10 +27,8 @@ class SoloKill(QuestBase):
     @classmethod
     def quest_content(cls):
         if cls.last_kill_count < cls.get_kill_count():
-            return True
+            cls.terminate_flag = True
         
-        return False
-
     @classmethod
     def get_target(cls):
         enemy_team_num = AcitvePlayerData.get_team() - 1

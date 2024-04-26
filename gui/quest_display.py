@@ -43,17 +43,17 @@ class QuestDisplay(QWidget):
             y = QCursor.pos().toTuple()[1]
             self.move(x, y)
 
-    def add_widget(self, widget):
-        self.ui.quest_frame_layout.addWidget(widget, 1, Qt.AlignRight | Qt.AlignTop)
+    def get_timer_text(self):
+        return self.ui.next_quest_time_label.text()
 
     def set_timer_text(self, text):
         self.ui.next_quest_time_label.setText(text)
 
-    def get_timer_text(self):
-        return self.ui.next_quest_time_label.text()
-
     def set_quest_count(self, count):
         self.ui.quest_count_label.setText(f"{count}/5")
+
+    def add_widget(self, widget):
+        self.ui.quest_frame_layout.addWidget(widget, 1, Qt.AlignRight | Qt.AlignTop)
 
 
 quest_display = QuestDisplay()
