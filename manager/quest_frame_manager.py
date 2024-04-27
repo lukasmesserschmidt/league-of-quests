@@ -4,7 +4,7 @@ import time
 
 from .quest_frame_creator import QuestFrameCreator
 from ..gui.quest_frame import QuestFrame
-from ..gui.quest_display import quest_display
+from ..gui.quest_display import get_quest_display
 
 
 class QuestFrameManager:
@@ -49,7 +49,7 @@ class QuestFrameManager:
     def create_quest_frame(cls):
         quest_frame = QuestFrameCreator.get_quest_frame(cls.active_quest_frames)
         if quest_frame:
-            quest_display.add_widget(quest_frame)
+            get_quest_display().add_widget(quest_frame)
             cls.active_quest_frames.append(quest_frame)
         else:
             cls.quest_frames_available = False

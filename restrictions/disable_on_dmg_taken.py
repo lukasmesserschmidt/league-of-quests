@@ -1,18 +1,33 @@
 import time
 
-from .restriction_base import RestrictionBase
-from ..manager.disable_manager import DisableManager
+from .disable_hotkey_base import DisableHotkeyBase
 from ..lol_data.active_player_data import AcitvePlayerData
+from ..utils.attributes import (
+    ABILITY0,
+    ABILITY1,
+    ABILITY2,
+    ABILITY3,
+    SUMMONER_SPELL0,
+    SUMMONER_SPELL1,
+)
 
 
-class DisableOnDmgTaken(RestrictionBase):
+class DisableOnDmgTaken(DisableHotkeyBase):
     title = "Disable all on dmg taken!"
     difficulty = 2
-    ability_nums = [[0, 1, 2, 3], [0, 1]]
-    hotkey_types = ["ability", "summoner_spell"]
+    disable_hotkeys = {"ability": [0, 1, 2, 3], "summoner_spell": [0, 1]}
+    attributes = [
+        ABILITY0,
+        ABILITY1,
+        ABILITY2,
+        ABILITY3,
+        SUMMONER_SPELL0,
+        SUMMONER_SPELL1,
+    ]
 
     @classmethod
-    def on_start(cls):
+    def init(cls):
+        super().init()
         cls.last_health_diff = cls.get_health_diff()
 
     @classmethod
@@ -21,19 +36,10 @@ class DisableOnDmgTaken(RestrictionBase):
 
         if cls.last_health_diff < current_health_diff:
             cls.enable_type(False)
-            time.sleep(0.5)
+            time.sleep(1)
             cls.enable_type(True)
 
         cls.last_health_diff = current_health_diff
-
-    @classmethod
-    def on_end(cls):
-        cls.enable_type(True)
-
-    @classmethod
-    def enable_type(cls, enable: bool):
-        for hotkey_type, ability_num in zip(cls.hotkey_types, cls.ability_nums):
-            DisableManager.enable_type(enable, hotkey_type, *ability_num)
 
     @classmethod
     def get_health_diff(cls):

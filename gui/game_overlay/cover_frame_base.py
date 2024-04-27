@@ -1,6 +1,8 @@
 from typing import Callable
-
 from PySide6.QtWidgets import QFrame
+import time
+
+from ...lol_data.lol_window_data import LolWindowData
 
 
 class CoverFrameBase(QFrame):
@@ -21,4 +23,5 @@ class CoverFrameBase(QFrame):
         self.set_geometry()
 
     def hide(self, *args):
-        return super().hide()
+        time.sleep(0.001)
+        super().hide()

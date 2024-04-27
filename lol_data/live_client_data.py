@@ -1,3 +1,4 @@
+from contextlib import suppress
 import threading
 import requests
 import warnings
@@ -10,25 +11,22 @@ class LiveClientData:
 
     @classmethod
     def start(cls):
-        cls.request_data()
+        cls.get_data()
 
-        cls.import_loop_thread = threading.Thread(target=cls.request_data1, daemon=True)
+        cls.import_loop_thread = threading.Thread(target=cls.request_data, daemon=True)
         cls.import_loop_thread.start()
 
     @classmethod
-    def request_data(cls):
+    def get_data(cls):
         return cls.all_data
 
     @classmethod
-    def request_data1(cls):
+    def request_data(cls):
         while True:
             warnings.simplefilter("ignore")
 
-            try:
+            with suppress(Exception):
                 response = requests.get(cls.url, verify=False)
                 cls.all_data = response.json()
-            except requests.exceptions.RequestException as e:
-                pass
-                # print(e)
 
             time.sleep(0.2)

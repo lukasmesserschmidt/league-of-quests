@@ -4,7 +4,7 @@ from .live_client_data import LiveClientData
 class AllPlayerDate:
     @classmethod
     def get_data(cls):
-        return LiveClientData.request_data()["allPlayers"]
+        return LiveClientData.get_data()["allPlayers"]
 
     @classmethod
     def get_player_data(cls, summoner_name: str):

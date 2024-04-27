@@ -12,7 +12,7 @@ from ..lol_data.live_client_data import LiveClientData
 from ..lol_data.game_data import GameData
 
 
-class MainWindow(QMainWindow):
+class MainMenu(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
@@ -109,9 +109,10 @@ class MainWindow(QMainWindow):
         GetLolSettings.stop()
 
 
-main_menu = MainWindow()
-
-
-def create_window():
+def create_main_menu():
     global main_menu
-    main_menu = MainWindow()
+    main_menu = MainMenu()
+
+
+def get_main_menu():
+    return main_menu

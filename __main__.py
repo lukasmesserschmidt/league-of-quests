@@ -1,4 +1,3 @@
-from PySide6.QtCore import Qt
 import keyboard
 
 from .gui import app
@@ -6,17 +5,10 @@ from .gui import main_menu
 from .gui import quest_display
 from .gui.game_overlay import game_overlay_window
 
-from .gui.quest_frame import QuestFrame
 
-
-# app.create_app()
-# main_menu.create_window()
-# quest_display.create_window()
-# game_overlay_window.create_window()
-
-for _ in range(0):
-    f = QuestFrame()
-    quest_display.quest_display.add_widget(f)
+quest_display.create_quest_display()
+game_overlay_window.create_game_overlay()
+main_menu.create_main_menu()
 
 app.start()
 keyboard.unhook_all()

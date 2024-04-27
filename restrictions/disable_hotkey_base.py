@@ -3,8 +3,11 @@ from ..manager.disable_manager import DisableManager
 
 
 class DisableHotkeyBase(RestrictionBase):
-    ability_num: list[int]
-    hotkey_type: str
+    disable_hotkeys: dict
+
+    @classmethod
+    def init(cls):
+        cls.disable_manager = DisableManager()
 
     @classmethod
     def restriction_content(cls):
@@ -13,7 +16,8 @@ class DisableHotkeyBase(RestrictionBase):
     @classmethod
     def on_end(cls):
         cls.enable_type(True)
+        del cls.disable_manager
 
     @classmethod
     def enable_type(cls, enable: bool):
-        DisableManager.enable_type(enable, cls.hotkey_type, *cls.ability_num)
+        cls.disable_manager.enable_type(enable, cls.disable_hotkeys)

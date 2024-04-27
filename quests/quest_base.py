@@ -28,7 +28,7 @@ class QuestBase:
 
         cls.init()
 
-        cls.quest_loop_thread = threading.Thread(target=cls.quest_main)
+        cls.quest_loop_thread = threading.Thread(target=cls._quest_main)
         cls.quest_loop_thread.start()
 
     @classmethod
@@ -43,7 +43,7 @@ class QuestBase:
         cls.duration = cls.get_duration()
 
     @classmethod
-    def quest_main(cls):
+    def _quest_main(cls):
         cls.quest_loop_container()
 
         cls.on_end()
@@ -51,10 +51,10 @@ class QuestBase:
 
     @classmethod
     def quest_loop_container(cls):
-        cls.quest_loop()
+        cls._quest_loop()
 
     @classmethod
-    def quest_loop(cls):
+    def _quest_loop(cls):
         cls.end_time = cls.get_end_time(cls.duration)
 
         while time.time() < cls.end_time and not cls.terminate_flag:

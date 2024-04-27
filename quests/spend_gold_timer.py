@@ -17,7 +17,7 @@ class SpendGoldTimer(QuestBase):
     @classmethod
     def quest_loop_container(cls):
         for _ in range(4):
-            cls.quest_loop()
+            cls._quest_loop()
 
             cls.duration *= 2
 

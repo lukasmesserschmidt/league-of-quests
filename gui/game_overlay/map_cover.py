@@ -11,7 +11,7 @@ class MapCover(CoverFrameBase):
         self.setStyleSheet("background-color: rgb(0, 0, 0);\n" "border-radius: 10px")
 
     def setgeometry(self):
-        x, y = app.app.primaryScreen().size().toTuple()
+        x, y = app.get_app().primaryScreen().size().toTuple()
         size = get_map_size()
         x -= size
         y -= size

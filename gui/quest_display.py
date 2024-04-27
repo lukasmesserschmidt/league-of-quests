@@ -29,7 +29,7 @@ class QuestDisplay(QWidget):
         self.show()
 
     def setgeometry(self):
-        x, y = app.app.primaryScreen().size().toTuple()
+        x, y = app.get_app().primaryScreen().size().toTuple()
         map_size = get_map_size()
         space = get_map_size() * 0.05
         x -= map_size + 250 + space
@@ -56,9 +56,10 @@ class QuestDisplay(QWidget):
         self.ui.quest_frame_layout.addWidget(widget, 1, Qt.AlignRight | Qt.AlignTop)
 
 
-quest_display = QuestDisplay()
-
-
-def create_window():
+def create_quest_display():
     global quest_display
     quest_display = QuestDisplay()
+
+
+def get_quest_display():
+    return quest_display

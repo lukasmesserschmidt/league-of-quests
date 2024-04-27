@@ -1,5 +1,5 @@
 from .restriction_base import RestrictionBase
-from ..gui.game_overlay.game_overlay_window import game_overlay
+from ..gui.game_overlay.game_overlay_window import get_game_overlay
 
 
 class CoverMap(RestrictionBase):
@@ -8,8 +8,8 @@ class CoverMap(RestrictionBase):
 
     @classmethod
     def restriction_content(cls):
-        game_overlay.map_cover.show()
+        get_game_overlay().map_cover.show()
 
     @classmethod
     def on_end(cls):
-        game_overlay.map_cover.hide()
+        get_game_overlay().map_cover.hide()

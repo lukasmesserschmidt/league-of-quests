@@ -4,7 +4,7 @@ import keyboard
 from .restriction_base import RestrictionBase
 from ..lol_data.active_player_data import AcitvePlayerData
 from ..lol_data.lol_settings import LolSettings
-from ..utils.top_window_is_lol import lol_is_top
+from ..lol_data.lol_window_data import LolWindowData
 
 
 class AutoLevel(RestrictionBase):
@@ -12,7 +12,7 @@ class AutoLevel(RestrictionBase):
     difficulty = 1
 
     @classmethod
-    def on_start(cls):
+    def init(cls):
         cls.last_level = AcitvePlayerData.get_level()
 
     @classmethod
@@ -22,7 +22,7 @@ class AutoLevel(RestrictionBase):
         # if cls.last_level < current_level:
         total_level = cls.get_total_ability_level()
         while total_level < current_level:
-            if lol_is_top:
+            if LolWindowData.lol_is_top:
                 total_level = cls.get_total_ability_level()
                 rand_hotkey = randint(0, 3)
                 hotkey = LolSettings.get_level_ability_hotkey(rand_hotkey)

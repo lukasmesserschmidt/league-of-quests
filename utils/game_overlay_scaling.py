@@ -4,7 +4,7 @@ from ..lol_data.lol_settings import LolSettings
 
 
 def get_overlay_size(min_size, max_size, scale, max_scale):
-    _, screen_y = app.app.primaryScreen().size().toTuple()
+    _, screen_y = app.get_app().primaryScreen().size().toTuple()
     min_size = min_size / 2160 * screen_y
     max_size = max_size / 2160 * screen_y
     size = ((max_size - min_size) / max_scale) * scale + min_size
@@ -13,7 +13,7 @@ def get_overlay_size(min_size, max_size, scale, max_scale):
 
 
 def get_overlay_pos(x, y):
-    screen_x, screen_y = app.app.primaryScreen().size().toTuple()
+    screen_x, screen_y = app.get_app().primaryScreen().size().toTuple()
     ratio = (3840 / 2160) / (screen_x / screen_y)
     from_center_x = (1920 - x) / 3840 * screen_x * ratio
     from_center_x = (1920 - x) / 2160 * screen_y

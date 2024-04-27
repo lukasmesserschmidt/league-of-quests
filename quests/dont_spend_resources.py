@@ -1,8 +1,8 @@
 from .quest_base import QuestBase
 from ..lol_data.active_player_data import AcitvePlayerData
-from ..gui.game_overlay.game_overlay_window import game_overlay
+from ..gui.game_overlay.game_overlay_window import get_game_overlay
 from ..utils.attributes import RESOURCE
-from ..utils.top_window_is_lol import lol_is_top
+from ..lol_data.lol_window_data import LolWindowData
 
 
 class DontSpendResources(QuestBase):
@@ -30,9 +30,8 @@ class DontSpendResources(QuestBase):
         resource_data = AcitvePlayerData.get_resource_data()
         current_resource_diff = resource_data["max"] - resource_data["value"]
 
-        if lol_is_top:
-            percent = resource_data["value"] / resource_data["max"]
-            game_overlay.resource_cover.show((1, percent))
+        percent = resource_data["value"] / resource_data["max"]
+        get_game_overlay().enable_cover(True, "resource", (1, percent))
 
         if cls.last_resource_diff < current_resource_diff:
             cls.last_resource_diff = current_resource_diff
@@ -43,4 +42,4 @@ class DontSpendResources(QuestBase):
     
     @classmethod
     def on_end(cls):
-        game_overlay.resource_cover.hide(1)
+        get_game_overlay().enable_cover(False, "resource", 1)

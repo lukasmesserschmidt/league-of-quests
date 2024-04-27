@@ -13,7 +13,7 @@ from .. import app
 class GameOverlay(QWidget):
     def __init__(self):
         super().__init__()
-        width, height = app.app.primaryScreen().size().toTuple()
+        width, height = app.get_app().primaryScreen().size().toTuple()
         self.setGeometry(0, 0, width, height)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlags(
@@ -24,25 +24,27 @@ class GameOverlay(QWidget):
 
         self.show()
 
-        self.ability_cover = AbilityCover(self)
-        self.summoner_spell_cover = SummonerSpellCover(self)
-        self.map_cover = MapCover(self)
-        self.trinket_cover = TrinketCover(self)
-        self.teleport_cover = TeleportCover(self)
+        self.overlay_covers = {
+            "ability": AbilityCover(self),
+            "summoner_spell": SummonerSpellCover(self),
+            "map": MapCover(self),
+            "trinket": TrinketCover(self),
+            "teleport": TeleportCover(self),
+            "resource": ResourceCover(self),
+        }
 
-        self.resource_cover = ResourceCover(self)
-
-    def disable_cover(self, disable: bool, overlay_type: str, *args: int):
-        overlay_type = getattr(self, f"{overlay_type}_cover")
-        if disable:
-            overlay_type.hide(*args)
+    def enable_cover(self, enable: bool, overlay_type: str, *args: int):
+        cover = self.overlay_covers[overlay_type]
+        if enable:
+            cover.show(*args)
         else:
-            overlay_type.show(*args)
+            cover.hide(*args)
 
 
-game_overlay = GameOverlay()
-
-
-def create_window():
+def create_game_overlay():
     global game_overlay
     game_overlay = GameOverlay()
+
+
+def get_game_overlay():
+    return game_overlay
