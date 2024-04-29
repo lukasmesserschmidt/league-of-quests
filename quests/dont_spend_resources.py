@@ -2,7 +2,6 @@ from .quest_base import QuestBase
 from ..lol_data.active_player_data import AcitvePlayerData
 from ..gui.game_overlay.game_overlay_window import get_game_overlay
 from ..utils.attributes import RESOURCE
-from ..lol_data.lol_window_data import LolWindowData
 
 
 class DontSpendResources(QuestBase):

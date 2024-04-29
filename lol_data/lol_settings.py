@@ -4,14 +4,25 @@ from ..utils.lol_settings_converter import convert_hotkey
 
 class LolSettings:
     lol_settings = {
-        "map_scale": lambda: GetLolSettings.all_lol_settings.get("files")[0]
-        .get("sections")[5]
-        .get("settings")[23]
-        .get("value"),
-        "global_scale": lambda: GetLolSettings.all_lol_settings.get("files")[0]
-        .get("sections")[5]
-        .get("settings")[14]
-        .get("value"),
+        # general
+        "map_scale": lambda: float(
+            GetLolSettings.all_lol_settings.get("files")[0]
+            .get("sections")[5]
+            .get("settings")[23]
+            .get("value")
+        ),
+        "global_scale": lambda: float(
+            GetLolSettings.all_lol_settings.get("files")[0]
+            .get("sections")[5]
+            .get("settings")[14]
+            .get("value")
+        ),
+        "window_mode": lambda: int(
+            GetLolSettings.game_cfg.get("General", "WindowMode")
+        ),
+        "width": lambda: int(GetLolSettings.game_cfg.get("General", "Width")),
+        "height": lambda: int(GetLolSettings.game_cfg.get("General", "Height")),
+        # hotkeys
         "ability": lambda num: convert_hotkey(
             GetLolSettings.all_lol_settings.get("files")[1]
             .get("sections")[0]
@@ -45,10 +56,20 @@ class LolSettings:
     }
 
     @classmethod
+    def get_lol_setting(cls, setting: str, *args):
+        while True:
+            try:
+                setting = cls.lol_settings[setting](*args)
+            except:
+                continue
+
+            return setting
+
+    @classmethod
     def get_hotkeys(cls, hotkey_type: str, *args: int):
         hotkeys = []
         for arg in args:
-            hotkey = cls.lol_settings[hotkey_type](arg)
+            hotkey = cls.get_lol_setting(hotkey_type, arg)
             hotkeys.append(hotkey)
 
         return hotkeys

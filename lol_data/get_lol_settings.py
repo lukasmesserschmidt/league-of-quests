@@ -1,18 +1,23 @@
+import configparser
 import json
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-from .get_lol_paths import get_lol_config_path, get_lol_settings_path
+from .get_lol_paths import get_lol_config_path, get_lol_settings_path, get_game_cfg_path
 
 
 class MyHandler(FileSystemEventHandler):
     def on_modified(self, event):
-        if event.src_path.endswith("PersistedSettings.json"):
+        if event.src_path.endswith("PersistedSettings.json") or event.src_path.endswith(
+            "game.cfg"
+        ):
             GetLolSettings.import_settings()
+            GetLolSettings.import_game_cfg()
 
 
 class GetLolSettings:
-    all_lol_settings = {}
+    all_lol_settings: dict
+    game_cfg: configparser.ConfigParser
 
     @classmethod
     def import_settings(cls):
@@ -26,8 +31,15 @@ class GetLolSettings:
                 pass
 
     @classmethod
+    def import_game_cfg(cls):
+        game_cfg_path = get_game_cfg_path()
+        cls.game_cfg = configparser.ConfigParser()
+        cls.game_cfg.read(game_cfg_path)
+
+    @classmethod
     def start(cls):
         cls.import_settings()
+        cls.import_game_cfg()
         path = get_lol_config_path()
         cls.event_handler = MyHandler()
         cls.observer = Observer()

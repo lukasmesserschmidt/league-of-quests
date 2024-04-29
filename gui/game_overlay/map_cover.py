@@ -1,5 +1,5 @@
 from .cover_frame_base import CoverFrameBase
-from .. import app
+from ...lol_data.lol_window_data import LolWindowData
 from ...utils.game_overlay_scaling import get_map_size
 
 
@@ -11,8 +11,10 @@ class MapCover(CoverFrameBase):
         self.setStyleSheet("background-color: rgb(0, 0, 0);\n" "border-radius: 10px")
 
     def setgeometry(self):
-        x, y = app.get_app().primaryScreen().size().toTuple()
         size = get_map_size()
-        x -= size
-        y -= size
+        x, y = LolWindowData.get_scaled_resolution()
+        window_x, window_y = LolWindowData.get_scaled_pos()
+        x = window_x + x - size
+        y = window_y + y - size
+
         self.setGeometry(x, y, size, size)

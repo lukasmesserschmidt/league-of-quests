@@ -14,9 +14,9 @@ class MainManager:
     def start(cls):
         QuestFrameManager.start()
 
-        if Settings.get_quest_on_death:
+        if Settings.get_quest_on_death():
             QuestOnDeath.start()
-        if Settings.get_quest_after_time()["ischecked"]:
+        if Settings.get_quest_after_time("ischecked"):
             QuestAfterTime.start()
 
         cls.main_loop_timer = QTimer()
@@ -27,9 +27,9 @@ class MainManager:
     def stop(cls):
         cls.main_loop_timer.deleteLater()
 
-        if Settings.get_quest_on_death:
+        if Settings.get_quest_on_death():
             QuestOnDeath.stop()
-        if Settings.get_quest_after_time()["ischecked"]:
+        if Settings.get_quest_after_time("ischecked"):
             QuestAfterTime.stop()
 
         QuestFrameManager.stop()
@@ -42,10 +42,11 @@ class MainManager:
     @classmethod
     def update_timer_text(cls):
         if not QuestFrameManager.quest_frames_available:
-            get_quest_display().set_timer_text("No Quest Available")
-            QuestFrameManager.quest_frames_available = True
-        elif len(QuestFrameManager.active_quest_frames) <= 5:
-            if Settings.get_quest_after_time()["ischecked"]:
+            # get_quest_display().set_timer_text("No Quest Available")
+            get_quest_display().set_timer_text("N/A")
+            # QuestFrameManager.quest_frames_available = True
+        elif len(QuestFrameManager.active_quest_frames) < Settings.get_quest_limit():
+            if Settings.get_quest_after_time("ischecked"):
                 get_quest_display().set_timer_text(
                     convert_time(QuestAfterTime.remaining_time)
                 )

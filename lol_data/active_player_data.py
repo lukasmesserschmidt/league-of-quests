@@ -6,7 +6,7 @@ from .all_player_data import AllPlayerDate
 class AcitvePlayerData:
     @classmethod
     def get_data(cls):
-        return LiveClientData.get_data()["activePlayer"]
+        return LiveClientData.all_data["activePlayer"]
 
     @classmethod
     def get_summoner_name(cls):

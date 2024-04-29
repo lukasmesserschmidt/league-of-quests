@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QFrame
 
 from .multi_cover_frame_base import MultiCoverFrameBase
-from ...utils.game_overlay_scaling import get_global_size, get_scaled_pos
+from ...utils.game_overlay_scaling import get_global_size, get_global_scaled_pos
 
 
 class ResourceCoverFrame(MultiCoverFrameBase):
@@ -30,7 +30,7 @@ class ResourceCoverFrame(MultiCoverFrameBase):
             min_y_size, max_y_size
         )
         space = get_global_size(min_space, max_space)
-        x, y = get_scaled_pos(min_x, max_x, min_y, max_y)
+        x, y = get_global_scaled_pos(min_x, max_x, min_y, max_y)
         y += (y_size + space) * self.ability_num
 
         x_size *= self.percent

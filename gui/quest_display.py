@@ -5,6 +5,7 @@ import keyboard
 
 from .quest_display_base import Ui_QuestDisplay
 from . import app
+from ..manager.settings_manager import Settings
 from ..utils.game_overlay_scaling import get_map_size
 
 
@@ -50,7 +51,7 @@ class QuestDisplay(QWidget):
         self.ui.next_quest_time_label.setText(text)
 
     def set_quest_count(self, count):
-        self.ui.quest_count_label.setText(f"{count}/5")
+        self.ui.quest_count_label.setText(f"{count}/{Settings.get_quest_limit()}")
 
     def add_widget(self, widget):
         self.ui.quest_frame_layout.addWidget(widget, 1, Qt.AlignRight | Qt.AlignTop)

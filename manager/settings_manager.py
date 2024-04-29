@@ -15,16 +15,36 @@ class Settings:
         return cls.all_settings["quest_settings"]
 
     @classmethod
+    def get_quest_rarity_settings(cls):
+        return cls.all_settings["quest_rarity_settings"]
+
+    @classmethod
+    def get_quest_limit(cls):
+        return cls.get_quest_settings()["quest_limit"]
+
+    @classmethod
     def get_quest_on_death(cls):
         return cls.get_quest_settings()["quest_on_death"]
 
     @classmethod
-    def get_quest_after_time(cls):
-        return cls.get_quest_settings()["quest_after_time"]
+    def get_quest_after_time(cls, key: str):
+        return cls.get_quest_settings()["quest_after_time"][key]
 
     @classmethod
     def get_quest_duration(cls):
         return cls.get_quest_settings()["quest_duration"]
+
+    @classmethod
+    def get_easy_object(cls, object_type: str):
+        return cls.get_quest_rarity_settings()["easy"][object_type]
+
+    @classmethod
+    def get_mid_object(cls, object_type: str):
+        return cls.get_quest_rarity_settings()["mid"][object_type]
+
+    @classmethod
+    def get_hard_object(cls, object_type: str):
+        return cls.get_quest_rarity_settings()["hard"][object_type]
 
     @classmethod
     def get_setting(cls, *args):
@@ -46,6 +66,12 @@ class Settings:
         # quest settings
         quest_settings = cls.all_settings["quest_settings"]
 
+        # quest limit
+        quest_settings["quest_limit"] = get_value(ui.quest_limit_lineedit)
+
+        # quest duration
+        quest_settings["quest_duration"] = get_value(ui.quest_duration_lineedit)
+
         # quest on death
         quest_settings["quest_on_death"] = ui.quest_on_death_checkbox.isChecked()
 
@@ -59,9 +85,6 @@ class Settings:
         quest_settings["quest_after_time"]["time"] = get_value(
             ui.quest_after_time_lineedit
         )
-
-        # quest duration
-        quest_settings["quest_duration"] = get_value(ui.quest_duration_lineedit)
 
         # quest rarity settings
         quest_rarity_settings = cls.all_settings["quest_rarity_settings"]

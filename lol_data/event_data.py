@@ -4,7 +4,7 @@ from .live_client_data import LiveClientData
 class EventData:
     @classmethod
     def get_data(cls):
-        return LiveClientData.get_data()["events"]["Events"]
+        return LiveClientData.all_data["events"]["Events"]
 
     @classmethod
     def get_kill_events(cls):

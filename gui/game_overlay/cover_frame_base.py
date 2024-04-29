@@ -19,8 +19,11 @@ class CoverFrameBase(QFrame):
         raise NotImplementedError
 
     def show(self, *args):
-        super().show()
-        self.set_geometry()
+        if LolWindowData.lol_is_top:
+            super().show()
+            self.set_geometry()
+        else:
+            self.hide()
 
     def hide(self, *args):
         time.sleep(0.001)

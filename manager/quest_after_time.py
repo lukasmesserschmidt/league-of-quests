@@ -9,7 +9,7 @@ class QuestAfterTime:
 
     @classmethod
     def start(cls):
-        cls.time = Settings.get_quest_after_time()["time"]
+        cls.time = Settings.get_quest_after_time("time")
         cls.end_time = time.time() + cls.time
         cls.end_time = time.time() + 2
 

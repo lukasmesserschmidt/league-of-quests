@@ -40,11 +40,13 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QPushButton,
     QSizePolicy,
+    QHBoxLayout,
     QVBoxLayout,
     QWidget,
 )
 
 from .line_edit_base import LineEdit
+from ..manager.settings_manager import Settings
 
 
 class Ui_MainWindow(object):
@@ -100,12 +102,12 @@ class Ui_MainWindow(object):
         )
 
         self.quest_settings_frame_layout.addWidget(
-            self.quest_after_time_label, 5, 0, 1, 1
+            self.quest_after_time_label, 3, 0, 1, 1
         )
 
         self.quest_on_death_checkbox = QCheckBox(self.quest_settings_frame)
         self.quest_on_death_checkbox.setObjectName("quest_on_death_checkbox")
-        self.quest_on_death_checkbox.setChecked(True)
+        self.quest_on_death_checkbox.setChecked(Settings.get_quest_on_death())
 
         self.quest_settings_frame_layout.addWidget(
             self.quest_on_death_checkbox, 2, 1, 1, 1, Qt.AlignHCenter
@@ -113,9 +115,10 @@ class Ui_MainWindow(object):
 
         self.quest_after_time_checkbox = QCheckBox(self.quest_settings_frame)
         self.quest_after_time_checkbox.setObjectName("quest_after_time_checkbox")
+        self.quest_after_time_checkbox.setChecked(Settings.get_quest_after_time("ischecked"))
 
         self.quest_settings_frame_layout.addWidget(
-            self.quest_after_time_checkbox, 5, 1, 1, 1, Qt.AlignHCenter
+            self.quest_after_time_checkbox, 3, 1, 1, 1, Qt.AlignHCenter
         )
 
         self.quest_on_death_label = QLabel(self.quest_settings_frame)
@@ -129,12 +132,25 @@ class Ui_MainWindow(object):
             self.quest_on_death_label, 2, 0, 1, 1
         )
 
-        self.label_10 = QLabel(self.quest_settings_frame)
-        self.label_10.setObjectName("label_10")
-        self.label_10.setStyleSheet("color: rgb(235, 235, 235)")
-        self.label_10.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
+        self.quest_duration_label = QLabel(self.quest_settings_frame)
+        self.quest_duration_label.setObjectName("quest_duration_label")
+        self.quest_duration_label.setStyleSheet("color: rgb(235, 235, 235)")
+        self.quest_duration_label.setAlignment(
+            Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter
+        )
 
-        self.quest_settings_frame_layout.addWidget(self.label_10, 7, 0, 1, 1)
+        self.quest_settings_frame_layout.addWidget(
+            self.quest_duration_label, 1, 0, 1, 1
+        )
+
+        self.quest_limit_label = QLabel(self.quest_settings_frame)
+        self.quest_limit_label.setObjectName("quest_limit_label")
+        self.quest_limit_label.setStyleSheet("color: rgb(235, 235, 235)")
+        self.quest_limit_label.setAlignment(
+            Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter
+        )
+
+        self.quest_settings_frame_layout.addWidget(self.quest_limit_label, 0, 0, 1, 1)
 
         self.quest_after_time_lineedit = LineEdit(self.quest_settings_frame, "s", 36000)
         self.quest_after_time_lineedit.setObjectName("quest_after_time_lineedit")
@@ -146,7 +162,7 @@ class Ui_MainWindow(object):
         )
 
         self.quest_settings_frame_layout.addWidget(
-            self.quest_after_time_lineedit, 5, 2, 1, 1
+            self.quest_after_time_lineedit, 3, 2, 1, 1
         )
 
         self.quest_duration_lineedit = LineEdit(self.quest_settings_frame, "s", 36000)
@@ -160,7 +176,21 @@ class Ui_MainWindow(object):
         )
 
         self.quest_settings_frame_layout.addWidget(
-            self.quest_duration_lineedit, 7, 2, 1, 1
+            self.quest_duration_lineedit, 1, 2, 1, 1
+        )
+
+        self.quest_limit_lineedit = LineEdit(self.quest_settings_frame, "", 5)
+        self.quest_limit_lineedit.setObjectName("quest_limit_lineedit")
+        self.quest_limit_lineedit.setEnabled(True)
+        self.quest_limit_lineedit.setStyleSheet(
+            "color: rgb(235, 235, 235);\n"
+            "background-color: rgb(52, 54, 56);\n"
+            "border: 2px solid rgb(86, 91, 94);\n"
+            "border-radius: 5px"
+        )
+
+        self.quest_settings_frame_layout.addWidget(
+            self.quest_limit_lineedit, 0, 2, 1, 1
         )
 
         self.quest_settings_base_layout.addWidget(self.quest_settings_frame)
@@ -337,6 +367,25 @@ class Ui_MainWindow(object):
 
         self.main_window_layout.addWidget(self.bg_frame)
 
+        self.bottom_frame = QFrame(self.main_window_centralwidget)
+        self.bottom_frame.setObjectName("bottom_frame")
+        self.bottom_frame.setFrameShape(QFrame.StyledPanel)
+        self.bottom_frame.setFrameShadow(QFrame.Raised)
+        self.bottom_frame.setMaximumHeight(25)
+        self.bottom_frame_layout = QHBoxLayout(self.bottom_frame)
+        self.bottom_frame_layout.setSpacing(5)
+        self.bottom_frame_layout.setContentsMargins(0, 0, 0, 0)
+        self.bottom_frame_layout.setObjectName("bottom_frame_layout")
+
+        self.main_window_layout.addWidget(self.bottom_frame, 0, Qt.AlignRight)
+
+        self.info_label = QLabel(self.main_window_centralwidget)
+        self.info_label.setObjectName("info_label")
+        self.info_label.setStyleSheet("color: rgb(235, 235, 235)")
+        self.info_label.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
+
+        self.bottom_frame_layout.addWidget(self.info_label, 0, Qt.AlignRight)
+
         self.start_button = QPushButton(self.main_window_centralwidget)
         self.start_button.setObjectName("start_button")
         self.start_button.setMinimumSize(QSize(60, 20))
@@ -352,7 +401,7 @@ class Ui_MainWindow(object):
             "}"
         )
 
-        self.main_window_layout.addWidget(self.start_button, 0, Qt.AlignRight)
+        self.bottom_frame_layout.addWidget(self.start_button, 0, Qt.AlignRight)
 
         MainWindow.setCentralWidget(self.main_window_centralwidget)
 
@@ -377,17 +426,25 @@ class Ui_MainWindow(object):
         self.quest_on_death_label.setText(
             QCoreApplication.translate("MainWindow", "Get quest on death", None)
         )
-        self.label_10.setText(
+        self.quest_duration_label.setText(
             QCoreApplication.translate("MainWindow", "Quest duration in seconds", None)
         )
+        self.quest_limit_label.setText(
+            QCoreApplication.translate(
+                "MainWindow", "Max number of active quests", None
+            )
+        )
         self.quest_after_time_lineedit.setText(
-            QCoreApplication.translate("MainWindow", "240s", None)
+            QCoreApplication.translate("MainWindow", f"{Settings.get_quest_after_time("time")}s", None)
         )
         self.quest_after_time_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "seconds", None)
         )
         self.quest_duration_lineedit.setText(
-            QCoreApplication.translate("MainWindow", "360s", None)
+            QCoreApplication.translate("MainWindow", f"{Settings.get_quest_duration()}s", None)
+        )
+        self.quest_limit_lineedit.setText(
+            QCoreApplication.translate("MainWindow", f"{Settings.get_quest_limit()}", None)
         )
         self.quest_duration_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "seconds", None)
@@ -396,7 +453,7 @@ class Ui_MainWindow(object):
             QCoreApplication.translate("MainWindow", "Quest Rarity Settings", None)
         )
         self.mid_restriction_lineedit.setText(
-            QCoreApplication.translate("MainWindow", "30%", None)
+            QCoreApplication.translate("MainWindow", f"{Settings.get_mid_object("restriction")}%", None)
         )
         self.mid_restriction_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)
@@ -409,7 +466,7 @@ class Ui_MainWindow(object):
         )
         self.hard_label.setText(QCoreApplication.translate("MainWindow", "Hard", None))
         self.easy_quest_lineedit.setText(
-            QCoreApplication.translate("MainWindow", "60%", None)
+            QCoreApplication.translate("MainWindow", f"{Settings.get_easy_object("quest")}%", None)
         )
         self.easy_quest_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)
@@ -417,25 +474,25 @@ class Ui_MainWindow(object):
         self.mid_label.setText(QCoreApplication.translate("MainWindow", "Mid", None))
         self.easy_label.setText(QCoreApplication.translate("MainWindow", "Easy", None))
         self.easy_restriction_lineedit.setText(
-            QCoreApplication.translate("MainWindow", "60%", None)
+            QCoreApplication.translate("MainWindow", f"{Settings.get_easy_object("restriction")}%", None)
         )
         self.easy_restriction_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)
         )
         self.mid_quest_lineedit.setText(
-            QCoreApplication.translate("MainWindow", "30%", None)
+            QCoreApplication.translate("MainWindow", f"{Settings.get_mid_object("quest")}%", None)
         )
         self.mid_quest_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)
         )
         self.hard_restriction_lineedit.setText(
-            QCoreApplication.translate("MainWindow", "10%", None)
+            QCoreApplication.translate("MainWindow", f"{Settings.get_hard_object("restriction")}%", None)
         )
         self.hard_restriction_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)
         )
         self.hard_quest_lineedit.setText(
-            QCoreApplication.translate("MainWindow", "10%", None)
+            QCoreApplication.translate("MainWindow", f"{Settings.get_hard_object("quest")}%", None)
         )
         self.hard_quest_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)
@@ -444,5 +501,8 @@ class Ui_MainWindow(object):
         self.start_button.setText(
             QCoreApplication.translate("MainWindow", "Start", None)
         )
+        self.info_label.setText(QCoreApplication.translate("MainWindow", "Set window mode to borderless!", None))
+        self.info_label.hide()
+
 
     # retranslateUi

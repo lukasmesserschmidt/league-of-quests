@@ -3,6 +3,7 @@ import threading
 import time
 
 from .quest_frame_creator import QuestFrameCreator
+from .settings_manager import Settings
 from ..gui.quest_frame import QuestFrame
 from ..gui.quest_display import get_quest_display
 
@@ -22,9 +23,7 @@ class QuestFrameManager:
         cls.create_quest_frame_loop_timer.start(500)
 
         cls.terminate_flag = False
-        cls.update_quest_frame_loop_thread = threading.Thread(
-            target=cls.update_quest_frame_loop
-        )
+        cls.update_quest_frame_loop_thread = threading.Thread(target=cls.update_loop)
         cls.update_quest_frame_loop_thread.start()
 
     @classmethod
@@ -41,7 +40,7 @@ class QuestFrameManager:
     @classmethod
     def create_quest_frame_loop(cls):
         for _ in range(cls.create_quest_frame_amount):
-            if len(cls.active_quest_frames) < 5:
+            if len(cls.active_quest_frames) < Settings.get_quest_limit():
                 cls.create_quest_frame()
             cls.create_quest_frame_amount -= 1
 
@@ -55,13 +54,18 @@ class QuestFrameManager:
             cls.quest_frames_available = False
 
     @classmethod
-    def update_quest_frame_loop(cls):
+    def update_loop(cls):
         while not cls.terminate_flag:
-            for quest_frame in cls.active_quest_frames:
-                if quest_frame.quest.terminate_flag:
-                    cls.delete_quest_frame(quest_frame)
+            cls.update_quest_frames()
+            cls.update_quest_frame_available()
 
             time.sleep(0.2)
+
+    @classmethod
+    def update_quest_frames(cls):
+        for quest_frame in cls.active_quest_frames:
+            if quest_frame.quest.terminate_flag:
+                cls.delete_quest_frame(quest_frame)
 
     @classmethod
     def delete_quest_frame(cls, quest_frame: QuestFrame):
@@ -69,3 +73,12 @@ class QuestFrameManager:
         quest_frame.restriction.stop()
         cls.active_quest_frames.remove(quest_frame)
         quest_frame.deleteLater()
+
+    @classmethod
+    def update_quest_frame_available(cls):
+        objects = QuestFrameCreator.get_compatible(cls.active_quest_frames)
+
+        if objects:
+            cls.quest_frames_available = True
+        else:
+            cls.quest_frames_available = False

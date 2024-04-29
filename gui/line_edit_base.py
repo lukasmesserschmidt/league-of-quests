@@ -16,7 +16,8 @@ class LineEdit(QLineEdit):
         self.textChanged.connect(self.on_text_change)
 
     def focusInEvent(self, arg__1: QFocusEvent) -> None:
-        self.setText(self.text()[0:-1])
+        if self.text().isdigit() == False:
+            self.setText(self.text()[0:-1])
         super().focusInEvent(arg__1)
 
     def focusOutEvent(self, arg__1: QFocusEvent) -> None:

@@ -11,14 +11,8 @@ class LiveClientData:
 
     @classmethod
     def start(cls):
-        cls.get_data()
-
         cls.import_loop_thread = threading.Thread(target=cls.request_data, daemon=True)
         cls.import_loop_thread.start()
-
-    @classmethod
-    def get_data(cls):
-        return cls.all_data
 
     @classmethod
     def request_data(cls):

@@ -8,8 +8,8 @@ class CoverMap(RestrictionBase):
 
     @classmethod
     def restriction_content(cls):
-        get_game_overlay().map_cover.show()
+        get_game_overlay().overlay_covers["map"].show()
 
     @classmethod
     def on_end(cls):
-        get_game_overlay().map_cover.hide()
+        get_game_overlay().overlay_covers["map"].hide()

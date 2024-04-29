@@ -28,3 +28,11 @@ def get_lol_settings_path():
     lol_settings_path = lol_config_path + "/PersistedSettings.json"
 
     return lol_settings_path
+
+
+def get_game_cfg_path():
+    lol_config_path = get_lol_config_path()
+
+    game_cfg_path = lol_config_path + "/game.cfg"
+
+    return game_cfg_path
