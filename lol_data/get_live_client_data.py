@@ -5,18 +5,24 @@ import warnings
 import time
 
 
-class LiveClientData:
+class GetLiveClientData:
     all_data = None
     url = "https://127.0.0.1:2999/liveclientdata/allgamedata"
 
     @classmethod
     def start(cls):
+        cls.terminate_flag = False
         cls.import_loop_thread = threading.Thread(target=cls.request_data, daemon=True)
         cls.import_loop_thread.start()
 
     @classmethod
+    def stop(cls):
+        cls.terminate_flag = True
+        cls.import_loop_thread.join()
+
+    @classmethod
     def request_data(cls):
-        while True:
+        while not cls.terminate_flag:
             warnings.simplefilter("ignore")
 
             with suppress(Exception):

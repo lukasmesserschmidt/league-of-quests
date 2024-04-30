@@ -1,4 +1,4 @@
-from .live_client_data import LiveClientData
+from .get_live_client_data import GetLiveClientData
 from .event_data import EventData
 from .all_player_data import AllPlayerDate
 
@@ -6,7 +6,7 @@ from .all_player_data import AllPlayerDate
 class AcitvePlayerData:
     @classmethod
     def get_data(cls):
-        return LiveClientData.all_data["activePlayer"]
+        return GetLiveClientData.all_data["activePlayer"]
 
     @classmethod
     def get_summoner_name(cls):

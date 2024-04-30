@@ -1,15 +1,15 @@
-from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QCursor
 import keyboard
 
+from .window_base import WindowBase
 from .quest_display_base import Ui_QuestDisplay
 from . import app
 from ..manager.settings_manager import Settings
 from ..utils.game_overlay_scaling import get_map_size
 
 
-class QuestDisplay(QWidget):
+class QuestDisplay(WindowBase):
     def __init__(self):
         super().__init__()
         self.setgeometry()

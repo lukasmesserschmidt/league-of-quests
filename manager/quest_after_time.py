@@ -21,6 +21,7 @@ class QuestAfterTime:
     def stop(cls):
         cls.terminate_flag = True
         cls.receive_loop_thread.join()
+        cls.remaining_time = 0
 
     @classmethod
     def receive_loop(cls):

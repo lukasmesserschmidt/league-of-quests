@@ -33,8 +33,12 @@ class QuestFrameManager:
         cls.terminate_flag = True
         cls.update_quest_frame_loop_thread.join()
 
-        while len(cls.active_quest_frames) > 0:
-            quest_frame = cls.active_quest_frames[0]
+        # while len(cls.active_quest_frames) > 0:
+        #     quest_frame = cls.active_quest_frames[0]
+        #     cls.delete_quest_frame(quest_frame)
+        cls.create_quest_frame_amount = 0
+        for i in range(len(cls.active_quest_frames) - 1, -1, -1):
+            quest_frame = cls.active_quest_frames[i]
             cls.delete_quest_frame(quest_frame)
 
     @classmethod

@@ -18,6 +18,11 @@ class LolWindowData:
         cls.check_lol_is_top_timer.start(100)
 
     @classmethod
+    def stop(cls):
+        cls.check_lol_is_top_timer.deleteLater()
+        cls.lol_is_top = False
+
+    @classmethod
     def check_lol_is_top(cls):
         top_window = win32gui.GetForegroundWindow()
         title = win32gui.GetWindowText(top_window)

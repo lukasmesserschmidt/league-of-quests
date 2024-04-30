@@ -1,3 +1,4 @@
+from contextlib import suppress
 import configparser
 import json
 from watchdog.observers import Observer
@@ -23,12 +24,10 @@ class GetLolSettings:
     def import_settings(cls):
         imported = False
         while imported == False:
-            try:
+            with suppress(Exception):
                 with open(get_lol_settings_path(), "r") as f:
                     cls.all_lol_settings = json.load(f)
                     imported = True
-            except:
-                pass
 
     @classmethod
     def import_game_cfg(cls):

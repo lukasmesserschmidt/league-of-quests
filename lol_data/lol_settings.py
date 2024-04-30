@@ -57,13 +57,9 @@ class LolSettings:
 
     @classmethod
     def get_lol_setting(cls, setting: str, *args):
-        while True:
-            try:
-                setting = cls.lol_settings[setting](*args)
-            except:
-                continue
+        setting = cls.lol_settings[setting](*args)
 
-            return setting
+        return setting
 
     @classmethod
     def get_hotkeys(cls, hotkey_type: str, *args: int):

@@ -8,11 +8,12 @@ import threading
 from .main_menu_base import Ui_MainWindow
 from .quest_display import get_quest_display
 from .game_overlay.game_overlay_window import get_game_overlay
+from .stop_window import get_stop_window
 from ..manager.main_manager import MainManager
 from ..manager.settings_manager import Settings
 from ..lol_data.get_lol_settings import GetLolSettings
 from ..lol_data.lol_window_data import LolWindowData
-from ..lol_data.live_client_data import LiveClientData
+from ..lol_data.get_live_client_data import GetLiveClientData
 from ..lol_data.game_data import GameData
 
 
@@ -44,6 +45,13 @@ class MainMenu(QMainWindow):
 
         self.ui.start_button.clicked.connect(self.start_command)
 
+        get_stop_window().closed.connect(self.close)
+        get_stop_window().stop.connect(self.stop)
+
+        get_quest_display().closed.connect(self.close)
+
+        get_game_overlay().closed.connect(self.close)
+
     def check_checkbox(self, checkbox, state):
         if state == 0:
             checkbox.setChecked(True)
@@ -53,6 +61,10 @@ class MainMenu(QMainWindow):
         self.main_loop_timer = QTimer(self)
         self.main_loop_timer.timeout.connect(self.main_loop)
         self.main_loop_timer.start(100)
+
+    def stop(self):
+        MainManager.stop()
+        self.show()
 
     # main
     def main_loop(self):
@@ -67,9 +79,47 @@ class MainMenu(QMainWindow):
             self.stop_command()
             Settings.update(self.ui)
             MainManager.start()
-            self.main_loop_timer.deleteLater()
-            # self.hide()
+            self.hide()
+            get_stop_window().show()
 
+    def start_command(self):
+        self.set_start_button("Waiting", (52, 54, 56), self.stop_command)
+        self.game_start = False
+
+        self.wait_for_game_start_timer = QTimer(self)
+        self.wait_for_game_start_timer.timeout.connect(self.wait_for_game_start)
+        self.wait_for_game_start_timer.start(100)
+
+    def wait_for_game_start(self):
+        if GameData.get_lol_is_running():
+            self.game_start = True
+
+    def stop_command(self):
+        with suppress(Exception):
+            self.wait_for_game_start_timer.deleteLater()
+        self.set_start_button("Start", (31, 106, 165), self.start_command)
+        self.game_start = False
+
+    # events
+    def closeEvent(self, event: QCloseEvent) -> None:
+        super().closeEvent(event)
+        get_game_overlay().close()
+        get_quest_display().close()
+        self.hide()
+
+        self.main_loop_timer.deleteLater()
+        with suppress(Exception):
+            self.wait_for_game_start_timer.deleteLater()
+
+        MainManager.stop()
+
+        LolWindowData.stop()
+        GetLiveClientData.stop()
+        GetLolSettings.stop()
+
+        QApplication.quit()
+
+    # utils
     def set_start_button(self, text: str, color: tuple, command=None):
         self.ui.start_button.setText(text)
         self.ui.start_button.setStyleSheet(
@@ -86,46 +136,6 @@ class MainMenu(QMainWindow):
             self.ui.start_button.clicked.disconnect()
         if command:
             self.ui.start_button.clicked.connect(command)
-
-    def start_command(self):
-        self.set_start_button("Waiting", (52, 54, 56), self.stop_command)
-        self.game_start = False
-
-        self.terminate_flag = False
-        self.wait_for_game_start_thread = threading.Thread(
-            target=self.wait_for_game_start
-        )
-        self.wait_for_game_start_thread.start()
-
-    def wait_for_game_start(self):
-        while not self.terminate_flag:
-            if LiveClientData.all_data and GameData.get_game_time() > 0:
-                self.game_start = True
-                break
-
-    def stop_command(self):
-        self.terminate_flag = True
-        self.wait_for_game_start_thread.join()
-        self.set_start_button("Start", (31, 106, 165), self.start_command)
-        self.game_start = False
-
-    # events
-    def closeEvent(self, event: QCloseEvent) -> None:
-        super().closeEvent(event)
-        get_game_overlay().close()
-        get_quest_display().close()
-        self.hide()
-
-        with suppress(Exception):
-            self.terminate_flag = True
-            self.wait_for_game_start_thread.join()
-
-        with suppress(Exception):
-            MainManager.stop()
-
-        GetLolSettings.stop()
-
-        QApplication.quit()
 
 
 def create_main_menu():

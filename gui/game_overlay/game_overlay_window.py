@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QWidget, QFrame
 from PySide6.QtCore import Qt
 
+from ..window_base import WindowBase
 from .map_cover import MapCover
 from .ability_cover import AbilityCover
 from .summoner_spell_cover import SummonerSpellCover
@@ -10,7 +10,7 @@ from .teleport_cover import TeleportCover
 from .. import app
 
 
-class GameOverlay(QWidget):
+class GameOverlay(WindowBase):
     def __init__(self):
         super().__init__()
         width, height = app.get_app().primaryScreen().size().toTuple()
