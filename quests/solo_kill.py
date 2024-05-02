@@ -2,7 +2,7 @@ from random import randint
 
 from .quest_base import QuestBase
 from ..lol_data.active_player_data import AcitvePlayerData
-from ..lol_data.all_player_data import AllPlayerDate
+from ..lol_data.all_player_data import AllPlayerData
 from ..lol_data.event_data import EventData
 from ..utils.attributes import KILL
 
@@ -32,7 +32,7 @@ class SoloKill(QuestBase):
     @classmethod
     def get_target(cls):
         enemy_team_num = AcitvePlayerData.get_team() - 1
-        enemy_team = AllPlayerDate.get_team_players()[enemy_team_num]
+        enemy_team = AllPlayerData.get_team_players()[enemy_team_num]
         if any(enemy_team):
             rand_target = randint(0, len(enemy_team) - 1)
             target = enemy_team[rand_target]
@@ -42,7 +42,7 @@ class SoloKill(QuestBase):
     
     @classmethod
     def get_kill_count(cls):
-        kill_events = EventData.get_kill_events()
+        kill_events = EventData.get_event("ChampionKill")
         kill_count = 0
 
         for event in kill_events:

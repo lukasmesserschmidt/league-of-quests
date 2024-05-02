@@ -53,6 +53,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName("MainWindow")
+            MainWindow.setWindowIcon(QIcon("lol_quest/graphics/loq_icon.ico"))
         MainWindow.resize(300, 350)
         MainWindow.setStyleSheet("background-color: rgb(36, 36, 36);")
         self.main_window_centralwidget = QWidget(MainWindow)

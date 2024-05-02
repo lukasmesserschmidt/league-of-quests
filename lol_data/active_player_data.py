@@ -1,11 +1,11 @@
 from .get_live_client_data import GetLiveClientData
 from .event_data import EventData
-from .all_player_data import AllPlayerDate
+from .all_player_data import AllPlayerData
 
 
 class AcitvePlayerData:
     @classmethod
-    def get_data(cls):
+    def get_data(cls) -> dict:
         return GetLiveClientData.all_data["activePlayer"]
 
     @classmethod
@@ -21,20 +21,12 @@ class AcitvePlayerData:
         return cls.get_data()["level"]
 
     @classmethod
-    def get_ability_level(cls):
-        abilities = cls.get_data()["abilities"]
-        ability_level = {
-            "q": abilities["Q"]["abilityLevel"],
-            "w": abilities["W"]["abilityLevel"],
-            "e": abilities["E"]["abilityLevel"],
-            "r": abilities["R"]["abilityLevel"],
-        }
-
-        return ability_level
+    def get_ability_level(cls, ability: str):
+        return cls.get_data()["abilities"][ability]["abilityLevel"]
 
     @classmethod
     def get_team(cls):
-        teams = AllPlayerDate.get_team_players()
+        teams = AllPlayerData.get_team_players()
         summoner_name = cls.get_summoner_name()
 
         for num, team in enumerate(teams):
@@ -44,11 +36,13 @@ class AcitvePlayerData:
 
     @classmethod
     def get_current_gold(cls):
+        return cls.get_data().get("currentGold")
         return cls.get_data()["currentGold"]
 
     @classmethod
     def get_health_data(cls):
         champion_stats = cls.get_champion_stats()
+
         health_data = {
             "max": champion_stats["maxHealth"],
             "value": champion_stats["currentHealth"],
@@ -69,7 +63,7 @@ class AcitvePlayerData:
 
     @classmethod
     def get_death_count(cls):
-        events = EventData.get_kill_events()
+        events = EventData.get_event("ChampionKill")
         death_count = 0
 
         for event in events:

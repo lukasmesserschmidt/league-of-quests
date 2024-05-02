@@ -2,8 +2,6 @@ from contextlib import suppress
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import QMainWindow, QApplication
 from PySide6.QtGui import QCloseEvent
-from PySide6.QtGui import QIcon
-import threading
 
 from .main_menu_base import Ui_MainWindow
 from .quest_display import get_quest_display
@@ -15,6 +13,7 @@ from ..lol_data.get_lol_settings import GetLolSettings
 from ..lol_data.lol_window_data import LolWindowData
 from ..lol_data.get_live_client_data import GetLiveClientData
 from ..lol_data.game_data import GameData
+from ..utils.is_game_active import is_game_active
 
 
 class MainMenu(QMainWindow):
@@ -24,8 +23,6 @@ class MainMenu(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-
-        self.setWindowIcon(QIcon("lol_quest/graphics/loq_icon.ico"))
 
         self.config_widgets()
 
@@ -46,7 +43,7 @@ class MainMenu(QMainWindow):
         self.ui.start_button.clicked.connect(self.start_command)
 
         get_stop_window().closed.connect(self.close)
-        get_stop_window().stop.connect(self.stop)
+        get_stop_window().stoped.connect(self.stop)
 
         get_quest_display().closed.connect(self.close)
 
@@ -80,7 +77,7 @@ class MainMenu(QMainWindow):
             Settings.update(self.ui)
             MainManager.start()
             self.hide()
-            get_stop_window().show()
+            get_stop_window().start()
 
     def start_command(self):
         self.set_start_button("Waiting", (52, 54, 56), self.stop_command)
@@ -91,7 +88,7 @@ class MainMenu(QMainWindow):
         self.wait_for_game_start_timer.start(100)
 
     def wait_for_game_start(self):
-        if GameData.get_lol_is_running():
+        if is_game_active():
             self.game_start = True
 
     def stop_command(self):

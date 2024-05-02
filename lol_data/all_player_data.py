@@ -1,7 +1,7 @@
 from .get_live_client_data import GetLiveClientData
 
 
-class AllPlayerDate:
+class AllPlayerData:
     @classmethod
     def get_data(cls):
         return GetLiveClientData.all_data["allPlayers"]

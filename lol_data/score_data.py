@@ -1,10 +1,10 @@
-from .all_player_data import AllPlayerDate
+from .all_player_data import AllPlayerData
 
 
 class ScoreData:
     @classmethod
     def get_data(cls, summoner_name: str):
-        return AllPlayerDate.get_player_data(summoner_name)["scores"]
+        return AllPlayerData.get_player_data(summoner_name)["scores"]
 
     @classmethod
     def get_cs(cls, summoner_name: str):

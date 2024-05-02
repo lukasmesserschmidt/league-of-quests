@@ -1,11 +1,11 @@
-from .all_player_data import AllPlayerDate
+from .all_player_data import AllPlayerData
 
 
 class ItemData:
 
     @classmethod
     def get_data(cls, summoner_name: str):
-        return AllPlayerDate.get_player_data(summoner_name)["items"]
+        return AllPlayerData.get_player_data(summoner_name)["items"]
 
     @classmethod
     def get_has_item(cls, summoner_name: str, item_id: int):

@@ -1,4 +1,4 @@
-from random import randint
+from random import choice
 import keyboard
 
 from .restriction_base import RestrictionBase
@@ -12,31 +12,24 @@ class AutoLevel(RestrictionBase):
     difficulty = 1
 
     @classmethod
-    def init(cls):
-        cls.last_level = AcitvePlayerData.get_level()
-
-    @classmethod
     def restriction_content(cls):
         current_level = AcitvePlayerData.get_level()
-
-        # if cls.last_level < current_level:
         total_level = cls.get_total_ability_level()
-        while total_level < current_level:
-            if LolWindowData.lol_is_top:
-                total_level = cls.get_total_ability_level()
-                rand_hotkey = randint(0, 3)
-                hotkey = LolSettings.get_level_ability_hotkey(rand_hotkey)
-                keyboard.press_and_release(hotkey)
-                keyboard.unhook_all()
+        hotkey_nums = [0, 1, 2, 3]
 
-        cls.last_level = current_level
+        while total_level < current_level and LolWindowData.lol_is_top and hotkey_nums:
+            total_level = cls.get_total_ability_level()
+            rand_hotkey_num = choice(hotkey_nums)
+            hotkey_nums.remove(rand_hotkey_num)
+
+            hotkey = LolSettings.get_level_ability_hotkey(rand_hotkey_num)
+            keyboard.press_and_release(hotkey)
+            keyboard.unhook_all()
 
     @classmethod
     def get_total_ability_level(cls):
-        ability_level = AcitvePlayerData.get_ability_level()
         total_level = 0
-
-        for level in ability_level.values():
-            total_level += level
+        for ability in ("Q", "W", "E", "R"):
+            total_level += AcitvePlayerData.get_ability_level(ability)
 
         return total_level

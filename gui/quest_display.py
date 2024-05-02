@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QCursor
-import keyboard
+from pynput import mouse
 
 from .window_base import WindowBase
 from .quest_display_base import Ui_QuestDisplay
@@ -23,6 +23,13 @@ class QuestDisplay(WindowBase):
         self.ui = Ui_QuestDisplay()
         self.ui.setupUi(self)
 
+        self.start_x_diff = 0
+        self.start_y_diff = 0
+        self.dragg = False
+
+        self.mouse_listener = mouse.Listener(on_click=self.on_click)
+        self.mouse_listener.start()
+
         self.move_timer = QTimer(self)
         self.move_timer.timeout.connect(self.move_to_mouse)
         self.move_timer.start(10)
@@ -38,10 +45,29 @@ class QuestDisplay(WindowBase):
 
         self.setGeometry(x, y, 250, 300)
 
+    def on_click(self, x, y, button, pressed):
+        mouse_x, mouse_y = QCursor.pos().toTuple()
+        left_x, top_y = self.geometry().topLeft().toTuple()
+        right_x, bottom_y = self.geometry().bottomRight().toTuple()
+        if (
+            pressed
+            and button == mouse.Button.left
+            and left_x < mouse_x < right_x
+            and top_y < mouse_y < bottom_y
+        ):
+
+            self.start_x_diff = mouse_x - left_x
+            self.start_y_diff = mouse_y - top_y
+
+            self.dragg = True
+        else:
+            self.dragg = False
+
     def move_to_mouse(self):
-        if keyboard.is_pressed("shift"):
-            x = QCursor.pos().toTuple()[0] - self.width() / 2
-            y = QCursor.pos().toTuple()[1]
+        if self.dragg:
+            mouse_x, mouse_y = QCursor.pos().toTuple()
+            x = mouse_x - self.start_x_diff
+            y = mouse_y - self.start_y_diff
             self.move(x, y)
 
     def get_timer_text(self):

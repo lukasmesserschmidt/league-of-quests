@@ -10,13 +10,3 @@ class GameData:
     @classmethod
     def get_game_time(cls):
         return cls.get_data()["gameTime"]
-
-    @classmethod
-    def get_lol_is_running(cls):
-        if GetLiveClientData.all_data:
-            _, end = EventData.get_start_end_event().values()
-
-            if not end:
-                return True
-
-        return False

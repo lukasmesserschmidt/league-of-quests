@@ -6,7 +6,7 @@ import time
 
 
 class GetLiveClientData:
-    all_data = None
+    all_data = {}
     url = "https://127.0.0.1:2999/liveclientdata/allgamedata"
 
     @classmethod
