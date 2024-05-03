@@ -13,6 +13,7 @@ class QuestBase:
     remaining_time = 0
 
     terminate_flag: bool
+    interval = 0.2
     update_title = False
     finish_color_enabled = False
 
@@ -61,7 +62,7 @@ class QuestBase:
             cls.quest_content_container()
 
             if not cls.terminate_flag:
-                time.sleep(0.2)
+                time.sleep(cls.interval)
 
     @classmethod
     def quest_content_container(cls):

@@ -40,6 +40,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from ..manager.settings_manager import Settings
+
 
 class Ui_QuestDisplay(object):
     def setupUi(self, QuestDisplay):
@@ -123,7 +125,9 @@ class Ui_QuestDisplay(object):
             QCoreApplication.translate("QuestDisplay", "Quests:", None)
         )
         self.quest_count_label.setText(
-            QCoreApplication.translate("QuestDisplay", "0/5", None)
+            QCoreApplication.translate(
+                "QuestDisplay", f"0/{Settings.get_quest_limit()}", None
+            )
         )
         self.next_quest_time_label.setText(
             QCoreApplication.translate("QuestDisplay", "00:00", None)

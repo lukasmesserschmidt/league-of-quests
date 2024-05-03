@@ -3,6 +3,7 @@ import keyboard
 
 from .restriction_base import RestrictionBase
 from ..lol_data.active_player_data import AcitvePlayerData
+from ..manager.hotkey_manager import HotkeyManager
 from ..lol_data.lol_settings import LolSettings
 from ..lol_data.lol_window_data import LolWindowData
 
@@ -15,16 +16,15 @@ class AutoLevel(RestrictionBase):
     def restriction_content(cls):
         current_level = AcitvePlayerData.get_level()
         total_level = cls.get_total_ability_level()
-        hotkey_nums = [0, 1, 2, 3]
+        ability_nums = [0, 1, 2, 3]
 
-        while total_level < current_level and LolWindowData.lol_is_top and hotkey_nums:
+        while total_level < current_level and LolWindowData.lol_is_top and ability_nums:
             total_level = cls.get_total_ability_level()
-            rand_hotkey_num = choice(hotkey_nums)
-            hotkey_nums.remove(rand_hotkey_num)
+            rand_ability = choice(ability_nums)
+            ability_nums.remove(rand_ability)
 
-            hotkey = LolSettings.get_level_ability_hotkey(rand_hotkey_num)
-            keyboard.press_and_release(hotkey)
-            keyboard.unhook_all()
+            hotkey_type = {"level_ability": [rand_ability]}
+            HotkeyManager().set_hotkeys("press_release", hotkey_type)
 
     @classmethod
     def get_total_ability_level(cls):

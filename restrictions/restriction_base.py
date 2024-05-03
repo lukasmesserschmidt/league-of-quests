@@ -8,6 +8,7 @@ class RestrictionBase:
     attributes = []
 
     terminate_flag: bool
+    interval = 0.2
 
     # control
     @classmethod
@@ -38,7 +39,7 @@ class RestrictionBase:
         while not cls.terminate_flag:
             cls.restriction_content()
 
-            time.sleep(0.2)
+            time.sleep(cls.interval)
 
         cls.on_end()
 

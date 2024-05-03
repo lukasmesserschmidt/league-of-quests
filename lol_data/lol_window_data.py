@@ -15,7 +15,7 @@ class LolWindowData:
 
         cls.check_lol_is_top_timer = QTimer()
         cls.check_lol_is_top_timer.timeout.connect(cls.check_lol_is_top)
-        cls.check_lol_is_top_timer.start(100)
+        cls.check_lol_is_top_timer.start(10)
 
     @classmethod
     def stop(cls):

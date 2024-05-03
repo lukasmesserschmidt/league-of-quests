@@ -1,0 +1,19 @@
+from random import randint
+
+from .disable_hotkey_base import DisableHotkeyBase
+from ..utils.attributes import ABILITY
+
+
+class DisableAbility(DisableHotkeyBase):
+    title = "Ability 1 is disabled!"
+    difficulty = 0
+    disable_types = {"ability": [0]}
+    attributes = [ABILITY]
+
+    @classmethod
+    def init(cls):
+        super().init()
+        rand_ability = randint(0, 2)
+        cls.disable_types = {"ability": [rand_ability]}
+
+        cls.title = f"Ability {rand_ability + 1} is disabled!"

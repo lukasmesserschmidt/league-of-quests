@@ -2,28 +2,14 @@ import time
 
 from .disable_hotkey_base import DisableHotkeyBase
 from ..lol_data.active_player_data import AcitvePlayerData
-from ..utils.attributes import (
-    ABILITY0,
-    ABILITY1,
-    ABILITY2,
-    ABILITY3,
-    SUMMONER_SPELL0,
-    SUMMONER_SPELL1,
-)
+from ..utils.attributes import ABILITY, SUMMONER_SPELL
 
 
 class DisableOnDmgTaken(DisableHotkeyBase):
     title = "Disable all on dmg taken!"
     difficulty = 2
-    disable_hotkeys = {"ability": [0, 1, 2, 3], "summoner_spell": [0, 1]}
-    attributes = [
-        ABILITY0,
-        ABILITY1,
-        ABILITY2,
-        ABILITY3,
-        SUMMONER_SPELL0,
-        SUMMONER_SPELL1,
-    ]
+    disable_types = {"ability": [0, 1, 2, 3], "summoner_spell": [0, 1]}
+    attributes = [ABILITY, SUMMONER_SPELL]
 
     @classmethod
     def init(cls):

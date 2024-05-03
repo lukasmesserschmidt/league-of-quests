@@ -30,7 +30,7 @@ class DontSpendResources(QuestBase):
         current_resource_diff = resource_data["max"] - resource_data["value"]
 
         percent = resource_data["value"] / resource_data["max"]
-        get_game_overlay().enable_cover(True, "resource", (1, percent))
+        get_game_overlay().enable_cover(True, cls.get_overlay_type(percent))
 
         if cls.last_resource_diff < current_resource_diff:
             cls.last_resource_diff = current_resource_diff
@@ -41,4 +41,8 @@ class DontSpendResources(QuestBase):
     
     @classmethod
     def on_end(cls):
-        get_game_overlay().enable_cover(False, "resource", 1)
+        get_game_overlay().enable_cover(False, cls.get_overlay_type(1))
+
+    @classmethod
+    def get_overlay_type(cls, percent: float):
+        return {"resource": [(1, percent)]}

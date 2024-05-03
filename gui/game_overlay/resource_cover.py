@@ -9,3 +9,7 @@ class ResourceCover(MultiCoverBase):
     def show(self, *args: tuple[int, float]):
         for i in args:
             self.abilities[i[0]].show(i[1])
+
+    def hide(self, *args: tuple[int, float]):
+        for i in args:
+            self.abilities[i[0]].hide(i[1])

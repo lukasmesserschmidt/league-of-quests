@@ -5,7 +5,7 @@ from ..lol_data.lol_window_data import LolWindowData
 
 
 class AutoMove(RestrictionBase):
-    title = "auto move click (AUTO-CLICKER!!!)!"
+    title = "Auto move click!"
     difficulty = 1
 
     @classmethod

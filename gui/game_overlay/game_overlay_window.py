@@ -33,12 +33,14 @@ class GameOverlay(WindowBase):
             "resource": ResourceCover(self),
         }
 
-    def enable_cover(self, enable: bool, overlay_type: str, *args: int):
-        cover = self.overlay_covers[overlay_type]
-        if enable:
-            cover.show(*args)
-        else:
-            cover.hide(*args)
+    # def enable_cover(self, enable: bool, overlay_type: str, *args: int):
+    def enable_cover(self, enable: bool, overlay_types: dict):
+        for overlay_type, args in overlay_types.items():
+            cover = self.overlay_covers[overlay_type]
+            if enable:
+                cover.show(*args)
+            else:
+                cover.hide(*args)
 
 
 def create_game_overlay():

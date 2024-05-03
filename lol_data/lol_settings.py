@@ -29,10 +29,22 @@ class LolSettings:
             .get("settings")[8 + num]
             .get("value")
         ),
+        "quick_ability": lambda num: convert_hotkey(
+            GetLolSettings.all_lol_settings.get("files")[1]
+            .get("sections")[0]
+            .get("settings")[112 + num]
+            .get("value")
+        ),
         "summoner_spell": lambda num: convert_hotkey(
             GetLolSettings.all_lol_settings.get("files")[1]
             .get("sections")[0]
             .get("settings")[6 + num]
+            .get("value")
+        ),
+        "quick_summoner_spell": lambda num: convert_hotkey(
+            GetLolSettings.all_lol_settings.get("files")[1]
+            .get("sections")[0]
+            .get("settings")[104 + num]
             .get("value")
         ),
         "trinket": lambda num: convert_hotkey(
@@ -53,6 +65,12 @@ class LolSettings:
             .get("settings")[22 + num]
             .get("value")
         ),
+        "snap_cam": lambda num: convert_hotkey(
+            GetLolSettings.all_lol_settings.get("files")[1]
+            .get("sections")[0]
+            .get("settings")[5]
+            .get("value")
+        ),
     }
 
     @classmethod
@@ -62,11 +80,13 @@ class LolSettings:
         return setting
 
     @classmethod
-    def get_hotkeys(cls, hotkey_type: str, *args: int):
+    # def get_hotkeys(cls, hotkey_type: str, *args: int):
+    def get_hotkeys(cls, all_hotkeys: dict):
         hotkeys = []
-        for arg in args:
-            hotkey = cls.get_lol_setting(hotkey_type, arg)
-            hotkeys.append(hotkey)
+        for hotkey_type, args in all_hotkeys.items():
+            for arg in args:
+                hotkey = cls.get_lol_setting(hotkey_type, arg)
+                hotkeys.append(hotkey)
 
         return hotkeys
 
