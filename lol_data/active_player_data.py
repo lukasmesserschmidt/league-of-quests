@@ -3,7 +3,7 @@ from .event_data import EventData
 from .all_player_data import AllPlayerData
 
 
-class AcitvePlayerData:
+class ActivePlayerData:
     @classmethod
     def get_data(cls) -> dict:
         return GetLiveClientData.all_data["activePlayer"]
@@ -11,6 +11,11 @@ class AcitvePlayerData:
     @classmethod
     def get_summoner_name(cls):
         return cls.get_data()["summonerName"].split("#")[0]
+
+    @classmethod
+    def get_champion_name(cls):
+        summoner_name = cls.get_summoner_name()
+        return AllPlayerData.get_player_data(summoner_name)["championName"]
 
     @classmethod
     def get_champion_stats(cls):
@@ -25,7 +30,7 @@ class AcitvePlayerData:
         return cls.get_data()["abilities"][ability]["abilityLevel"]
 
     @classmethod
-    def get_team(cls):
+    def get_team_num(cls):
         teams = AllPlayerData.get_team_players()
         summoner_name = cls.get_summoner_name()
 
@@ -33,6 +38,27 @@ class AcitvePlayerData:
             for player in team:
                 if player["summonerName"] == summoner_name:
                     return num
+
+    @classmethod
+    def get_teammates(cls):
+        summoner_name = cls.get_summoner_name()
+        ally_team_num = cls.get_team_num()
+        teammates: list
+        teammates = AllPlayerData.get_team_players()[ally_team_num]
+        for player in teammates:
+            if player["summonerName"] == summoner_name:
+                teammates.remove(player)
+                break
+
+        return teammates
+
+    @classmethod
+    def get_enemy_team(cls):
+        ally_team_num = cls.get_team_num()
+        all_teams = AllPlayerData.get_team_players()
+        enemy_team = all_teams[ally_team_num - 1]
+
+        return enemy_team
 
     @classmethod
     def get_current_gold(cls):

@@ -6,6 +6,7 @@ from .window_base import WindowBase
 from .quest_display_base import Ui_QuestDisplay
 from . import app
 from ..manager.settings_manager import Settings
+from ..lol_data.lol_window_data import LolWindowData
 from ..utils.game_overlay_scaling import get_map_size
 
 
@@ -30,9 +31,9 @@ class QuestDisplay(WindowBase):
         self.mouse_listener = mouse.Listener(on_click=self.on_click)
         self.mouse_listener.start()
 
-        self.move_timer = QTimer(self)
-        self.move_timer.timeout.connect(self.move_to_mouse)
-        self.move_timer.start(10)
+        self.main_loop_timer = QTimer(self)
+        self.main_loop_timer.timeout.connect(self.main_loop)
+        self.main_loop_timer.start(10)
 
         self.show()
 
@@ -44,6 +45,14 @@ class QuestDisplay(WindowBase):
         y -= 300
 
         self.setGeometry(x, y, 250, 300)
+
+    def main_loop(self):
+        self.move_to_mouse()
+
+        if LolWindowData.lol_is_top:
+            self.show()
+        else:
+            self.hide()
 
     def on_click(self, x, y, button, pressed):
         mouse_x, mouse_y = QCursor.pos().toTuple()

@@ -16,3 +16,7 @@ class ScoreData:
         kda = {"k": scores["kills"], "d": scores["deaths"], "a": scores["assists"]}
 
         return kda
+
+    @classmethod
+    def get_ward_score(cls, summoner_name: str):
+        return cls.get_data(summoner_name)["wardScore"]

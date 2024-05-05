@@ -1,5 +1,5 @@
 from .quest_completion_base import QuestCompletionBase
-from ..lol_data.active_player_data import AcitvePlayerData
+from ..lol_data.active_player_data import ActivePlayerData
 from ..lol_data.score_data import ScoreData
 from ..lol_data.item_data import ItemData
 from ..utils.attributes import BUY
@@ -12,7 +12,7 @@ class BuyDarkSeal(QuestCompletionBase):
 
     @classmethod
     def check_dependencies(cls):
-        summoner_name = AcitvePlayerData.get_summoner_name()
+        summoner_name = ActivePlayerData.get_summoner_name()
         if ItemData.get_has_item(summoner_name, 1082) == None:
             kda_data = ScoreData.get_k_d_a(summoner_name)
             kda = (kda_data["k"] + kda_data["a"]) / (kda_data["d"] or 1)
@@ -23,7 +23,7 @@ class BuyDarkSeal(QuestCompletionBase):
     @classmethod
     def init(cls):
         super().init()
-        cls.summoner_name = AcitvePlayerData.get_summoner_name()
+        cls.summoner_name = ActivePlayerData.get_summoner_name()
 
     @classmethod
     def quest_content(cls):

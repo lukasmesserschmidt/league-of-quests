@@ -6,7 +6,7 @@ from ..manager.hotkey_manager import HotkeyManager
 
 class AutoSummonerSpell(RestrictionBase):
     title = "Auto cast random summoner spell!"
-    difficulty = 2
+    difficulty = 1
 
     @classmethod
     def restriction_content(cls):

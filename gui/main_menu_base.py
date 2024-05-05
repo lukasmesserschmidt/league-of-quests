@@ -502,7 +502,6 @@ class Ui_MainWindow(object):
         self.start_button.setText(
             QCoreApplication.translate("MainWindow", "Start", None)
         )
-        self.info_label.setText(QCoreApplication.translate("MainWindow", "Set window mode to borderless!", None))
         self.info_label.hide()
 
 

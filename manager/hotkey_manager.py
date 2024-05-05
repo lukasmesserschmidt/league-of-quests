@@ -13,6 +13,7 @@ class HotkeyManager:
         self.set_types = {
             "enable": {"reset": True, "last": [], "func": self.enable_keys},
             "press": {"reset": False, "last": [], "func": self.press_hotkeys},
+            "remap": {"reset": True, "last": [], "func": self.remap},
             "press_release": {"func": self.press_and_release},
         }
 
@@ -55,3 +56,10 @@ class HotkeyManager:
     def press_and_release(self, *args):
         for arg in args:
             keyboard.press_and_release(arg)
+
+    def remap(self, enable: bool, *args):
+        for arg in args:
+            with suppress(Exception):
+                keyboard.unhook_key(arg[0])
+            if enable:
+                keyboard.remap_key(arg[0], arg[1])

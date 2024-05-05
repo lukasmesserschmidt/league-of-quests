@@ -80,12 +80,16 @@ class LolSettings:
         return setting
 
     @classmethod
-    # def get_hotkeys(cls, hotkey_type: str, *args: int):
-    def get_hotkeys(cls, all_hotkeys: dict):
+    def get_hotkeys(cls, hotkey_types: dict):
         hotkeys = []
-        for hotkey_type, args in all_hotkeys.items():
+        for hotkey_type, args in hotkey_types.items():
             for arg in args:
-                hotkey = cls.get_lol_setting(hotkey_type, arg)
+                if type(arg) != tuple:
+                    hotkey = cls.get_lol_setting(hotkey_type, arg)
+                else:
+                    hotkey = tuple(
+                        [cls.get_lol_setting(hotkey_type, key) for key in arg]
+                    )
                 hotkeys.append(hotkey)
 
         return hotkeys

@@ -12,6 +12,7 @@ from ..manager.settings_manager import Settings
 from ..lol_data.get_lol_settings import GetLolSettings
 from ..lol_data.lol_window_data import LolWindowData
 from ..lol_data.get_live_client_data import GetLiveClientData
+from ..lol_data.active_player_data import ActivePlayerData
 from ..lol_data.game_data import GameData
 from ..utils.is_game_active import is_game_active
 
@@ -62,22 +63,30 @@ class MainMenu(QMainWindow):
     def stop(self):
         MainManager.stop()
         self.show()
+        self.start()
 
     # main
     def main_loop(self):
         if LolWindowData.get_window_mode() != 2:
             self.set_start_button("N/A", (52, 54, 56))
+            self.ui.info_label.setText("Set window mode to borderless!")
             self.ui.info_label.show()
         elif self.ui.start_button.text() == "N/A":
             self.set_start_button("Start", (31, 106, 165), self.start_command)
-            self.ui.info_label.hide()
 
         if self.game_start:
-            self.stop_command()
-            Settings.update(self.ui)
-            MainManager.start()
-            self.hide()
-            get_stop_window().start()
+            if ActivePlayerData.get_champion_name() != "Aphelios":
+                self.hide()
+                self.stop_command()
+                self.main_loop_timer.deleteLater()
+                Settings.update(self.ui)
+                MainManager.start()
+                get_stop_window().start()
+            else:
+                self.stop_command()
+                self.set_start_button("Start", (31, 106, 165), self.start_command)
+                self.ui.info_label.setText("Not playable with Aphelios!")
+                self.ui.info_label.show()
 
     def start_command(self):
         self.set_start_button("Waiting", (52, 54, 56), self.stop_command)
@@ -92,8 +101,7 @@ class MainMenu(QMainWindow):
             self.game_start = True
 
     def stop_command(self):
-        with suppress(Exception):
-            self.wait_for_game_start_timer.deleteLater()
+        self.wait_for_game_start_timer.deleteLater()
         self.set_start_button("Start", (31, 106, 165), self.start_command)
         self.game_start = False
 
@@ -104,7 +112,8 @@ class MainMenu(QMainWindow):
         get_quest_display().close()
         self.hide()
 
-        self.main_loop_timer.deleteLater()
+        with suppress(Exception):
+            self.main_loop_timer.deleteLater()
         with suppress(Exception):
             self.wait_for_game_start_timer.deleteLater()
 
@@ -133,6 +142,8 @@ class MainMenu(QMainWindow):
             self.ui.start_button.clicked.disconnect()
         if command:
             self.ui.start_button.clicked.connect(command)
+
+        self.ui.info_label.hide()
 
 
 def create_main_menu():

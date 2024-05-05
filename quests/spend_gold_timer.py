@@ -1,5 +1,5 @@
 from .quest_base import QuestBase
-from ..lol_data.active_player_data import AcitvePlayerData
+from ..lol_data.active_player_data import ActivePlayerData
 from ..utils.attributes import GOLD
 
 
@@ -12,7 +12,7 @@ class SpendGoldTimer(QuestBase):
     def init(cls):
         cls.duration = cls.get_duration(1 / 12)
         cls.gold_spend = False
-        cls.last_gold = AcitvePlayerData.get_current_gold()
+        cls.last_gold = ActivePlayerData.get_current_gold()
 
     @classmethod
     def quest_loop_container(cls):
@@ -26,7 +26,7 @@ class SpendGoldTimer(QuestBase):
 
     @classmethod
     def quest_content(cls):
-        current_gold = AcitvePlayerData.get_current_gold()
+        current_gold = ActivePlayerData.get_current_gold()
 
         if current_gold < cls.last_gold:
             cls.gold_spend = True

@@ -10,7 +10,7 @@ class AutoAbility(RestrictionBase):
 
     @classmethod
     def restriction_content(cls):
-        if randint(1, 10) == 1:
+        if randint(1, 50) == 1:
             rand_ability = randint(0, 3)
             hotkey_type = {"quick_ability": [rand_ability]}
             HotkeyManager().set_hotkeys("press_release", hotkey_type)

@@ -1,21 +1,18 @@
 from .quest_completion_base import QuestCompletionBase
-
 from ..lol_data.active_player_data import ActivePlayerData
 from ..utils.attributes import GOLD
 
 
-class HaveLowGold(QuestCompletionBase):
-    title = "Have less than 100 gold!"
-    difficulty = 0
+class HaveXGold(QuestCompletionBase):
+    title = "Have 4000 gold!"
+    difficulty = 2
     attributes = [GOLD]
 
     @classmethod
     def check_dependencies(cls):
-        current_gold = ActivePlayerData.get_current_gold()
-        if current_gold >= 150:
+        if ActivePlayerData.get_current_gold() < 2000:
             return True
 
     @classmethod
     def quest_content(cls):
-        current_gold = ActivePlayerData.get_current_gold()
-        cls.set_complete(current_gold < 100)
+        cls.set_complete(ActivePlayerData.get_current_gold() >= 4000)

@@ -1,7 +1,7 @@
 import time
 
 from .disable_hotkey_base import DisableHotkeyBase
-from ..lol_data.active_player_data import AcitvePlayerData
+from ..lol_data.active_player_data import ActivePlayerData
 from ..utils.attributes import ABILITY, SUMMONER_SPELL
 
 
@@ -29,7 +29,7 @@ class DisableOnDmgTaken(DisableHotkeyBase):
 
     @classmethod
     def get_health_diff(cls):
-        health_data = AcitvePlayerData.get_health_data()
+        health_data = ActivePlayerData.get_health_data()
         health_diff = health_data["max"] - health_data["value"]
 
         return health_diff

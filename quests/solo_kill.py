@@ -1,7 +1,7 @@
 from random import randint
 
 from .quest_base import QuestBase
-from ..lol_data.active_player_data import AcitvePlayerData
+from ..lol_data.active_player_data import ActivePlayerData
 from ..lol_data.all_player_data import AllPlayerData
 from ..lol_data.event_data import EventData
 from ..utils.attributes import KILL
@@ -14,14 +14,14 @@ class SoloKill(QuestBase):
 
     @classmethod
     def check_dependencies(cls):
-        return cls.get_target()
+        return any(ActivePlayerData.get_enemy_team())
 
     @classmethod
     def init(cls):
         super().init()
         cls.target = cls.get_target()
         cls.title = f"Solo kill {cls.target["championName"]} ({cls.target["summonerName"]})!"
-        cls.summoner_name = AcitvePlayerData.get_summoner_name()
+        cls.summoner_name = ActivePlayerData.get_summoner_name()
         cls.last_kill_count = cls.get_kill_count()
 
     @classmethod
@@ -31,8 +31,7 @@ class SoloKill(QuestBase):
         
     @classmethod
     def get_target(cls):
-        enemy_team_num = AcitvePlayerData.get_team() - 1
-        enemy_team = AllPlayerData.get_team_players()[enemy_team_num]
+        enemy_team = ActivePlayerData.get_enemy_team()
         if any(enemy_team):
             rand_target = randint(0, len(enemy_team) - 1)
             target = enemy_team[rand_target]

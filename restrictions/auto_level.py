@@ -2,7 +2,7 @@ from random import choice
 import keyboard
 
 from .restriction_base import RestrictionBase
-from ..lol_data.active_player_data import AcitvePlayerData
+from ..lol_data.active_player_data import ActivePlayerData
 from ..manager.hotkey_manager import HotkeyManager
 from ..lol_data.lol_settings import LolSettings
 from ..lol_data.lol_window_data import LolWindowData
@@ -14,7 +14,7 @@ class AutoLevel(RestrictionBase):
 
     @classmethod
     def restriction_content(cls):
-        current_level = AcitvePlayerData.get_level()
+        current_level = ActivePlayerData.get_level()
         total_level = cls.get_total_ability_level()
         ability_nums = [0, 1, 2, 3]
 
@@ -30,6 +30,6 @@ class AutoLevel(RestrictionBase):
     def get_total_ability_level(cls):
         total_level = 0
         for ability in ("Q", "W", "E", "R"):
-            total_level += AcitvePlayerData.get_ability_level(ability)
+            total_level += ActivePlayerData.get_ability_level(ability)
 
         return total_level
