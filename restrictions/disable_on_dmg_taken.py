@@ -29,7 +29,8 @@ class DisableOnDmgTaken(DisableHotkeyBase):
 
     @classmethod
     def get_health_diff(cls):
-        health_data = ActivePlayerData.get_health_data()
-        health_diff = health_data["max"] - health_data["value"]
+        max_health = ActivePlayerData.get_champion_stat("maxHealth")
+        current_health = ActivePlayerData.get_champion_stat("currentHealth")
+        health_diff = max_health - current_health
 
         return health_diff

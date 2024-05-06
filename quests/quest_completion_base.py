@@ -10,6 +10,11 @@ class QuestCompletionBase(QuestBase):
     _set_end_time = False
 
     @classmethod
+    def init(cls):
+        super().init()
+        cls.remaining_quest_time = cls.duration
+
+    @classmethod
     def quest_content_container(cls):
         cls.quest_content()
 

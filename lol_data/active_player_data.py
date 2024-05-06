@@ -18,8 +18,8 @@ class ActivePlayerData:
         return AllPlayerData.get_player_data(summoner_name)["championName"]
 
     @classmethod
-    def get_champion_stats(cls):
-        return cls.get_data()["championStats"]
+    def get_champion_stat(cls, name: str):
+        return cls.get_data()["championStats"][name]
 
     @classmethod
     def get_level(cls):
@@ -62,30 +62,7 @@ class ActivePlayerData:
 
     @classmethod
     def get_current_gold(cls):
-        return cls.get_data().get("currentGold")
         return cls.get_data()["currentGold"]
-
-    @classmethod
-    def get_health_data(cls):
-        champion_stats = cls.get_champion_stats()
-
-        health_data = {
-            "max": champion_stats["maxHealth"],
-            "value": champion_stats["currentHealth"],
-        }
-
-        return health_data
-
-    @classmethod
-    def get_resource_data(cls):
-        champion_stats = cls.get_champion_stats()
-        resource_data = {
-            "type": champion_stats["resourceType"],
-            "max": champion_stats["resourceMax"],
-            "value": champion_stats["resourceValue"],
-        }
-
-        return resource_data
 
     @classmethod
     def get_death_count(cls):

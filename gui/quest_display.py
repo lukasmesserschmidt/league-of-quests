@@ -26,6 +26,7 @@ class QuestDisplay(WindowBase):
 
         self.start_x_diff = 0
         self.start_y_diff = 0
+        self.last_width = self.geometry().width()
         self.dragg = False
 
         self.mouse_listener = mouse.Listener(on_click=self.on_click)
@@ -48,6 +49,7 @@ class QuestDisplay(WindowBase):
 
     def main_loop(self):
         self.move_to_mouse()
+        self.stretch_to_left()
 
         if LolWindowData.lol_is_top:
             self.show()
@@ -78,6 +80,16 @@ class QuestDisplay(WindowBase):
             x = mouse_x - self.start_x_diff
             y = mouse_y - self.start_y_diff
             self.move(x, y)
+
+    def stretch_to_left(self):
+        current_width = self.geometry().width()
+        if current_width != self.last_width:
+            width_diff = current_width - self.last_width
+            x = self.geometry().left() - width_diff
+            y = self.geometry().top()
+
+            self.move(x, y)
+            self.last_width = current_width
 
     def get_timer_text(self):
         return self.ui.next_quest_time_label.text()

@@ -32,8 +32,11 @@ class GetLolSettings:
     @classmethod
     def import_game_cfg(cls):
         game_cfg_path = get_game_cfg_path()
-        cls.game_cfg = configparser.ConfigParser()
-        cls.game_cfg.read(game_cfg_path)
+        game_cfg = configparser.ConfigParser()
+        game_cfg.read(game_cfg_path)
+        with suppress(Exception):
+            _ = game_cfg.get("General", "Width")
+            cls.game_cfg = game_cfg
 
     @classmethod
     def start(cls):
