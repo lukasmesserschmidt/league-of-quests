@@ -2,6 +2,7 @@ from random import randint, choice
 
 from .quest_completion_base import QuestCompletionBase
 from ..lol_data.active_player_data import ActivePlayerData
+from ..lol_data.item_data import ItemData
 from ..utils.attributes import BUY
 
 
@@ -11,6 +12,10 @@ class GetXStat(QuestCompletionBase):
     attributes = [BUY]
 
     update_title = True
+
+    @classmethod
+    def check_dependencies(cls):
+        return len(ItemData.get_data(ActivePlayerData.get_summoner_name())) < 7
 
     @classmethod
     def init(cls):

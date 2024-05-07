@@ -10,6 +10,8 @@ from .get_one_kill import GetOneKill
 from .solo_kill import SoloKill
 from .steal_kill import StealKill
 from .help_get_kill import HelpGetKill
+from .assist_objective import AssistObjective
+from .kill_objective import KillOjective
 from .buy_dark_seal import BuyDarkSeal
 
 
@@ -25,9 +27,11 @@ all_quests = [
     DontSpendResources,
     GetOneKill,
     HelpGetKill,
+    AssistObjective,
     # hard
     HaveXGold,
     SoloKill,
     StealKill,
+    KillOjective,
     BuyDarkSeal,
 ]

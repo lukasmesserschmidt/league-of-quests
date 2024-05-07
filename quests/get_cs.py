@@ -14,11 +14,12 @@ class GetCs(QuestBase):
         super().init()
         cls.summoner_name = ActivePlayerData.get_summoner_name()
         cls.goal_cs = ScoreData.get_cs(cls.summoner_name) + 20
+
         cls.title = f"Have {cls.goal_cs} cs!"
 
     @classmethod
     def quest_content(cls):
-        cs = ScoreData.get_cs(cls.summoner_name)
+        current_cs = ScoreData.get_cs(cls.summoner_name)
 
-        if cs >= cls.goal_cs:
+        if current_cs >= cls.goal_cs:
             cls.terminate_flag = True
