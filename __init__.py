@@ -1,3 +1,7 @@
+from . import install_packages
+
+install_packages.install_packages()
+
 from .gui import app
 from .manager.settings_manager import Settings
 

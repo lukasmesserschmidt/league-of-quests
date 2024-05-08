@@ -1,4 +1,3 @@
-from contextlib import suppress
 from ..lol_data.event_data import EventData
 
 
