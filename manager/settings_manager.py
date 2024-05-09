@@ -1,3 +1,4 @@
+import os
 import json
 
 
@@ -6,7 +7,11 @@ class Settings:
 
     @classmethod
     def import_settings(cls):
-        with open("lol_quest/settings.json", "r") as f:
+        settings_file = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "settings.json"
+        )
+
+        with open(settings_file, "r") as f:
             data = json.load(f)
         cls.all_settings = data
 

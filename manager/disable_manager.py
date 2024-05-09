@@ -12,9 +12,5 @@ class DisableManager:
         self.hotkey_manager = HotkeyManager()
 
     def enable_type(self, enable: bool, disable_types: dict[str : list[int]]):
-        if LolWindowData.lol_is_top:
-            self.hotkey_manager.set_hotkeys("enable", disable_types, enable)
-            get_game_overlay().enable_cover(not enable, disable_types)
-        else:
-            keyboard.unhook_all()
-            get_game_overlay().enable_cover(False, disable_types)
+        self.hotkey_manager.set_hotkeys("enable", disable_types, enable)
+        get_game_overlay().enable_cover(not enable, disable_types)

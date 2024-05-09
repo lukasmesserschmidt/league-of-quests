@@ -13,7 +13,6 @@ from ..lol_data.get_lol_settings import GetLolSettings
 from ..lol_data.lol_window_data import LolWindowData
 from ..lol_data.get_live_client_data import GetLiveClientData
 from ..lol_data.active_player_data import ActivePlayerData
-from ..lol_data.game_data import GameData
 from ..utils.is_game_active import is_game_active
 
 
