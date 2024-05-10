@@ -45,6 +45,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+import os
+
 from .line_edit_base import LineEdit
 from ..manager.settings_manager import Settings
 
@@ -53,7 +55,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName("MainWindow")
-            MainWindow.setWindowIcon(QIcon("lol_quest/graphics/loq_icon.ico"))
+            ico_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "graphics/loq_icon.ico")
+            MainWindow.setWindowIcon(QIcon(ico_file))
         MainWindow.resize(300, 350)
         MainWindow.setStyleSheet("background-color: rgb(36, 36, 36);")
         self.main_window_centralwidget = QWidget(MainWindow)

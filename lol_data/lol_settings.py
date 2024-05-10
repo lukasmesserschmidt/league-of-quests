@@ -5,6 +5,12 @@ from ..utils.lol_settings_converter import convert_hotkey
 class LolSettings:
     lol_settings = {
         # general
+        "flip_map": lambda: int(
+            GetLolSettings.all_lol_settings.get("files")[0]
+            .get("sections")[5]
+            .get("settings")[13]
+            .get("value")
+        ),
         "map_scale": lambda: float(
             GetLolSettings.all_lol_settings.get("files")[0]
             .get("sections")[5]

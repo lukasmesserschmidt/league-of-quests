@@ -11,7 +11,6 @@ class QuestAfterTime:
     def start(cls):
         cls.time = Settings.get_quest_after_time("time")
         cls.end_time = time.time() + cls.time
-        cls.end_time = time.time() + 2
 
         cls.terminate_flag = False
         cls.receive_loop_thread = threading.Thread(target=cls.receive_loop)

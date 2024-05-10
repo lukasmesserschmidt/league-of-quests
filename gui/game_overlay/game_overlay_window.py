@@ -8,6 +8,7 @@ from .trinket_cover import TrinketCover
 from .teleport_cover import TeleportCover
 from .. import app
 from ..window_base import WindowBase
+from ...lol_data.lol_settings import LolSettings
 from ...lol_data.lol_window_data import LolWindowData
 
 
@@ -37,7 +38,7 @@ class GameOverlay(WindowBase):
         self.main_loop_timer.start(10)
 
     def main_loop(self):
-        if LolWindowData.lol_is_top:
+        if LolWindowData.lol_is_top and LolSettings.get_lol_setting("window_mode") == 2:
             self.show()
         else:
             self.hide()

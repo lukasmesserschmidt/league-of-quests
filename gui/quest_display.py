@@ -6,6 +6,7 @@ from .window_base import WindowBase
 from .quest_display_base import Ui_QuestDisplay
 from . import app
 from ..manager.settings_manager import Settings
+from ..lol_data.lol_settings import LolSettings
 from ..lol_data.lol_window_data import LolWindowData
 from ..utils.game_overlay_scaling import get_map_size
 
@@ -42,7 +43,9 @@ class QuestDisplay(WindowBase):
         x, y = app.get_app().primaryScreen().size().toTuple()
         map_size = get_map_size()
         space = get_map_size() * 0.05
-        x -= map_size + 250 + space
+        x -= (
+            (map_size + space) if not LolSettings.get_lol_setting("flip_map") else 0
+        ) + 250
         y -= 300
 
         self.setGeometry(x, y, 250, 300)

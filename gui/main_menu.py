@@ -68,7 +68,7 @@ class MainMenu(QMainWindow):
     def main_loop(self):
         if LolWindowData.get_window_mode() != 2:
             self.set_start_button("N/A", (52, 54, 56))
-            self.ui.info_label.setText("Set window mode to borderless!")
+            self.ui.info_label.setText("LoL must be in borderless window mode!")
             self.ui.info_label.show()
         elif self.ui.start_button.text() == "N/A":
             self.set_start_button("Start", (31, 106, 165), self.start_command)

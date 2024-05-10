@@ -5,7 +5,6 @@ from .quest_frame_manager import QuestFrameManager
 from .quest_on_death import QuestOnDeath
 from .quest_after_time import QuestAfterTime
 from .settings_manager import Settings
-from ..gui.quest_display import get_quest_display
 
 
 class MainManager:
