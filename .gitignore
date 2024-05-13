@@ -1,4 +1,9 @@
-__pycache__/
 test.py
 test2.py
-.env
+.vscode/
+.VSCodeCounter/
+__pycache__/
+output/
+other/
+_internal/.venv
+_internal/lol_quest/__pycache__/
