@@ -1,6 +1,6 @@
 import os
 import subprocess
-import pkg_resources
+from importlib.metadata import distributions
 import time
 
 
@@ -12,14 +12,12 @@ class PackageInstaller:
             os.path.dirname(os.path.abspath(__file__)) + "/requirements.txt"
         )
         missing_packages = cls.get_missing_packages(requirements_file_path)
-        print(missing_packages)
 
         if any(missing_packages):
             cls.ask_for_consent(missing_packages)
+            cls.create_shortcut_consent()
         else:
-            time.sleep(50)
-            with open("installation_successful.txt", "w") as _:
-                pass
+            cls.installation_successful()
 
     @classmethod
     def ask_for_consent(cls, missing_packages):
@@ -28,10 +26,14 @@ class PackageInstaller:
             replie = input(
                 f"Install 0/{len(missing_packages)} requirements? (yes/no): "
             )
+
             if replie.lower() == "yes":
                 cls.install_packages(missing_packages)
-                with open("installation_successful.txt", "w") as _:
-                    pass
+                cls.installation_successful()
+
+                print()
+                print("Installation complete")
+                time.sleep(1)
                 break
             elif replie.lower() == "no":
                 break
@@ -39,16 +41,25 @@ class PackageInstaller:
                 print("Input Error, write 'yes' or 'no'")
 
     @classmethod
+    def installation_successful(cls):
+        with open("installation_successful.txt", "w") as _:
+            pass
+
+    @classmethod
+    def create_shortcut_consent(cls):
+        with open("create_shortcut_consent.txt", "w") as _:
+            pass
+
+    @classmethod
     def get_missing_packages(cls, requirements_file):
         with open(requirements_file, "r", encoding="utf-16") as file:
-            required_packages = [line.strip().casefold() for line in file.readlines()]
-            print(required_packages)
+            required_packages = [line.strip() for line in file.readlines()]
 
         missing_packages = []
         installed_packages = [
-            pkg.key + "==" + pkg.version for pkg in pkg_resources.working_set
+            package.metadata["Name"] + "==" + package.version
+            for package in distributions()
         ]
-        print(installed_packages)
 
         for package in required_packages:
             if package not in installed_packages:
@@ -60,9 +71,11 @@ class PackageInstaller:
     def install_packages(cls, missing_packages):
         missing_packages_num = 0
         for package in missing_packages:
+            missing_packages_num += 1
+
             os.system("cls")
             print(
-                f"Installed {missing_packages_num}/{len(missing_packages)} requirements"
+                f"Installing requirement {missing_packages_num}/{len(missing_packages)}"
             )
             print()
 
@@ -77,11 +90,6 @@ class PackageInstaller:
                     + "/.venv/Lib/site-packages",
                 ]
             )
-            missing_packages_num += 1
-
-        print()
-        print("Installation complete")
-        time.sleep(2)
 
 
 if __name__ == "__main__":

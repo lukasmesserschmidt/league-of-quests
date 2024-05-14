@@ -1,0 +1,93 @@
+{
+ "version": "auto-py-to-exe-configuration_v1",
+ "pyinstallerOptions": [
+  {
+   "optionDest": "noconfirm",
+   "value": true
+  },
+  {
+   "optionDest": "filenames",
+   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/start.py"
+  },
+  {
+   "optionDest": "onefile",
+   "value": false
+  },
+  {
+   "optionDest": "console",
+   "value": false
+  },
+  {
+   "optionDest": "icon_file",
+   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/lol_quest/graphics/loq_icon.ico"
+  },
+  {
+   "optionDest": "name",
+   "value": "League of Quests"
+  },
+  {
+   "optionDest": "clean_build",
+   "value": false
+  },
+  {
+   "optionDest": "strip",
+   "value": false
+  },
+  {
+   "optionDest": "noupx",
+   "value": false
+  },
+  {
+   "optionDest": "disable_windowed_traceback",
+   "value": false
+  },
+  {
+   "optionDest": "uac_admin",
+   "value": false
+  },
+  {
+   "optionDest": "uac_uiaccess",
+   "value": false
+  },
+  {
+   "optionDest": "argv_emulation",
+   "value": false
+  },
+  {
+   "optionDest": "bootloader_ignore_signals",
+   "value": false
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/lol_quest;lol_quest/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/main.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/requirements.txt;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/run.bat;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/.venv;.venv/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/create_shortcut.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/package_installer.py;."
+  }
+ ],
+ "nonPyinstallerOptions": {
+  "increaseRecursionLimit": true,
+  "manualArguments": ""
+ }
+}
