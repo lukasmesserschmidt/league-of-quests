@@ -10,7 +10,7 @@ class ActivePlayerData:
 
     @classmethod
     def get_summoner_name(cls):
-        return cls.get_data()["summonerName"].split("#")[0]
+        return cls.get_data()["riotIdGameName"]
 
     @classmethod
     def get_champion_name(cls):
@@ -36,7 +36,7 @@ class ActivePlayerData:
 
         for num, team in enumerate(teams):
             for player in team:
-                if player["summonerName"] == summoner_name:
+                if player["riotIdGameName"] == summoner_name:
                     return num
 
     @classmethod
@@ -46,7 +46,7 @@ class ActivePlayerData:
         teammates: list
         teammates = AllPlayerData.get_team_players()[ally_team_num]
         for player in teammates:
-            if player["summonerName"] == summoner_name:
+            if player["riotIdGameName"] == summoner_name:
                 teammates.remove(player)
                 break
 

@@ -11,7 +11,7 @@ class AllPlayerData:
         all_players = cls.get_data()
 
         for player in all_players:
-            if player["summonerName"] == summoner_name:
+            if player["riotIdGameName"] == summoner_name:
                 return player
 
     @classmethod

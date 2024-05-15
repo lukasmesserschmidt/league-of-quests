@@ -13,6 +13,7 @@ from ..lol_data.get_lol_settings import GetLolSettings
 from ..lol_data.lol_window_data import LolWindowData
 from ..lol_data.get_live_client_data import GetLiveClientData
 from ..lol_data.active_player_data import ActivePlayerData
+from ..utils.is_lol_installed import is_lol_installed
 from ..utils.is_game_active import is_game_active
 
 
@@ -66,7 +67,11 @@ class MainMenu(QMainWindow):
 
     # main
     def main_loop(self):
-        if LolWindowData.get_window_mode() != 2:
+        if not is_lol_installed():
+            self.set_start_button("N/A", (52, 54, 56))
+            self.ui.info_label.setText("League of Legends is not installed!")
+            self.ui.info_label.show()
+        elif LolWindowData.get_window_mode() != 2:
             self.set_start_button("N/A", (52, 54, 56))
             self.ui.info_label.setText("LoL must be in borderless window mode!")
             self.ui.info_label.show()
@@ -118,9 +123,12 @@ class MainMenu(QMainWindow):
 
         MainManager.stop()
 
-        LolWindowData.stop()
-        GetLiveClientData.stop()
-        GetLolSettings.stop()
+        with suppress(Exception):
+            LolWindowData.stop()
+        with suppress(Exception):
+            GetLiveClientData.stop()
+        with suppress(Exception):
+            GetLolSettings.stop()
 
         QApplication.quit()
 

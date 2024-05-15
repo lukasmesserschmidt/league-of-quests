@@ -22,13 +22,13 @@ class SoloKill(KillQuestBase):
         cls.target = enemy_team[rand_target]
         super().init()
         
-        cls.title = f"Solo kill {cls.target["championName"]} ({cls.target["summonerName"]})!"
+        cls.title = f"Solo kill {cls.target["championName"]} ({cls.target["riotIdGameName"]})!"
 
     @classmethod
     def kill_dependencies(cls, event: dict):
         if (
             event["Assisters"] == []
             and event["KillerName"] == cls.summoner_name
-            and event["VictimName"] == cls.target["summonerName"]
+            and event["VictimName"] == cls.target["riotIdGameName"]
         ):
             return True

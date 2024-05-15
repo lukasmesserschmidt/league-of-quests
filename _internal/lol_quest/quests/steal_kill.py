@@ -18,7 +18,7 @@ class StealKill(KillQuestBase):
     @classmethod
     def init(cls):
         teammates = ActivePlayerData.get_teammates()
-        cls.teammate_name = choice(teammates)["summonerName"]
+        cls.teammate_name = choice(teammates)["riotIdGameName"]
         super().init()
 
         cls.title = f"Steal teammate {cls.teammate_name} one kill!"

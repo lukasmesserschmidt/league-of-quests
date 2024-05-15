@@ -9,35 +9,38 @@ from ..manager.settings_manager import Settings
 from ..lol_data.lol_settings import LolSettings
 from ..lol_data.lol_window_data import LolWindowData
 from ..utils.game_overlay_scaling import get_map_size
+from ..utils.is_lol_installed import is_lol_installed
 
 
 class QuestDisplay(WindowBase):
     def __init__(self):
         super().__init__()
-        self.setgeometry()
-        self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setWindowFlags(
-            Qt.WindowStaysOnTopHint
-            | Qt.WindowTransparentForInput
-            | Qt.FramelessWindowHint
-        )
 
-        self.ui = Ui_QuestDisplay()
-        self.ui.setupUi(self)
+        if is_lol_installed():
+            self.setgeometry()
+            self.setAttribute(Qt.WA_TranslucentBackground)
+            self.setWindowFlags(
+                Qt.WindowStaysOnTopHint
+                | Qt.WindowTransparentForInput
+                | Qt.FramelessWindowHint
+            )
 
-        self.start_x_diff = 0
-        self.start_y_diff = 0
-        self.last_width = self.geometry().width()
-        self.dragg = False
+            self.ui = Ui_QuestDisplay()
+            self.ui.setupUi(self)
 
-        self.mouse_listener = mouse.Listener(on_click=self.on_click)
-        self.mouse_listener.start()
+            self.start_x_diff = 0
+            self.start_y_diff = 0
+            self.last_width = self.geometry().width()
+            self.dragg = False
 
-        self.main_loop_timer = QTimer(self)
-        self.main_loop_timer.timeout.connect(self.main_loop)
-        self.main_loop_timer.start(10)
+            self.mouse_listener = mouse.Listener(on_click=self.on_click)
+            self.mouse_listener.start()
 
-        self.show()
+            self.main_loop_timer = QTimer(self)
+            self.main_loop_timer.timeout.connect(self.main_loop)
+            self.main_loop_timer.start(10)
+
+            self.show()
 
     def setgeometry(self):
         x, y = app.get_app().primaryScreen().size().toTuple()
