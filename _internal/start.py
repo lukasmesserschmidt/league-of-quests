@@ -1,12 +1,12 @@
-import os
-import subprocess
 import ctypes
+
+import run
 
 
 def is_window_open():
     hwnd = get_hwnd()
 
-    return hwnd == 0
+    return hwnd != 0
 
 
 def get_hwnd():
@@ -19,12 +19,9 @@ def get_hwnd():
 def main():
     global user32
     user32 = ctypes.windll.user32
-    batch_file = os.path.dirname(os.path.abspath(__file__)) + "/run.bat"
 
-    if is_window_open():
-        startupinfo = subprocess.STARTUPINFO()
-        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-        subprocess.Popen([batch_file], startupinfo=startupinfo)
+    if not is_window_open():
+        run.main()
     else:
         hwnd = get_hwnd()
         user32.SetForegroundWindow(hwnd)

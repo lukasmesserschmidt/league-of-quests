@@ -8,20 +8,18 @@ class PackageInstaller:
 
     @classmethod
     def start(cls):
-        requirements_file_path = (
-            os.path.dirname(os.path.abspath(__file__)) + "/requirements.txt"
-        )
+        requirements_file_path = cls.get_path("/requirements.txt")
         missing_packages = cls.get_missing_packages(requirements_file_path)
 
         if any(missing_packages):
             cls.ask_for_consent(missing_packages)
-            cls.create_shortcut_consent()
         else:
-            cls.installation_successful()
+            cls.installation_complete()
 
     @classmethod
     def ask_for_consent(cls, missing_packages):
         os.system("cls")
+
         while True:
             replie = input(
                 f"Install 0/{len(missing_packages)} requirements? (yes/no): "
@@ -29,7 +27,8 @@ class PackageInstaller:
 
             if replie.lower() == "yes":
                 cls.install_packages(missing_packages)
-                cls.installation_successful()
+                cls.installation_complete()
+                cls.create_shortcut_consent()
 
                 print()
                 print("Installation complete")
@@ -41,13 +40,18 @@ class PackageInstaller:
                 print("Input Error, write 'yes' or 'no'")
 
     @classmethod
-    def installation_successful(cls):
-        with open("installation_successful.txt", "w") as _:
-            pass
+    def installation_complete(cls):
+        cls.create_txt_file("\\installation_complete.txt")
 
     @classmethod
     def create_shortcut_consent(cls):
-        with open("create_shortcut_consent.txt", "w") as _:
+        cls.create_txt_file("\\create_shortcut_consent.txt")
+
+    @classmethod
+    def create_txt_file(cls, file_name: str):
+        file_path = cls.get_path("\\temp" + file_name)
+
+        with open(file_path, "w") as _:
             pass
 
     @classmethod
@@ -79,17 +83,23 @@ class PackageInstaller:
             )
             print()
 
+            path = cls.get_path("\\.venv\\Lib\\site-packages")
             subprocess.check_call(
                 [
                     "pip",
                     "install",
-                    package,
                     "--upgrade",
                     "--target",
-                    os.path.dirname(os.path.abspath(__file__))
-                    + "/.venv/Lib/site-packages",
+                    path,
+                    package,
                 ]
             )
+
+    @classmethod
+    def get_path(cls, path: str):
+        path = os.path.dirname(os.path.abspath(__file__)) + path
+
+        return path
 
 
 if __name__ == "__main__":

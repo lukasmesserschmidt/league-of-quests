@@ -71,7 +71,11 @@
   },
   {
    "optionDest": "datas",
-   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/run.bat;."
+   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/run.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/lukas/Desktop/Python/League of Quests/_internal/setup.bat;."
   },
   {
    "optionDest": "datas",
