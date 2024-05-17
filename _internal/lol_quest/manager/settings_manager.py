@@ -8,7 +8,7 @@ class Settings:
     @classmethod
     def import_settings(cls):
         settings_file = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), "settings.json"
+            os.path.dirname(os.path.dirname(__file__)) + "\\settings.json"
         )
 
         with open(settings_file, "r") as f:
