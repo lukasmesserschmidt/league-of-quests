@@ -5,5 +5,5 @@ test2.py
 __pycache__/
 output/
 other/
-_internal/.venv
-_internal/lol_quest/__pycache__/
+.venv/
+lol_quest/__pycache__/
