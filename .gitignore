@@ -4,6 +4,7 @@ test2.py
 .VSCodeCounter/
 __pycache__/
 output/
+loq exe/
 other/
 .venv/
 lol_quest/__pycache__/
