@@ -1,5 +1,5 @@
 from .get_lol_settings import GetLolSettings
-from ..utils.lol_settings_converter import convert_hotkey
+from ..utils.hotkey_converter import convert_hotkey
 
 
 class LolSettings:
@@ -82,11 +82,10 @@ class LolSettings:
     @classmethod
     def get_lol_setting(cls, setting: str, *args):
         setting = cls.lol_settings[setting](*args)
-
         return setting
 
     @classmethod
-    def get_hotkeys(cls, hotkey_types: dict):
+    def get_hotkeys(cls, hotkey_types: dict[str, list[int]]):
         hotkeys = []
         for hotkey_type, args in hotkey_types.items():
             for arg in args:
@@ -99,55 +98,3 @@ class LolSettings:
                 hotkeys.append(hotkey)
 
         return hotkeys
-
-    @classmethod
-    def get_lol_settings(cls):
-        return GetLolSettings.all_lol_settings
-
-    @classmethod
-    def get_map_scale(cls):
-        return float(
-            cls.get_lol_settings()["files"][0]["sections"][5]["settings"][23]["value"]
-        )
-
-    @classmethod
-    def get_global_scale(cls):
-        return float(
-            cls.get_lol_settings()["files"][0]["sections"][5]["settings"][14]["value"]
-        )
-
-    @classmethod
-    def get_ability_hotkey(cls, num):
-        return convert_hotkey(
-            cls.get_lol_settings()["files"][1]["sections"][0]["settings"][8 + num][
-                "value"
-            ]
-        )
-
-    @classmethod
-    def get_summoner_spell_hotkey(cls, num):
-        return convert_hotkey(
-            cls.get_lol_settings()["files"][1]["sections"][0]["settings"][6 + num][
-                "value"
-            ]
-        )
-
-    @classmethod
-    def get_trinket_hotkey(cls, num):
-        return convert_hotkey(
-            cls.get_lol_settings()["files"][1]["sections"][0]["settings"][167]["value"]
-        )
-
-    @classmethod
-    def get_teleport_hotkey(cls, num):
-        return convert_hotkey(
-            cls.get_lol_settings()["files"][1]["sections"][0]["settings"][166]["value"]
-        )
-
-    @classmethod
-    def get_level_ability_hotkey(cls, num):
-        return convert_hotkey(
-            cls.get_lol_settings()["files"][1]["sections"][0]["settings"][22 + num][
-                "value"
-            ]
-        )

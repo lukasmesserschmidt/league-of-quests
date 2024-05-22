@@ -40,14 +40,14 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from ..manager.settings_manager import Settings
+from ..manager.settings_manager import SettingsManager
 
 
 class Ui_QuestDisplay(object):
     def setupUi(self, QuestDisplay):
         if not QuestDisplay.objectName():
             QuestDisplay.setObjectName("QuestDisplay")
-        QuestDisplay.resize(250, 280)
+        QuestDisplay.resize(250, 300)
         self.base_layout = QVBoxLayout(QuestDisplay)
         self.base_layout.setSpacing(3)
         self.base_layout.setObjectName("base_layout")
@@ -126,7 +126,7 @@ class Ui_QuestDisplay(object):
         )
         self.quest_count_label.setText(
             QCoreApplication.translate(
-                "QuestDisplay", f"0/{Settings.get_quest_limit()}", None
+                "QuestDisplay", f"0/{SettingsManager.get_quest_limit()}", None
             )
         )
         self.next_quest_time_label.setText(

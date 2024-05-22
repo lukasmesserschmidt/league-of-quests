@@ -1,7 +1,7 @@
 import threading
 import time
 
-from ..manager.settings_manager import Settings
+from ..manager.settings_manager import SettingsManager
 
 
 class QuestBase:
@@ -80,7 +80,7 @@ class QuestBase:
     # utils
     @classmethod
     def get_duration(cls, multiplier: float = 1):
-        return Settings.get_quest_duration() * multiplier
+        return SettingsManager.get_quest_duration() * multiplier
 
     @classmethod
     def get_end_time(cls, duration):

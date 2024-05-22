@@ -1,5 +1,4 @@
 from .get_live_client_data import GetLiveClientData
-from .event_data import EventData
 
 
 class GameData:
@@ -8,5 +7,5 @@ class GameData:
         return GetLiveClientData.all_data["gameData"]
 
     @classmethod
-    def get_game_time(cls):
-        return cls.get_data()["gameTime"]
+    def get_game_mode(cls):
+        return cls.get_data()["gameMode"]

@@ -7,9 +7,9 @@ class ResourceCover(MultiCoverBase):
         super().__init__(parent, ResourceCoverFrame, 2)
 
     def show(self, *args: tuple[int, float]):
-        for i in args:
-            self.abilities[i[0]].show(i[1])
+        for arg in args:
+            self.covers[arg[0]].show(arg[1])
 
     def hide(self, *args: tuple[int, float]):
-        for i in args:
-            self.abilities[i[0]].hide(i[1])
+        for arg in args:
+            self.covers[arg[0]].hide(arg[1])

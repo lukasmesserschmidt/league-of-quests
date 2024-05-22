@@ -17,6 +17,9 @@ class StopWindow(WindowBase):
 
         self.config_widgets()
 
+        self.main_loop_timer = QTimer(self)
+        self.main_loop_timer.timeout.connect(self.main_loop)
+
         self.hide()
 
     def config_widgets(self):
@@ -28,19 +31,15 @@ class StopWindow(WindowBase):
 
     def start(self):
         self.show()
-        self.game_running = True
-        self.main_loop_timer = QTimer(self)
-        self.main_loop_timer.timeout.connect(self.main_loop)
         self.main_loop_timer.start(100)
 
     def stop(self):
         self.hide()
-        self.main_loop_timer.deleteLater()
+        self.main_loop_timer.stop()
 
     def main_loop(self):
-        if not is_game_active() and self.game_running:
+        if not is_game_active():
             self.stop_command()
-            self.game_running = False
 
 
 def create_stop_window():

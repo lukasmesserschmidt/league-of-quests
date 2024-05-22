@@ -1,4 +1,4 @@
-from .settings_manager import Settings
+from .settings_manager import SettingsManager
 
 
-Settings.import_settings()
+SettingsManager.import_settings()

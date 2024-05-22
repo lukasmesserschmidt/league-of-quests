@@ -1,5 +1,6 @@
-from .have_low_gold import HaveLowGold
 from .spend_gold_timer import SpendGoldTimer
+from .get_kill_timer import GetKillTimer
+from .have_low_gold import HaveLowGold
 from .have_x_gold import HaveXGold
 from .dont_spend_resources import DontSpendResources
 from .dont_take_dmg import DontTakeDmg
@@ -12,6 +13,7 @@ from .steal_kill import StealKill
 from .help_get_kill import HelpGetKill
 from .assist_objective import AssistObjective
 from .kill_objective import KillOjective
+from .dont_die import DontDie
 from .buy_dark_seal import BuyDarkSeal
 
 
@@ -22,6 +24,7 @@ all_quests = [
     GetWardScore,
     GetXStat,
     DontTakeDmg,
+    DontDie,
     # mid
     SpendGoldTimer,
     DontSpendResources,
@@ -33,5 +36,6 @@ all_quests = [
     SoloKill,
     StealKill,
     KillOjective,
+    GetKillTimer,
     BuyDarkSeal,
 ]

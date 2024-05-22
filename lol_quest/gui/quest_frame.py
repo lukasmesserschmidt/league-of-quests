@@ -48,5 +48,5 @@ class QuestFrame(QFrame):
 
     def change_timer_color(self, color: tuple):
         self.ui.time_label.setStyleSheet(
-            f"background-color: rgb{color};\n" "border-radius:5px\n" "\n" ""
+            f"background-color: rgb{color};\n" "border-radius:5px"
         )

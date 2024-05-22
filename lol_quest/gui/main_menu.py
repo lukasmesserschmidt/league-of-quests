@@ -1,4 +1,3 @@
-from contextlib import suppress
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import QMainWindow, QApplication
 from PySide6.QtGui import QCloseEvent
@@ -8,13 +7,12 @@ from .quest_display import get_quest_display
 from .game_overlay.game_overlay_window import get_game_overlay
 from .stop_window import get_stop_window
 from ..manager.main_manager import MainManager
-from ..manager.settings_manager import Settings
-from ..lol_data.get_lol_settings import GetLolSettings
+from ..manager.settings_manager import SettingsManager
 from ..lol_data.lol_window_data import LolWindowData
-from ..lol_data.get_live_client_data import GetLiveClientData
 from ..lol_data.active_player_data import ActivePlayerData
-from ..utils.is_lol_installed import is_lol_installed
+from ..lol_data.game_data import GameData
 from ..utils.is_game_active import is_game_active
+from ..utils.is_lol_installed import is_lol_installed
 
 
 class MainMenu(QMainWindow):
@@ -25,117 +23,118 @@ class MainMenu(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.stop_window = get_stop_window()
+        self.quest_display = get_quest_display()
+        self.game_overlay = get_game_overlay()
+
         self.config_widgets()
 
-        self.start()
+        self.main_loop_timer = QTimer(self)
+        self.main_loop_timer.timeout.connect(self.main_loop)
+
+        if is_lol_installed():
+            self.start()
+        else:
+            self.update_start_button("N/A", (52, 54, 56))
+            self.ui.info_label.setText(
+                "League of Legends is not installed,\n(install League of Legends and restart)!"
+            )
+            self.ui.info_label.show()
 
         self.show()
 
     # config
     def config_widgets(self):
+        # checkboxes
         self.ui.quest_on_death_checkbox.stateChanged.connect(
-            lambda state: self.check_checkbox(self.ui.quest_after_time_checkbox, state)
+            lambda state: self.set_checkbox(self.ui.quest_after_time_checkbox, state)
         )
 
         self.ui.quest_after_time_checkbox.stateChanged.connect(
-            lambda state: self.check_checkbox(self.ui.quest_on_death_checkbox, state)
+            lambda state: self.set_checkbox(self.ui.quest_on_death_checkbox, state)
         )
 
-        self.ui.start_button.clicked.connect(self.start_command)
+        # start button
+        self.ui.start_button.clicked.connect(self.start_button_command)
 
-        get_stop_window().closed.connect(self.close)
-        get_stop_window().stoped.connect(self.stop)
+        # connections
+        self.stop_window.closed.connect(self.close)
+        self.stop_window.stoped.connect(self.stop_game)
 
-        get_quest_display().closed.connect(self.close)
+        self.quest_display.closed.connect(self.close)
 
-        get_game_overlay().closed.connect(self.close)
+        self.game_overlay.closed.connect(self.close)
 
-    def check_checkbox(self, checkbox, state):
-        if state == 0:
+    def set_checkbox(self, checkbox, state):
+        if state == False:
             checkbox.setChecked(True)
 
+    def start_button_command(self):
+        self.start_state = (
+            "started" if self.start_state == "not_started" else "not_started"
+        )
+
     def start(self):
-        self.game_start = False
-        self.main_loop_timer = QTimer(self)
-        self.main_loop_timer.timeout.connect(self.main_loop)
+        self.start_state = "not_started"
         self.main_loop_timer.start(100)
 
-    def stop(self):
-        MainManager.stop()
+    def stop_game(self):
+        MainManager.stop_game()
         self.show()
         self.start()
 
     # main
     def main_loop(self):
-        if not is_lol_installed():
-            self.set_start_button("N/A", (52, 54, 56))
-            self.ui.info_label.setText("League of Legends is not installed!")
-            self.ui.info_label.show()
-        elif LolWindowData.get_window_mode() != 2:
-            self.set_start_button("N/A", (52, 54, 56))
-            self.ui.info_label.setText("LoL must be in borderless window mode!")
-            self.ui.info_label.show()
-        elif self.ui.start_button.text() == "N/A":
-            self.set_start_button("Start", (31, 106, 165), self.start_command)
+        if self.start_state == "started":
+            self.update_start_button("Waiting", (52, 54, 56), True)
+        elif self.start_state == "not_started":
+            self.update_start_button("Start", (31, 106, 165), True)
 
-        if self.game_start:
-            if ActivePlayerData.get_champion_name() != "Aphelios":
-                self.hide()
-                self.stop_command()
-                self.main_loop_timer.deleteLater()
-                Settings.update(self.ui)
-                MainManager.start()
-                get_stop_window().start()
-            else:
-                self.stop_command()
-                self.set_start_button("Start", (31, 106, 165), self.start_command)
+        if is_game_active():
+            if LolWindowData.get_window_mode() != 2:
+                self.start_state = "window_mode_error"
+                self.update_start_button("N/A", (52, 54, 56))
+                self.ui.info_label.setText("LoL must be in borderless window mode!")
+                self.ui.info_label.show()
+            elif GameData.get_game_mode() not in ("CLASSIC", "PRACTICETOOL"):
+                self.start_state = "game_mode_error"
+                self.update_start_button("N/A", (52, 54, 56))
+                self.ui.info_label.setText("Not playable in this game mode!")
+                self.ui.info_label.show()
+            elif ActivePlayerData.get_champion_name() == "Aphelios":
+                self.start_state = "champion_error"
+                self.update_start_button("N/A", (52, 54, 56))
                 self.ui.info_label.setText("Not playable with Aphelios!")
                 self.ui.info_label.show()
-
-    def start_command(self):
-        self.set_start_button("Waiting", (52, 54, 56), self.stop_command)
-        self.game_start = False
-
-        self.wait_for_game_start_timer = QTimer(self)
-        self.wait_for_game_start_timer.timeout.connect(self.wait_for_game_start)
-        self.wait_for_game_start_timer.start(100)
-
-    def wait_for_game_start(self):
-        if is_game_active():
-            self.game_start = True
-
-    def stop_command(self):
-        self.wait_for_game_start_timer.deleteLater()
-        self.set_start_button("Start", (31, 106, 165), self.start_command)
-        self.game_start = False
+            elif self.start_state == "started":
+                self.hide()
+                self.main_loop_timer.stop()
+                SettingsManager.update(self.ui)
+                MainManager.start_game()
+            else:
+                self.start_state = "not_started"
+        elif self.start_state not in ("not_started", "started"):
+            self.start_state = "not_started"
 
     # events
     def closeEvent(self, event: QCloseEvent) -> None:
         super().closeEvent(event)
-        get_game_overlay().close()
-        get_quest_display().close()
+        self.main_loop_timer.stop()
+
+        self.stop_window.close()
+        self.game_overlay.close()
+        self.quest_display.close()
         self.hide()
 
-        with suppress(Exception):
-            self.main_loop_timer.deleteLater()
-        with suppress(Exception):
-            self.wait_for_game_start_timer.deleteLater()
-
-        MainManager.stop()
-
-        with suppress(Exception):
-            LolWindowData.stop()
-        with suppress(Exception):
-            GetLiveClientData.stop()
-        with suppress(Exception):
-            GetLolSettings.stop()
+        MainManager.stop_program()
 
         QApplication.quit()
 
     # utils
-    def set_start_button(self, text: str, color: tuple, command=None):
-        self.ui.start_button.setText(text)
-        self.ui.start_button.setStyleSheet(
+    def update_start_button(self, text: str, color: tuple, enable: bool = False):
+        start_button = self.ui.start_button
+        start_button.setText(text)
+        start_button.setStyleSheet(
             "QPushButton{\n"
             "color: rgb(235, 235, 235);\n"
             f"background-color: rgb{color};\n"
@@ -145,10 +144,8 @@ class MainMenu(QMainWindow):
             "	background-color: rgb(20, 72, 112);\n"
             "}"
         )
-        with suppress(Exception):
-            self.ui.start_button.clicked.disconnect()
-        if command:
-            self.ui.start_button.clicked.connect(command)
+
+        start_button.setEnabled(enable)
 
         self.ui.info_label.hide()
 

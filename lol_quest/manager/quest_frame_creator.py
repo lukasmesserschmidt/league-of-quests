@@ -1,6 +1,6 @@
 from random import randint, shuffle
 
-from .settings_manager import Settings
+from .settings_manager import SettingsManager
 from ..quests import all_quests
 from ..restrictions import all_restrictions
 from ..gui.quest_frame import QuestFrame
@@ -45,7 +45,7 @@ class QuestFrameCreator:
         object_difficultys = {"quest": None, "restriction": None}
 
         for object_type in object_difficultys.keys():
-            rarity_settings = Settings.all_settings["quest_rarity_settings"]
+            rarity_settings = SettingsManager.all_settings["quest_rarity_settings"]
             easy_chance = rarity_settings["easy"][object_type] or 1
             mid_chance = rarity_settings["mid"][object_type] or 1
             hard_chance = rarity_settings["hard"][object_type] or 1

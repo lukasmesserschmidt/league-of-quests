@@ -12,4 +12,4 @@ def get_app():
 
 
 def start():
-    app.exec()
+    sys.exit(app.exec_())

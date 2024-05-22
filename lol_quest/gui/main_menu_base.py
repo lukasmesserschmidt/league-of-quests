@@ -48,7 +48,7 @@ from PySide6.QtWidgets import (
 import os
 
 from .line_edit_base import LineEdit
-from ..manager.settings_manager import Settings
+from ..manager.settings_manager import SettingsManager
 
 
 class Ui_MainWindow(object):
@@ -111,7 +111,7 @@ class Ui_MainWindow(object):
 
         self.quest_on_death_checkbox = QCheckBox(self.quest_settings_frame)
         self.quest_on_death_checkbox.setObjectName("quest_on_death_checkbox")
-        self.quest_on_death_checkbox.setChecked(Settings.get_quest_on_death())
+        self.quest_on_death_checkbox.setChecked(SettingsManager.get_quest_on_death())
 
         self.quest_settings_frame_layout.addWidget(
             self.quest_on_death_checkbox, 2, 1, 1, 1, Qt.AlignHCenter
@@ -119,7 +119,7 @@ class Ui_MainWindow(object):
 
         self.quest_after_time_checkbox = QCheckBox(self.quest_settings_frame)
         self.quest_after_time_checkbox.setObjectName("quest_after_time_checkbox")
-        self.quest_after_time_checkbox.setChecked(Settings.get_quest_after_time("ischecked"))
+        self.quest_after_time_checkbox.setChecked(SettingsManager.get_quest_after_time("ischecked"))
 
         self.quest_settings_frame_layout.addWidget(
             self.quest_after_time_checkbox, 3, 1, 1, 1, Qt.AlignHCenter
@@ -375,7 +375,7 @@ class Ui_MainWindow(object):
         self.bottom_frame.setObjectName("bottom_frame")
         self.bottom_frame.setFrameShape(QFrame.StyledPanel)
         self.bottom_frame.setFrameShadow(QFrame.Raised)
-        self.bottom_frame.setMaximumHeight(25)
+        self.bottom_frame.setMaximumHeight(35)
         self.bottom_frame_layout = QHBoxLayout(self.bottom_frame)
         self.bottom_frame_layout.setSpacing(5)
         self.bottom_frame_layout.setContentsMargins(0, 0, 0, 0)
@@ -386,7 +386,7 @@ class Ui_MainWindow(object):
         self.info_label = QLabel(self.main_window_centralwidget)
         self.info_label.setObjectName("info_label")
         self.info_label.setStyleSheet("color: rgb(235, 235, 235)")
-        self.info_label.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
+        self.info_label.setAlignment(Qt.AlignVCenter)
 
         self.bottom_frame_layout.addWidget(self.info_label, 0, Qt.AlignRight)
 
@@ -439,16 +439,16 @@ class Ui_MainWindow(object):
             )
         )
         self.quest_after_time_lineedit.setText(
-            QCoreApplication.translate("MainWindow", f"{Settings.get_quest_after_time("time")}s", None)
+            QCoreApplication.translate("MainWindow", f"{SettingsManager.get_quest_after_time("time")}s", None)
         )
         self.quest_after_time_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "seconds", None)
         )
         self.quest_duration_lineedit.setText(
-            QCoreApplication.translate("MainWindow", f"{Settings.get_quest_duration()}s", None)
+            QCoreApplication.translate("MainWindow", f"{SettingsManager.get_quest_duration()}s", None)
         )
         self.quest_limit_lineedit.setText(
-            QCoreApplication.translate("MainWindow", f"{Settings.get_quest_limit()}", None)
+            QCoreApplication.translate("MainWindow", f"{SettingsManager.get_quest_limit()}", None)
         )
         self.quest_duration_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "seconds", None)
@@ -457,7 +457,7 @@ class Ui_MainWindow(object):
             QCoreApplication.translate("MainWindow", "Quest Rarity Settings", None)
         )
         self.mid_restriction_lineedit.setText(
-            QCoreApplication.translate("MainWindow", f"{Settings.get_mid_object("restriction")}%", None)
+            QCoreApplication.translate("MainWindow", f"{SettingsManager.get_mid_object("restriction")}%", None)
         )
         self.mid_restriction_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)
@@ -470,7 +470,7 @@ class Ui_MainWindow(object):
         )
         self.hard_label.setText(QCoreApplication.translate("MainWindow", "Hard", None))
         self.easy_quest_lineedit.setText(
-            QCoreApplication.translate("MainWindow", f"{Settings.get_easy_object("quest")}%", None)
+            QCoreApplication.translate("MainWindow", f"{SettingsManager.get_easy_object("quest")}%", None)
         )
         self.easy_quest_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)
@@ -478,25 +478,25 @@ class Ui_MainWindow(object):
         self.mid_label.setText(QCoreApplication.translate("MainWindow", "Mid", None))
         self.easy_label.setText(QCoreApplication.translate("MainWindow", "Easy", None))
         self.easy_restriction_lineedit.setText(
-            QCoreApplication.translate("MainWindow", f"{Settings.get_easy_object("restriction")}%", None)
+            QCoreApplication.translate("MainWindow", f"{SettingsManager.get_easy_object("restriction")}%", None)
         )
         self.easy_restriction_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)
         )
         self.mid_quest_lineedit.setText(
-            QCoreApplication.translate("MainWindow", f"{Settings.get_mid_object("quest")}%", None)
+            QCoreApplication.translate("MainWindow", f"{SettingsManager.get_mid_object("quest")}%", None)
         )
         self.mid_quest_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)
         )
         self.hard_restriction_lineedit.setText(
-            QCoreApplication.translate("MainWindow", f"{Settings.get_hard_object("restriction")}%", None)
+            QCoreApplication.translate("MainWindow", f"{SettingsManager.get_hard_object("restriction")}%", None)
         )
         self.hard_restriction_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)
         )
         self.hard_quest_lineedit.setText(
-            QCoreApplication.translate("MainWindow", f"{Settings.get_hard_object("quest")}%", None)
+            QCoreApplication.translate("MainWindow", f"{SettingsManager.get_hard_object("quest")}%", None)
         )
         self.hard_quest_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "%", None)

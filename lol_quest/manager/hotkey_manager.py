@@ -17,7 +17,9 @@ class HotkeyManager:
             "press_release": {"func": self.press_and_release},
         }
 
-    def set_hotkeys(self, set_type: str, hotkey_types: dict, enable: bool = None):
+    def set_hotkeys(
+        self, set_type: str, hotkey_types: dict[str, list[int]], enable: bool = None
+    ):
         if LolWindowData.lol_is_top:
             set_type = self.set_types.get(set_type)
             set_func = set_type.get("func")

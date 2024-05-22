@@ -4,46 +4,52 @@ from pynput import mouse
 
 from .window_base import WindowBase
 from .quest_display_base import Ui_QuestDisplay
-from . import app
-from ..manager.settings_manager import Settings
+from ..manager.settings_manager import SettingsManager
 from ..lol_data.lol_settings import LolSettings
 from ..lol_data.lol_window_data import LolWindowData
+from ..utils import user_data
 from ..utils.game_overlay_scaling import get_map_size
-from ..utils.is_lol_installed import is_lol_installed
+from ..utils.is_game_active import is_game_active
+from ..utils.is_program_active import is_program_active
 
 
 class QuestDisplay(WindowBase):
     def __init__(self):
         super().__init__()
 
-        if is_lol_installed():
-            self.setgeometry()
-            self.setAttribute(Qt.WA_TranslucentBackground)
-            self.setWindowFlags(
-                Qt.WindowStaysOnTopHint
-                | Qt.WindowTransparentForInput
-                | Qt.FramelessWindowHint
-            )
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setWindowFlags(
+            Qt.WindowStaysOnTopHint
+            | Qt.WindowTransparentForInput
+            | Qt.FramelessWindowHint
+        )
 
-            self.ui = Ui_QuestDisplay()
-            self.ui.setupUi(self)
+        self.ui = Ui_QuestDisplay()
+        self.ui.setupUi(self)
 
-            self.start_x_diff = 0
-            self.start_y_diff = 0
-            self.last_width = self.geometry().width()
-            self.dragg = False
+        self.start_x_diff = 0
+        self.start_y_diff = 0
+        self.last_width = self.geometry().width()
+        self.dragg = False
 
-            self.mouse_listener = mouse.Listener(on_click=self.on_click)
-            self.mouse_listener.start()
+        self.mouse_listener = mouse.Listener(on_click=self.on_click)
+        self.mouse_listener.start()
 
-            self.main_loop_timer = QTimer(self)
-            self.main_loop_timer.timeout.connect(self.main_loop)
-            self.main_loop_timer.start(10)
+        self.main_loop_timer = QTimer(self)
+        self.main_loop_timer.timeout.connect(self.main_loop)
 
-            self.show()
+        self.hide()
 
-    def setgeometry(self):
-        x, y = app.get_app().primaryScreen().size().toTuple()
+    def start(self):
+        self.move_default_pos()
+        self.main_loop_timer.start(10)
+
+    def stop(self):
+        self.main_loop_timer.stop()
+        self.hide()
+
+    def move_default_pos(self):
+        x, y = user_data.get_monitor_dpi_resolution()
         map_size = get_map_size()
         space = get_map_size() * 0.05
         x -= (
@@ -51,13 +57,13 @@ class QuestDisplay(WindowBase):
         ) + 250
         y -= 300
 
-        self.setGeometry(x, y, 250, 300)
+        self.move(x, y)
 
     def main_loop(self):
         self.move_to_mouse()
         self.stretch_to_left()
 
-        if LolWindowData.lol_is_top:
+        if is_program_active() and is_game_active() and LolWindowData.lol_is_top:
             self.show()
         else:
             self.hide()
@@ -104,10 +110,15 @@ class QuestDisplay(WindowBase):
         self.ui.next_quest_time_label.setText(text)
 
     def set_quest_count(self, count):
-        self.ui.quest_count_label.setText(f"{count}/{Settings.get_quest_limit()}")
+        self.ui.quest_count_label.setText(
+            f"{count}/{SettingsManager.get_quest_limit()}"
+        )
 
     def add_widget(self, widget):
         self.ui.quest_frame_layout.addWidget(widget, 1, Qt.AlignRight | Qt.AlignTop)
+
+    def remove_widget(self, widget):
+        self.ui.quest_frame_layout.removeWidget(widget)
 
 
 def create_quest_display():

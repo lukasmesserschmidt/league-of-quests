@@ -56,7 +56,7 @@ class Ui_QuestFrame(object):
         QuestDisplayFrame.resize(111, 49)
         QuestDisplayFrame.setMaximumHeight(50)
         QuestDisplayFrame.setStyleSheet(
-            f"background-color: {quest_bg};\n" "border-radius:7px\n" "\n" ""
+            f"background-color: {quest_bg};\n" "border-radius:7px"
         )
         self.verticalLayout = QVBoxLayout(QuestDisplayFrame)
         self.verticalLayout.setSpacing(3)
@@ -65,7 +65,7 @@ class Ui_QuestFrame(object):
         self.title_frame = QFrame(QuestDisplayFrame)
         self.title_frame.setObjectName("frame")
         self.title_frame.setStyleSheet(
-            f"background-color: {quest_bg};\n" "border-radius:4px\n" "\n" ""
+            f"background-color: {quest_bg};\n" "border-radius:4px"
         )
         self.title_frame.setFrameShape(QFrame.StyledPanel)
         self.title_frame.setFrameShadow(QFrame.Raised)
@@ -78,7 +78,7 @@ class Ui_QuestFrame(object):
         self.time_label.setMinimumSize(QSize(35, 0))
         self.time_label.setMaximumSize(QSize(35, 16777215))
         self.time_label.setStyleSheet(
-            "background-color: rgb(235, 235, 235);\n" "border-radius:5px\n" "\n" ""
+            "background-color: rgb(235, 235, 235);\n" "border-radius:5px"
         )
         self.time_label.setAlignment(Qt.AlignCenter)
         self.time_label.setMargin(1)
@@ -88,7 +88,7 @@ class Ui_QuestFrame(object):
         self.title_label = QLabel(self.title_frame)
         self.title_label.setObjectName("title_label")
         self.title_label.setStyleSheet(
-            f"background-color: {quest_bg};\n" "border-radius:7px\n" "\n" "\n" ""
+            f"background-color: {quest_bg};\n" "border-radius:7px\n" ""
         )
         self.title_label.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignVCenter)
         self.title_label.setMargin(0)
@@ -100,7 +100,7 @@ class Ui_QuestFrame(object):
         self.restriction_label = QLabel(QuestDisplayFrame)
         self.restriction_label.setObjectName("restriction_label")
         self.restriction_label.setStyleSheet(
-            f"background-color: {restriction_fg};\n" "border-radius:4px\n" "\n" ""
+            f"background-color: {restriction_fg};\n" "border-radius:4px"
         )
         self.restriction_label.setAlignment(Qt.AlignCenter)
         self.restriction_label.setMargin(2)

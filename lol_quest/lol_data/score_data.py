@@ -11,11 +11,25 @@ class ScoreData:
         return cls.get_data(summoner_name)["creepScore"]
 
     @classmethod
-    def get_k_d_a(cls, summoner_name: str):
+    def get_kills(cls, summoner_name: str):
         scores = cls.get_data(summoner_name)
-        kda = {"k": scores["kills"], "d": scores["deaths"], "a": scores["assists"]}
+        kills = scores["kills"]
 
-        return kda
+        return kills
+
+    @classmethod
+    def get_deaths(cls, summoner_name: str):
+        scores = cls.get_data(summoner_name)
+        kills = scores["deaths"]
+
+        return kills
+
+    @classmethod
+    def get_assists(cls, summoner_name: str):
+        scores = cls.get_data(summoner_name)
+        kills = scores["assists"]
+
+        return kills
 
     @classmethod
     def get_ward_score(cls, summoner_name: str):

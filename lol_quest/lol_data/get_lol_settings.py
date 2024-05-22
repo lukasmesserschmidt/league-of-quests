@@ -18,37 +18,42 @@ class MyHandler(FileSystemEventHandler):
 
 class GetLolSettings:
     all_lol_settings: dict
+    all_lol_settings = None
     game_cfg: configparser.ConfigParser
+    game_cfg = None
+
+    observer = None
 
     @classmethod
     def import_settings(cls):
-        imported = False
-        while imported == False:
-            with suppress(Exception):
-                with open(get_lol_settings_path(), "r") as f:
-                    cls.all_lol_settings = json.load(f)
-                    imported = True
+        with suppress(Exception):
+            with open(get_lol_settings_path(), "r") as f:
+                cls.all_lol_settings = json.load(f)
 
     @classmethod
     def import_game_cfg(cls):
         game_cfg_path = get_game_cfg_path()
         game_cfg = configparser.ConfigParser()
         game_cfg.read(game_cfg_path)
+
         with suppress(Exception):
             _ = game_cfg.get("General", "Width")
             cls.game_cfg = game_cfg
 
     @classmethod
     def start(cls):
-        cls.import_settings()
-        cls.import_game_cfg()
-        path = get_lol_config_path()
-        cls.event_handler = MyHandler()
-        cls.observer = Observer()
-        cls.observer.schedule(cls.event_handler, path, recursive=False)
+        if cls.observer is None:
+            cls.import_settings()
+            cls.import_game_cfg()
+            path = get_lol_config_path()
+            event_handler = MyHandler()
+            cls.observer = Observer()
+            cls.observer.schedule(event_handler, path, recursive=False)
+
         cls.observer.start()
 
     @classmethod
     def stop(cls):
-        cls.observer.stop()
-        cls.observer.join()
+        if cls.observer is not None:
+            cls.observer.stop()
+            cls.observer.join()

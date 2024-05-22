@@ -2,7 +2,7 @@ import os
 import json
 
 
-class Settings:
+class SettingsManager:
     all_settings: dict
 
     @classmethod

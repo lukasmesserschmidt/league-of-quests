@@ -2,16 +2,12 @@ from typing import Callable
 from PySide6.QtWidgets import QFrame
 import time
 
-from ...lol_data.lol_window_data import LolWindowData
-
 
 class CoverFrameBase(QFrame):
     def __init__(self, parent):
         super().__init__(parent)
         self.set_geometry: Callable
-        self.setStyleSheet(
-            "background-color: rgba(70, 10, 10, 200);\n" "border-radius: 0px"
-        )
+        self.setStyleSheet("background-color: rgba(70, 10, 10, 200)")
 
         self.hide()
 
@@ -19,8 +15,8 @@ class CoverFrameBase(QFrame):
         raise NotImplementedError
 
     def show(self, *args):
-        super().show()
         self.set_geometry()
+        super().show()
 
     def hide(self, *args):
         time.sleep(0.001)

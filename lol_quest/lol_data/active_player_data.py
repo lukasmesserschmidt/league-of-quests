@@ -1,5 +1,6 @@
 from .get_live_client_data import GetLiveClientData
 from .event_data import EventData
+from .score_data import ScoreData
 from .all_player_data import AllPlayerData
 
 
@@ -65,12 +66,13 @@ class ActivePlayerData:
         return cls.get_data()["currentGold"]
 
     @classmethod
-    def get_death_count(cls):
-        events = EventData.get_event("ChampionKill")
-        death_count = 0
+    def get_kills(cls):
+        return ScoreData.get_kills(cls.get_summoner_name())
 
-        for event in events:
-            if event["VictimName"] == cls.get_summoner_name():
-                death_count += 1
+    @classmethod
+    def get_deaths(cls):
+        return ScoreData.get_deaths(cls.get_summoner_name())
 
-        return death_count
+    @classmethod
+    def get_assists(cls):
+        return ScoreData.get_assists(cls.get_summoner_name())

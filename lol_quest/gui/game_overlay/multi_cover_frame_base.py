@@ -1,13 +1,11 @@
-from PySide6.QtWidgets import QFrame
-
 from .cover_frame_base import CoverFrameBase
-from ...utils.game_overlay_scaling import get_global_size, get_global_scaled_pos
+from ...utils.game_overlay_scaling import get_global_size, get_global_pos
 
 
 class MultiCoverFrameBase(CoverFrameBase):
-    def __init__(self, parent, ability_num):
+    def __init__(self, parent, cover_num):
         super().__init__(parent)
-        self.ability_num = ability_num
+        self.cover_num = cover_num
 
     def setgeometry(
         self,
@@ -22,7 +20,7 @@ class MultiCoverFrameBase(CoverFrameBase):
     ):
         size = get_global_size(min_size, max_size)
         space = get_global_size(min_space, max_space)
-        x, y = get_global_scaled_pos(min_x, max_x, min_y, max_y)
-        x += (size + space) * self.ability_num
+        x, y = get_global_pos(min_x, max_x, min_y, max_y)
+        x += (size + space) * self.cover_num
 
         self.setGeometry(x, y, size, size)

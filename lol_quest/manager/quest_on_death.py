@@ -1,32 +1,30 @@
-import threading
-import time
+from PySide6.QtCore import QTimer
 
 from .quest_frame_manager import QuestFrameManager
 from ..lol_data.active_player_data import ActivePlayerData
 
 
 class QuestOnDeath:
+    receive_loop_timer = None
 
     @classmethod
     def start(cls):
-        cls.last_death_cont = ActivePlayerData.get_death_count()
+        if cls.receive_loop_timer is None:
+            cls.receive_loop_timer = QTimer()
+            cls.receive_loop_timer.timeout.connect(cls.receive_loop)
 
-        cls.terminate_flag = False
-        cls.receive_loop_thread = threading.Thread(target=cls.receive_loop)
-        cls.receive_loop_thread.start()
+        cls.last_death_cont = ActivePlayerData.get_deaths()
+        cls.receive_loop_timer.start(200)
 
     @classmethod
     def stop(cls):
-        cls.terminate_flag = True
-        cls.receive_loop_thread.join()
+        if cls.receive_loop_timer is not None:
+            cls.receive_loop_timer.stop()
 
     @classmethod
     def receive_loop(cls):
-        while not cls.terminate_flag:
-            death_cont = ActivePlayerData.get_death_count()
+        death_cont = ActivePlayerData.get_deaths()
 
-            if cls.last_death_cont < death_cont:
-                QuestFrameManager.create_quest_frame_amount += 1
-                cls.last_death_cont = death_cont
-
-            time.sleep(0.2)
+        if cls.last_death_cont < death_cont:
+            QuestFrameManager.create_quest_frame_amount += 1
+            cls.last_death_cont = death_cont

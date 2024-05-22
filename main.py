@@ -15,8 +15,6 @@ def get_hwnd():
 
 
 def start():
-    import keyboard
-
     from lol_quest.gui import app
     from lol_quest.gui import main_menu
     from lol_quest.gui import stop_window
@@ -29,7 +27,6 @@ def start():
     main_menu.create_main_menu()
 
     app.start()
-    keyboard.unhook_all()
 
 
 def main():

@@ -29,7 +29,7 @@ class ResourceQuestBase(QuestBase):
 
     @classmethod
     def on_end(cls):
-        get_game_overlay().enable_cover(False, cls.get_overlay_type(1))
+        get_game_overlay().enable_cover(False, cls.get_overlay_type())
 
     @classmethod
     def get_resource_data(
@@ -45,5 +45,5 @@ class ResourceQuestBase(QuestBase):
         return resource_diff
 
     @classmethod
-    def get_overlay_type(cls, percent: float):
+    def get_overlay_type(cls, percent: float = 1):
         return {"resource": [(cls.resource_num, percent)]}

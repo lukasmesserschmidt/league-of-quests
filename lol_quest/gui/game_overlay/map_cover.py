@@ -13,13 +13,13 @@ class MapCover(CoverFrameBase):
 
     def setgeometry(self):
         size = get_map_size()
-        x, y = LolWindowData.get_scaled_resolution()
+        width, height = LolWindowData.get_scaled_resolution()
         window_x, window_y = LolWindowData.get_scaled_pos()
         x = (
-            (window_x + x - size)
+            (window_x + width - size)
             if not LolSettings.get_lol_setting("flip_map")
             else LolWindowData.get_scaled_pos()[0]
         )
-        y = window_y + y - size
+        y = window_y + height - size
 
         self.setGeometry(x, y, size, size)

@@ -1,6 +1,5 @@
 from .quest_completion_base import QuestCompletionBase
 from ..lol_data.active_player_data import ActivePlayerData
-from ..lol_data.score_data import ScoreData
 from ..lol_data.item_data import ItemData
 from ..utils.attributes import BUY
 
@@ -14,10 +13,12 @@ class BuyDarkSeal(QuestCompletionBase):
     def check_dependencies(cls):
         summoner_name = ActivePlayerData.get_summoner_name()
         if ItemData.get_has_item(summoner_name, 1082) == None:
-            kda_data = ScoreData.get_k_d_a(summoner_name)
-            kda = (kda_data["k"] + kda_data["a"]) / (kda_data["d"] or 1)
+            kills = ActivePlayerData.get_kills()
+            deaths = ActivePlayerData.get_deaths()
+            assists = ActivePlayerData.get_assists()
+            kda = (kills + assists) / (deaths or 1)
 
-            if kda_data["d"] > 3 and kda <= 0.8:
+            if deaths > 3 and kda <= 0.8:
                 return True
 
     @classmethod
