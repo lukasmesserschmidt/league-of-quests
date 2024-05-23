@@ -40,6 +40,10 @@ class SettingsManager:
         return cls.get_quest_settings()["quest_duration"]
 
     @classmethod
+    def get_allow_similar(cls):
+        return cls.get_quest_settings()["allow_similar"]
+
+    @classmethod
     def get_easy_object(cls, object_type: str):
         return cls.get_quest_rarity_settings()["easy"][object_type]
 
@@ -90,6 +94,9 @@ class SettingsManager:
         quest_settings["quest_after_time"]["time"] = get_value(
             ui.quest_after_time_lineedit
         )
+
+        # allow similar
+        quest_settings["allow_similar"] = ui.allow_similar_checkbox.isChecked()
 
         # quest rarity settings
         quest_rarity_settings = cls.all_settings["quest_rarity_settings"]

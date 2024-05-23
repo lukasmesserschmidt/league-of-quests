@@ -15,4 +15,4 @@ class HaveXGold(QuestCompletionBase):
 
     @classmethod
     def quest_content(cls):
-        cls.set_complete(ActivePlayerData.get_current_gold() >= 4000)
+        cls.complete = ActivePlayerData.get_current_gold() >= 4000

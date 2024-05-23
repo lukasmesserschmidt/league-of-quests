@@ -3,10 +3,13 @@ from random import randint
 from .restriction_base import RestrictionBase
 from ..manager.hotkey_manager import HotkeyManager
 
+from ..utils.attributes import ABILITY, AUTO
+
 
 class AutoAbility(RestrictionBase):
     title = "Auto cast random abilities!"
     difficulty = 2
+    attributes = [ABILITY, AUTO]
 
     @classmethod
     def restriction_content(cls):

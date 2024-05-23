@@ -77,10 +77,10 @@ class MainMenu(QMainWindow):
     def start(self):
         self.start_state = "not_started"
         self.main_loop_timer.start(100)
+        self.show()
 
     def stop_game(self):
         MainManager.stop_game()
-        self.show()
         self.start()
 
     # main

@@ -1,5 +1,4 @@
-import threading
-import time
+from PySide6.QtCore import QTimer
 
 
 class RestrictionBase:
@@ -7,8 +6,8 @@ class RestrictionBase:
     difficulty: int
     attributes = []
 
-    terminate_flag: bool
-    interval = 0.2
+    restriction_loop_timer = None
+    interval = 200
 
     # control
     @classmethod
@@ -17,31 +16,23 @@ class RestrictionBase:
 
     @classmethod
     def start(cls):
-        cls.terminate_flag = False
-
         cls.init()
 
-        cls.restriction_loop_thread = threading.Thread(target=cls._restriction_loop)
-        cls.restriction_loop_thread.start()
+        if cls.restriction_loop_timer is None:
+            cls.restriction_loop_timer = QTimer()
+            cls.restriction_loop_timer.timeout.connect(cls.restriction_content)
+
+        cls.restriction_loop_timer.start(cls.interval)
 
     @classmethod
     def stop(cls):
-        cls.terminate_flag = True
-        cls.restriction_loop_thread.join()
+        cls.restriction_loop_timer.stop()
+        cls.on_end()
 
     # restriction
     @classmethod
     def init(cls):
         pass
-
-    @classmethod
-    def _restriction_loop(cls):
-        while not cls.terminate_flag:
-            cls.restriction_content()
-
-            time.sleep(cls.interval)
-
-        cls.on_end()
 
     @classmethod
     def restriction_content(cls):

@@ -17,7 +17,7 @@ class KillQuestBase(QuestBase):
         current_kill_count = cls.get_kill_count()
 
         if cls.last_kill_count < current_kill_count:
-            cls.terminate_flag = True
+            cls.quest_complete = True
 
     @classmethod
     def get_kill_count(cls):

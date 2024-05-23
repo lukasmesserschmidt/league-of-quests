@@ -1,16 +1,16 @@
 from random import choice
-import keyboard
 
 from .restriction_base import RestrictionBase
 from ..lol_data.active_player_data import ActivePlayerData
 from ..manager.hotkey_manager import HotkeyManager
-from ..lol_data.lol_settings import LolSettings
 from ..lol_data.lol_window_data import LolWindowData
+from ..utils.attributes import AUTO
 
 
 class AutoLevel(RestrictionBase):
     title = "Auto level random ability!"
     difficulty = 1
+    attributes = [AUTO]
 
     @classmethod
     def restriction_content(cls):

@@ -43,7 +43,7 @@ class GetXStat(QuestCompletionBase):
 
         cls.set_title(progress)
 
-        cls.set_complete(progress >= cls.stat_goal)
+        cls.complete = progress >= cls.stat_goal
 
     @classmethod
     def get_current_value(cls):

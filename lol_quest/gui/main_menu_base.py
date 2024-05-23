@@ -117,6 +117,25 @@ class Ui_MainWindow(object):
             self.quest_on_death_checkbox, 2, 1, 1, 1, Qt.AlignHCenter
         )
 
+        self.allow_similar_checkbox = QCheckBox(self.quest_settings_frame)
+        self.allow_similar_checkbox.setObjectName("allow_similar_checkbox")
+        self.allow_similar_checkbox.setChecked(SettingsManager.get_allow_similar())
+
+        self.quest_settings_frame_layout.addWidget(
+            self.allow_similar_checkbox, 4, 1, 1, 1, Qt.AlignHCenter
+        )
+
+        self.allow_similar_label = QLabel(self.quest_settings_frame)
+        self.allow_similar_label.setObjectName("allow_similar_label")
+        self.allow_similar_label.setStyleSheet("color: rgb(235, 235, 235)")
+        self.allow_similar_label.setAlignment(
+            Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter
+        )
+
+        self.quest_settings_frame_layout.addWidget(
+            self.allow_similar_label, 4, 0, 1, 1
+        )
+
         self.quest_after_time_checkbox = QCheckBox(self.quest_settings_frame)
         self.quest_after_time_checkbox.setObjectName("quest_after_time_checkbox")
         self.quest_after_time_checkbox.setChecked(SettingsManager.get_quest_after_time("ischecked"))
@@ -429,6 +448,10 @@ class Ui_MainWindow(object):
         self.quest_after_time_checkbox.setText("")
         self.quest_on_death_label.setText(
             QCoreApplication.translate("MainWindow", "Get quest on death", None)
+        )
+        self.allow_similar_checkbox.setText("")
+        self.allow_similar_label.setText(
+            QCoreApplication.translate("MainWindow", "Allow all quest/restriction\ncombinations", None)
         )
         self.quest_duration_label.setText(
             QCoreApplication.translate("MainWindow", "Quest duration in seconds", None)

@@ -1,10 +1,12 @@
 from .restriction_base import RestrictionBase
 from ..gui.game_overlay.game_overlay_window import get_game_overlay
+from ..utils.attributes import MAP
 
 
 class CoverMap(RestrictionBase):
     title = "Map covered!"
     difficulty = 2
+    attributes = [MAP]
 
     @classmethod
     def restriction_content(cls):

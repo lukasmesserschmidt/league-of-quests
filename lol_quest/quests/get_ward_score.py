@@ -28,7 +28,7 @@ class GetWardScore(QuestBase):
         cls.set_title(progress)
 
         if progress >= 3:
-            cls.terminate_flag = True
+            cls.quest_complete = True
 
     @classmethod
     def set_title(cls, progress: float):

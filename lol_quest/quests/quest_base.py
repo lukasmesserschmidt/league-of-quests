@@ -1,4 +1,4 @@
-import threading
+from PySide6.QtCore import QTimer
 import time
 
 from ..manager.settings_manager import SettingsManager
@@ -12,8 +12,9 @@ class QuestBase:
     duration = 0
     remaining_time = 0
 
-    terminate_flag: bool
-    interval = 0.2
+    quest_loop_timer = None
+    quest_complete = False
+    interval = 200
     update_title = False
     finish_color_enabled = False
 
@@ -24,45 +25,37 @@ class QuestBase:
 
     @classmethod
     def start(cls):
-        cls.terminate_flag = False
+        cls.quest_complete = False
         cls.finish_color_enabled = False
 
         cls.init()
 
-        cls.quest_loop_thread = threading.Thread(target=cls._quest_main)
-        cls.quest_loop_thread.start()
+        if cls.quest_loop_timer is None:
+            cls.quest_loop_timer = QTimer()
+            cls.quest_loop_timer.timeout.connect(cls._quest_loop)
+
+        cls.quest_loop_timer.start(cls.interval)
 
     @classmethod
     def stop(cls):
-        cls.terminate_flag = True
-        cls.quest_loop_thread.join()
+        cls.quest_loop_timer.stop()
         cls.remaining_time = 0
+        cls.on_end()
 
     # quest
     @classmethod
-    def init(cls):
-        cls.duration = cls.get_duration()
-
-    @classmethod
-    def _quest_main(cls):
-        cls.quest_loop_container()
-
-        cls.on_end()
-        cls.terminate_flag = True
-
-    @classmethod
-    def quest_loop_container(cls):
-        cls._quest_loop()
+    def init(cls, duration_multiplier: float | int = 1):
+        cls.duration = cls.get_duration(duration_multiplier)
+        cls.end_time = cls.get_end_time(cls.duration)
 
     @classmethod
     def _quest_loop(cls):
-        cls.end_time = cls.get_end_time(cls.duration)
 
-        while time.time() < cls.end_time and not cls.terminate_flag:
+        if time.time() < cls.end_time and not cls.quest_complete:
             cls.quest_content_container()
 
-            if not cls.terminate_flag:
-                time.sleep(cls.interval)
+        elif not cls.quest_complete:
+            cls.on_time_end()
 
     @classmethod
     def quest_content_container(cls):
@@ -74,12 +67,16 @@ class QuestBase:
         raise NotImplementedError
 
     @classmethod
+    def on_time_end(cls):
+        cls.quest_complete = True
+
+    @classmethod
     def on_end(cls):
         pass
 
     # utils
     @classmethod
-    def get_duration(cls, multiplier: float = 1):
+    def get_duration(cls, multiplier: float | int = 1):
         return SettingsManager.get_quest_duration() * multiplier
 
     @classmethod

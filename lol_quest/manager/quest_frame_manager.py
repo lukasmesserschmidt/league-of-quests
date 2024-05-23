@@ -19,28 +19,29 @@ class QuestFrameManager:
             cls.main_loop_timer = QTimer()
             cls.main_loop_timer.timeout.connect(cls.main_loop)
 
+        cls.active_quest_frames = []
         cls.create_quest_frame_amount = 0
-        cls.main_loop_timer.start(500)
+        cls.main_loop_timer.start(200)
 
     @classmethod
     def stop(cls):
         if cls.main_loop_timer is not None:
             cls.main_loop_timer.stop()
-
             cls.create_quest_frame_amount = 0
+
             for i in range(len(cls.active_quest_frames) - 1, -1, -1):
                 quest_frame = cls.active_quest_frames[i]
                 cls.delete_quest_frame(quest_frame)
 
     @classmethod
     def main_loop(cls):
+        cls.update_quest_frames()
+        cls.update_quest_frame_available()
+
         for _ in range(cls.create_quest_frame_amount):
             if len(cls.active_quest_frames) < SettingsManager.get_quest_limit():
                 cls.create_quest_frame()
             cls.create_quest_frame_amount -= 1
-
-        cls.update_quest_frames()
-        cls.update_quest_frame_available()
 
     @classmethod
     def create_quest_frame(cls):
@@ -48,21 +49,19 @@ class QuestFrameManager:
         if quest_frame:
             get_quest_display().add_widget(quest_frame)
             cls.active_quest_frames.append(quest_frame)
-        else:
-            cls.quest_frames_available = False
 
     @classmethod
     def update_quest_frames(cls):
         for quest_frame in cls.active_quest_frames:
-            if quest_frame.quest.terminate_flag:
+            if quest_frame.quest.quest_complete:
                 cls.delete_quest_frame(quest_frame)
 
     @classmethod
     def delete_quest_frame(cls, quest_frame: QuestFrame):
-        quest_frame.quest.stop()
         quest_frame.restriction.stop()
-        cls.active_quest_frames.remove(quest_frame)
+        quest_frame.quest.stop()
         get_quest_display().remove_widget(quest_frame)
+        cls.active_quest_frames.remove(quest_frame)
         quest_frame.deleteLater()
 
     @classmethod

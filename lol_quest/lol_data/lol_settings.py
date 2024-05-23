@@ -71,10 +71,22 @@ class LolSettings:
             .get("settings")[22 + num]
             .get("value")
         ),
+        "select_ally": lambda num: convert_hotkey(
+            GetLolSettings.all_lol_settings.get("files")[1]
+            .get("sections")[0]
+            .get("settings")[77 + num]
+            .get("value")
+        ),
         "snap_cam": lambda num: convert_hotkey(
             GetLolSettings.all_lol_settings.get("files")[1]
             .get("sections")[0]
             .get("settings")[5]
+            .get("value")
+        ),
+        "stop_position": lambda num: convert_hotkey(
+            GetLolSettings.all_lol_settings.get("files")[1]
+            .get("sections")[0]
+            .get("settings")[59]
             .get("value")
         ),
     }

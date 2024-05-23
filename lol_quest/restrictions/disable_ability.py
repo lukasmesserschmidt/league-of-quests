@@ -1,7 +1,6 @@
 from random import randint
 
 from .disable_hotkey_base import DisableHotkeyBase
-from ..lol_data.active_player_data import ActivePlayerData
 from ..utils.attributes import ABILITY
 
 

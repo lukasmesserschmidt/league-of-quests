@@ -43,8 +43,8 @@ class MainManager:
         get_quest_display().stop()
         QuestDisplayManager.stop()
 
-        QuestOnDeath.stop()
         QuestAfterTime.stop()
+        QuestOnDeath.stop()
 
         QuestFrameManager.stop()
 
@@ -56,7 +56,7 @@ class MainManager:
     def stop_program(cls):
         cls.stop_game()
 
-        GetLiveClientData.stop()
         GetLolSettings.stop()
+        GetLiveClientData.stop()
 
         keyboard.unhook_all()

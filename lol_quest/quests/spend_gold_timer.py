@@ -12,5 +12,4 @@ class SpendGoldTimer(TimerQuestBase):
 
     @classmethod
     def complete_condition(cls, current_stat):
-        if current_stat < cls.last_stat:
-            return True
+        return current_stat < cls.last_stat

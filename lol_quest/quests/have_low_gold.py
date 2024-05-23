@@ -18,4 +18,4 @@ class HaveLowGold(QuestCompletionBase):
     @classmethod
     def quest_content(cls):
         current_gold = ActivePlayerData.get_current_gold()
-        cls.set_complete(current_gold < 100)
+        cls.complete = current_gold < 100

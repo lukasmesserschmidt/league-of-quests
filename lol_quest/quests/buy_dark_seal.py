@@ -28,4 +28,4 @@ class BuyDarkSeal(QuestCompletionBase):
 
     @classmethod
     def quest_content(cls):
-        cls.set_complete(ItemData.get_has_item(cls.summoner_name, 1082))
+        cls.complete = bool(ItemData.get_has_item(cls.summoner_name, 1082))

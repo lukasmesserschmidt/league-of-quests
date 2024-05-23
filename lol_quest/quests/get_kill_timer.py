@@ -12,5 +12,4 @@ class GetKillTimer(TimerQuestBase):
 
     @classmethod
     def complete_condition(cls, current_stat):
-        if cls.last_stat < current_stat:
-            return True
+        return cls.last_stat < current_stat

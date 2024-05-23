@@ -1,4 +1,4 @@
-from random import choice
+from random import choice, shuffle
 
 from .restriction_base import RestrictionBase
 from ..manager.hotkey_manager import HotkeyManager
@@ -18,12 +18,12 @@ class SwitchAbilities(RestrictionBase):
         switch_hotkeys = hotkeys.copy()
         cls.remap = {"ability": []}
 
-        for hotkey in hotkeys:
-            switch_hotkey = choice(switch_hotkeys)
-            while switch_hotkey == hotkey:
-                switch_hotkey = choice(switch_hotkeys)
-            switch_hotkeys.remove(switch_hotkey)
+        while [i for i in range(4) if hotkeys[i] == switch_hotkeys[i]]:
+            shuffle(switch_hotkeys)
 
+        for i in range(4):
+            hotkey = hotkeys[i]
+            switch_hotkey = switch_hotkeys[i]
             cls.remap["ability"].append((hotkey, switch_hotkey))
 
     @classmethod

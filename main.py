@@ -21,8 +21,8 @@ def start():
     from lol_quest.gui import quest_display
     from lol_quest.gui.game_overlay import game_overlay_window
 
-    quest_display.create_quest_display()
     game_overlay_window.create_game_overlay()
+    quest_display.create_quest_display()
     stop_window.create_stop_window()
     main_menu.create_main_menu()
 

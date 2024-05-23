@@ -11,10 +11,10 @@ class HotkeyManager:
         self.last_press_hotkeys = []
 
         self.set_types = {
-            "enable": {"reset": True, "last": [], "func": self.enable_keys},
-            "press": {"reset": False, "last": [], "func": self.press_hotkeys},
-            "remap": {"reset": True, "last": [], "func": self.remap},
-            "press_release": {"func": self.press_and_release},
+            "enable": {"reset": True, "last": [], "func": self._enable_keys},
+            "press": {"reset": False, "last": [], "func": self._press_hotkeys},
+            "remap": {"reset": True, "last": [], "func": self._remap},
+            "press_release": {"func": self._press_and_release},
         }
 
     def set_hotkeys(
@@ -38,7 +38,7 @@ class HotkeyManager:
         else:
             keyboard.unhook_all()
 
-    def enable_keys(self, enable: bool, *args: str):
+    def _enable_keys(self, enable: bool, *args: str):
         for arg in args:
             with suppress(Exception):
                 if enable:
@@ -46,7 +46,7 @@ class HotkeyManager:
                 else:
                     keyboard.block_key(arg)
 
-    def press_hotkeys(self, press: bool, *args: str):
+    def _press_hotkeys(self, press: bool, *args: str):
         for arg in args:
             with suppress(Exception):
                 if press:
@@ -55,11 +55,11 @@ class HotkeyManager:
                 else:
                     keyboard.release(arg)
 
-    def press_and_release(self, *args):
+    def _press_and_release(self, *args):
         for arg in args:
             keyboard.press_and_release(arg)
 
-    def remap(self, enable: bool, *args):
+    def _remap(self, enable: bool, *args):
         for arg in args:
             with suppress(Exception):
                 keyboard.unhook_key(arg[0])

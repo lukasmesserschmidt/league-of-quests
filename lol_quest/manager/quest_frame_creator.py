@@ -1,4 +1,4 @@
-from random import randint, shuffle
+from random import randint, shuffle, choice
 
 from .settings_manager import SettingsManager
 from ..quests import all_quests
@@ -33,10 +33,11 @@ class QuestFrameCreator:
 
     @classmethod
     def check_attributes(cls, object_type, object, active_quest_frames):
-        for quest_frame in active_quest_frames:
-            for attribute in object.attributes:
-                if attribute in getattr(quest_frame, object_type).attributes:
-                    return False
+        if not SettingsManager.get_allow_similar():
+            for quest_frame in active_quest_frames:
+                for attribute in object.attributes:
+                    if attribute in getattr(quest_frame, object_type).attributes:
+                        return False
 
         return True
 
@@ -79,9 +80,12 @@ class QuestFrameCreator:
                     r_diff = (restriction_difficulty + r_diff_rotation) % 3
 
                     for restriction in available_restrictions[r_diff]:
-                        for attribute in quest.attributes:
-                            if attribute in restriction.attributes:
-                                break
+                        if not SettingsManager.get_allow_similar():
+                            for attribute in quest.attributes:
+                                if attribute in restriction.attributes:
+                                    break
+                            else:
+                                return quest, restriction
                         else:
                             return quest, restriction
 

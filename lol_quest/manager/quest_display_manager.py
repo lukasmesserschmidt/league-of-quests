@@ -16,7 +16,7 @@ class QuestDisplayManager:
             cls.main_loop_timer = QTimer()
             cls.main_loop_timer.timeout.connect(cls.main_loop)
 
-        cls.main_loop_timer.start(500)
+        cls.main_loop_timer.start(200)
 
     @classmethod
     def stop(cls):

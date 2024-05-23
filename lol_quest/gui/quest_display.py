@@ -14,6 +14,7 @@ from ..utils.is_program_active import is_program_active
 
 
 class QuestDisplay(WindowBase):
+
     def __init__(self):
         super().__init__()
 
@@ -32,8 +33,7 @@ class QuestDisplay(WindowBase):
         self.last_width = self.geometry().width()
         self.dragg = False
 
-        self.mouse_listener = mouse.Listener(on_click=self.on_click)
-        self.mouse_listener.start()
+        self.mouse_listener = None
 
         self.main_loop_timer = QTimer(self)
         self.main_loop_timer.timeout.connect(self.main_loop)
@@ -42,10 +42,14 @@ class QuestDisplay(WindowBase):
 
     def start(self):
         self.move_default_pos()
+        self.mouse_listener = mouse.Listener(on_click=self.on_click)
+        self.mouse_listener.start()
         self.main_loop_timer.start(10)
 
     def stop(self):
         self.main_loop_timer.stop()
+        if self.mouse_listener is not None:
+            self.mouse_listener.stop()
         self.hide()
 
     def move_default_pos(self):
@@ -65,6 +69,7 @@ class QuestDisplay(WindowBase):
 
         if is_program_active() and is_game_active() and LolWindowData.lol_is_top:
             self.show()
+            self.raise_()
         else:
             self.hide()
 

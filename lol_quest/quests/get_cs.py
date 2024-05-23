@@ -22,4 +22,4 @@ class GetCs(QuestBase):
         current_cs = ScoreData.get_cs(cls.summoner_name)
 
         if current_cs >= cls.goal_cs:
-            cls.terminate_flag = True
+            cls.quest_complete = True

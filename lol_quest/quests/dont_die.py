@@ -1,18 +1,18 @@
 from .quest_base import QuestBase
 
 from ..lol_data.active_player_data import ActivePlayerData
-from ..utils.attributes import DEATH
+from ..utils.attributes import DEATH, TIMER
 
 
 class DontDie(QuestBase):
     title = "Dont die or timer x3!"
     difficulty = 0
-    attributes = [DEATH]
+    attributes = [DEATH, TIMER]
 
     @classmethod
     def init(cls):
+        super().init(1 / 3)
         cls.finish_color_enabled = True
-        cls.duration = cls.get_duration(1 / 3)
         cls.max_duration = cls.duration * 5
         cls.last_deaths = ActivePlayerData.get_deaths()
 

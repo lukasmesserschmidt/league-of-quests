@@ -9,8 +9,10 @@ from .auto_level import AutoLevel
 from .auto_ability import AutoAbility
 from .auto_summoner_spell import AutoSummonerSpell
 from .auto_move import AutoMove
+from .stop_move import StopMove
 from .cover_map import CoverMap
 from .lock_cam import LockCam
+from .lock_ally_cam import LockAllyCam
 
 
 all_restrictions = [
@@ -19,6 +21,7 @@ all_restrictions = [
     DisableTrinket,
     DisableTeleport,
     LockCam,
+    StopMove,
     # mid
     DisableUltimate,
     DisableSummonerSpell,
@@ -30,4 +33,5 @@ all_restrictions = [
     AutoAbility,
     SwitchAbilities,
     CoverMap,
+    LockAllyCam,
 ]

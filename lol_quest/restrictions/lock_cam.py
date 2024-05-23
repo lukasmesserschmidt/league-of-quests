@@ -1,13 +1,15 @@
 from .restriction_base import RestrictionBase
 from ..manager.hotkey_manager import HotkeyManager
+from ..utils.attributes import CAM
 
 
 class LockCam(RestrictionBase):
     title = "Cam is locked!"
     difficulty = 1
     disable_hotkeys = {"snap_cam": [0]}
+    attributes = [CAM]
 
-    interval = 0.1
+    interval = 100
 
     @classmethod
     def init(cls):
