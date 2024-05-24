@@ -1,3 +1,4 @@
+import os
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import QMainWindow, QApplication
 from PySide6.QtGui import QCloseEvent
@@ -9,8 +10,10 @@ from .stop_window import get_stop_window
 from ..manager.main_manager import MainManager
 from ..manager.settings_manager import SettingsManager
 from ..lol_data.lol_window_data import LolWindowData
+from ..lol_data.get_lol_settings import GetLolSettings
 from ..lol_data.active_player_data import ActivePlayerData
 from ..lol_data.game_data import GameData
+from ..lol_data.get_lol_paths import get_lol_settings_path, get_game_cfg_path
 from ..utils.is_game_active import is_game_active
 from ..utils.is_lol_installed import is_lol_installed
 
@@ -90,7 +93,13 @@ class MainMenu(QMainWindow):
         elif self.start_state == "not_started":
             self.update_start_button("Start", (31, 106, 165), True)
 
-        if is_game_active():
+        if (
+            GetLolSettings.observer is None
+            and os.path.exists(get_lol_settings_path())
+            and os.path.exists(get_game_cfg_path())
+        ):
+            GetLolSettings.start()
+        elif is_game_active():
             if LolWindowData.get_window_mode() != 2:
                 self.start_state = "window_mode_error"
                 self.update_start_button("N/A", (52, 54, 56))

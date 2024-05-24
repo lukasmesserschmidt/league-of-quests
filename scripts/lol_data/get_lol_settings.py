@@ -60,7 +60,7 @@ class GetLolSettings:
             cls.observer = Observer()
             cls.observer.schedule(event_handler, path, recursive=False)
 
-        cls.observer.start()
+            cls.observer.start()
 
     @classmethod
     def stop(cls):
