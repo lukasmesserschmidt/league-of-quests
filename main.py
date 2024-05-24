@@ -1,17 +1,12 @@
-import ctypes
-
-
-def is_window_open():
-    hwnd = get_hwnd()
-
-    return hwnd != 0
+import win32gui
 
 
 def get_hwnd():
     window_title = "League of Quests"
     class_name = "Qt663QWindowIcon"
+    hwnd = win32gui.FindWindow(class_name, window_title)
 
-    return ctypes.windll.user32.FindWindowW(class_name, window_title)
+    return hwnd
 
 
 def start():
@@ -30,14 +25,12 @@ def start():
 
 
 def main():
-    global user32
-    user32 = ctypes.windll.user32
+    hwnd = get_hwnd()
 
-    if not is_window_open():
+    if hwnd == 0:
         start()
     else:
-        hwnd = get_hwnd()
-        user32.SetForegroundWindow(hwnd)
+        win32gui.SetForegroundWindow(hwnd)
 
 
 if __name__ == "__main__":

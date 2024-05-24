@@ -5,4 +5,3 @@ output/
 loq exe/
 other/
 .venv/
-scripts/__pycache__/
