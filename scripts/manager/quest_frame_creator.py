@@ -1,4 +1,4 @@
-from random import randint, shuffle, choice
+from random import randint, shuffle
 
 from .settings_manager import SettingsManager
 from ..quests import all_quests
@@ -9,7 +9,7 @@ from ..gui.quest_frame import QuestFrame
 class QuestFrameCreator:
 
     @classmethod
-    def get_available_objects(cls, active_quest_frames):
+    def get_available_objects(cls, active_quest_frames: list[QuestFrame]):
         available_objects = {"quest": [[], [], []], "restriction": [[], [], []]}
 
         for object_type, all_objects in zip(
@@ -32,7 +32,9 @@ class QuestFrameCreator:
         return available_objects
 
     @classmethod
-    def check_attributes(cls, object_type, object, active_quest_frames):
+    def check_attributes(
+        cls, object_type: str, object: object, active_quest_frames: list[QuestFrame]
+    ):
         if not SettingsManager.get_allow_similar():
             for quest_frame in active_quest_frames:
                 for attribute in object.attributes:
@@ -66,7 +68,7 @@ class QuestFrameCreator:
         return object_difficultys
 
     @classmethod
-    def get_compatible(cls, active_quest_frames):
+    def get_compatible(cls, active_quest_frames: list[QuestFrame]):
         available_quests, available_restrictions = cls.get_available_objects(
             active_quest_frames
         ).values()
@@ -90,7 +92,7 @@ class QuestFrameCreator:
                             return quest, restriction
 
     @classmethod
-    def get_quest_frame(cls, active_quest_frames):
+    def get_quest_frame(cls, active_quest_frames: list[QuestFrame]):
         compatible_objects = cls.get_compatible(active_quest_frames)
         if compatible_objects:
             quest, restriction = compatible_objects

@@ -5,15 +5,15 @@ from ..utils.attributes import DEATH, TIMER
 
 
 class DontDie(QuestBase):
-    title = "Dont die or timer x3!"
+    title = "Dont die or timer x4!"
     difficulty = 0
     attributes = [DEATH, TIMER]
 
     @classmethod
     def init(cls):
-        super().init(1 / 3)
+        super().init(1 / 6)
         cls.finish_color_enabled = True
-        cls.max_duration = cls.duration * 5
+        cls.max_duration = cls.duration * 10
         cls.last_deaths = ActivePlayerData.get_deaths()
 
     @classmethod
@@ -21,7 +21,7 @@ class DontDie(QuestBase):
         current_deaths = ActivePlayerData.get_deaths()
 
         if cls.last_deaths < current_deaths:
-            new_duration = cls.remaining_time * 3
+            new_duration = cls.remaining_time * 4
             if new_duration >= cls.max_duration:
                 new_duration = cls.max_duration
 

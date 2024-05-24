@@ -10,5 +10,4 @@ class AssistObjective(KillQuestBase):
 
     @classmethod
     def kill_dependencies(cls, event: dict):
-        if cls.summoner_name in event["Assisters"]:
-            return True
+        return cls.summoner_name in event["Assisters"]

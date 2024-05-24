@@ -1,5 +1,3 @@
-test.py
-test2.py
 .vscode/
 .VSCodeCounter/
 __pycache__/
@@ -7,4 +5,4 @@ output/
 loq exe/
 other/
 .venv/
-lol_quest/__pycache__/
+scripts/__pycache__/

@@ -15,11 +15,11 @@ def get_hwnd():
 
 
 def start():
-    from lol_quest.gui import app
-    from lol_quest.gui import main_menu
-    from lol_quest.gui import stop_window
-    from lol_quest.gui import quest_display
-    from lol_quest.gui.game_overlay import game_overlay_window
+    from scripts.gui import app
+    from scripts.gui import main_menu
+    from scripts.gui import stop_window
+    from scripts.gui import quest_display
+    from scripts.gui.game_overlay import game_overlay_window
 
     game_overlay_window.create_game_overlay()
     quest_display.create_quest_display()

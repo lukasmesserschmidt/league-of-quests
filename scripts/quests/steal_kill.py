@@ -6,7 +6,7 @@ from ..lol_data.active_player_data import ActivePlayerData
 
 
 class StealKill(KillQuestBase):
-    title = "Steal teammate x one kill!"
+    title = "Steal teammate ? one kill!"
     difficulty = 2
     event_names = ["ChampionKill"]
     attributes = [KILL]

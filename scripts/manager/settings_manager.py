@@ -1,15 +1,15 @@
 import os
 import json
 
+from ..utils.get_paths import get_path
+
 
 class SettingsManager:
     all_settings: dict
 
     @classmethod
     def import_settings(cls):
-        settings_file = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)) + "\\settings.json"
-        )
+        settings_file = get_path("config\\settings.json", 1)
 
         with open(settings_file, "r") as f:
             data = json.load(f)

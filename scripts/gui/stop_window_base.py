@@ -40,16 +40,14 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-import os
+from ..utils.get_paths import get_path
 
 
 class Ui_StopWindow(object):
     def setupUi(self, stop_window):
         if not stop_window.objectName():
             stop_window.setObjectName("bg_widget")
-            ico_file = os.path.join(
-                os.path.dirname(os.path.dirname(__file__)), "graphics/loq_icon.ico"
-            )
+            ico_file = get_path("assets\\images\\loq_icon.ico", 1)
             stop_window.setWindowIcon(QIcon(ico_file))
         stop_window.resize(200, 80)
         stop_window.setStyleSheet("background-color: rgb(36, 36, 36);")

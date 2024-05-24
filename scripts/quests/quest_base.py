@@ -53,7 +53,6 @@ class QuestBase:
 
         if time.time() < cls.end_time and not cls.quest_complete:
             cls.quest_content_container()
-
         elif not cls.quest_complete:
             cls.on_time_end()
 

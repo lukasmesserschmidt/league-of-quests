@@ -45,17 +45,16 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-import os
-
 from .line_edit_base import LineEdit
 from ..manager.settings_manager import SettingsManager
+from ..utils.get_paths import get_path
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName("MainWindow")
-            ico_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "graphics/loq_icon.ico")
+            ico_file = get_path("assets\\images\\loq_icon.ico", 1)
             MainWindow.setWindowIcon(QIcon(ico_file))
         MainWindow.resize(300, 350)
         MainWindow.setStyleSheet("background-color: rgb(36, 36, 36);")

@@ -25,7 +25,7 @@ class HotkeyManager:
             set_func = set_type.get("func")
             current_hotkeys = LolSettings.get_hotkeys(hotkey_types)
 
-            if enable != None:
+            if enable != None and "reset" in set_type:
                 reset = set_type.get("reset")
                 last_hotkeys = set_type.get("last")
 
@@ -57,7 +57,8 @@ class HotkeyManager:
 
     def _press_and_release(self, *args):
         for arg in args:
-            keyboard.press_and_release(arg)
+            with suppress(Exception):
+                keyboard.press_and_release(arg)
 
     def _remap(self, enable: bool, *args):
         for arg in args:

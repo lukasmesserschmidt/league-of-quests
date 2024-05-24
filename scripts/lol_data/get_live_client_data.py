@@ -2,17 +2,15 @@ from contextlib import suppress
 import threading
 import requests
 import warnings
+import time
 
-from ..utils.waiting import WaitInterval
 
-
-class GetLiveClientData(WaitInterval):
+class GetLiveClientData:
     all_data = {}
     url = "https://127.0.0.1:2999/liveclientdata/allgamedata"
     import_loop_thread = None
 
     terminate_flag = False
-    interval = 0.2
 
     @classmethod
     def start(cls):
@@ -39,4 +37,4 @@ class GetLiveClientData(WaitInterval):
                 response = requests.get(cls.url, verify=False)
                 cls.all_data = response.json()
 
-            cls.wait_interval()
+            time.sleep(0.2)

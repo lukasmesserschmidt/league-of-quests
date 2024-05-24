@@ -34,4 +34,4 @@ class KillQuestBase(QuestBase):
 
     @classmethod
     def kill_dependencies(cls, event: dict):
-        raise NotImplementedError
+        pass

@@ -6,7 +6,7 @@ class QuestCompletionBase(QuestBase):
     remaining_quest_time = 0
 
     complete = None
-    completing = False
+    completing = None
 
     @classmethod
     def init(cls):
@@ -19,13 +19,13 @@ class QuestCompletionBase(QuestBase):
     def quest_content_container(cls):
         if cls.complete:
             if not cls.completing:
-                cls._on_completing(cls.completion_duration, True)
+                cls._on_completing_change(cls.completion_duration, True)
 
             cls.completing = True
             cls.remaining_time = cls.get_remaining_time(cls.end_time)
         else:
             if cls.completing:
-                cls._on_completing(cls.remaining_quest_time, False)
+                cls._on_completing_change(cls.remaining_quest_time, False)
 
             cls.completing = False
             cls.remaining_quest_time = cls.get_remaining_time(cls.end_time)
@@ -34,6 +34,6 @@ class QuestCompletionBase(QuestBase):
         cls.quest_content()
 
     @classmethod
-    def _on_completing(cls, duration: float, finish_enable: bool):
+    def _on_completing_change(cls, duration: float, finish_enable: bool):
         cls.end_time = cls.get_end_time(duration)
         cls.finish_color_enabled = finish_enable
