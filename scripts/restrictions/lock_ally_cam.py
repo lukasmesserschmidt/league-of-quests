@@ -1,18 +1,18 @@
 from random import randint
 import time
 
-from .restriction_base import RestrictionBase
+from .restriction_thread_base import RestrictionThreadBase
 from ..manager.hotkey_manager import HotkeyManager
 from ..utils.attributes import CAM
 
 
-class LockAllyCam(RestrictionBase):
+class LockAllyCam(RestrictionThreadBase):
     title = "Randomly lock cam on ally!"
     difficulty = 2
     hotkey_type = {"select_ally": [0, 1, 2, 3]}
     attributes = [CAM]
 
-    interval = 100
+    interval = 0.1
 
     lock_cam = False
     lock_end_time = 0

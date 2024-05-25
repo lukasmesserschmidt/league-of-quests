@@ -3,6 +3,7 @@ import keyboard
 
 from ..lol_data.lol_settings import LolSettings
 from ..lol_data.lol_window_data import LolWindowData
+from ..utils.is_game_active import is_game_active
 
 
 class HotkeyManager:
@@ -20,7 +21,7 @@ class HotkeyManager:
     def set_hotkeys(
         self, set_type: str, hotkey_types: dict[str, list[int]], enable: bool = None
     ):
-        if LolWindowData.lol_is_top:
+        if LolWindowData.lol_is_top and is_game_active():
             set_type = self.set_types.get(set_type)
             set_func = set_type.get("func")
             current_hotkeys = LolSettings.get_hotkeys(hotkey_types)

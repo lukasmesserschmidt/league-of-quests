@@ -33,6 +33,13 @@ class LolWindowData:
         cls.lol_is_top = title == cls.lol_title
 
     @classmethod
+    def is_lol_open(cls):
+        class_name = "RiotWindowClass"
+        hwnd = win32gui.FindWindow(class_name, cls.lol_title)
+
+        return hwnd != 0
+
+    @classmethod
     def get_window_mode(cls):
         window_mode = LolSettings.get_lol_setting("window_mode")
 
