@@ -22,6 +22,8 @@ class HotkeyManager:
         self, set_type: str, hotkey_types: dict[str, list[int]], enable: bool = None
     ):
         if LolWindowData.lol_is_top and is_game_active():
+            LolWindowData.activate_lol()
+
             set_type = self.set_types.get(set_type)
             set_func = set_type.get("func")
             current_hotkeys = LolSettings.get_hotkeys(hotkey_types)
