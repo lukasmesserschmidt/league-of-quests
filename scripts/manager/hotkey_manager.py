@@ -8,40 +8,37 @@ from ..utils.is_game_active import is_game_active
 
 class HotkeyManager:
     def __init__(self):
-        self.last_enable_hotkeys = []
-        self.last_press_hotkeys = []
-
-        self.set_types = {
-            "enable": {"reset": True, "last": [], "func": self._enable_keys},
-            "press": {"reset": False, "last": [], "func": self._press_hotkeys},
-            "remap": {"reset": True, "last": [], "func": self._remap},
-            "press_release": {"func": self._press_and_release},
+        self.event_types = {
+            "enable": {"reset": True, "last": [], "func": self._enable},
+            "press": {"reset": False, "last": [], "func": self._press},
+            "remap": {"reset": False, "last": [], "func": self._remap},
+            "press_release": {"func": self._press_release},
         }
 
-    def set_hotkeys(
-        self, set_type: str, hotkey_types: dict[str, list[int]], enable: bool = None
+    def hotkey_event(
+        self, event_type: str, hotkey_types: dict[str, list[int]], enable: bool = None
     ):
         if LolWindowData.lol_is_top and is_game_active():
             LolWindowData.activate_lol()
 
-            set_type = self.set_types.get(set_type)
-            set_func = set_type.get("func")
+            event_type = self.event_types.get(event_type)
+            event_func = event_type.get("func")
             current_hotkeys = LolSettings.get_hotkeys(hotkey_types)
 
-            if enable != None and "reset" in set_type:
-                reset = set_type.get("reset")
-                last_hotkeys = set_type.get("last")
+            if enable != None and "reset" in event_type:
+                reset = event_type.get("reset")
+                last_hotkeys = event_type.get("last")
 
-                set_func(reset, *last_hotkeys)
-                set_type["last"] = current_hotkeys
+                event_func(reset, *last_hotkeys)
+                event_type["last"] = current_hotkeys
 
-                set_func(enable, *current_hotkeys)
+                event_func(enable, *current_hotkeys)
             else:
-                set_func(*current_hotkeys)
+                event_func(*current_hotkeys)
         else:
             keyboard.unhook_all()
 
-    def _enable_keys(self, enable: bool, *args: str):
+    def _enable(self, enable: bool, *args: str):
         for arg in args:
             with suppress(Exception):
                 if enable:
@@ -49,16 +46,16 @@ class HotkeyManager:
                 else:
                     keyboard.block_key(arg)
 
-    def _press_hotkeys(self, press: bool, *args: str):
+    def _press(self, press: bool, *args: str):
         for arg in args:
             with suppress(Exception):
                 if press:
-                    keyboard.release(arg)
-                    keyboard.press(arg)
+                    if not (arg == "F4" and keyboard.is_pressed("alt")):
+                        keyboard.press(arg)
                 else:
                     keyboard.release(arg)
 
-    def _press_and_release(self, *args):
+    def _press_release(self, *args):
         for arg in args:
             with suppress(Exception):
                 keyboard.press_and_release(arg)
@@ -66,6 +63,8 @@ class HotkeyManager:
     def _remap(self, enable: bool, *args):
         for arg in args:
             with suppress(Exception):
-                keyboard.unhook_key(arg[0])
-            if enable:
-                keyboard.remap_key(arg[0], arg[1])
+                if enable:
+                    keyboard.remap_key(arg[0], arg[1])
+                else:
+                    keyboard.unhook_key(arg[0])
+                    keyboard.unhook_key(arg[1])

@@ -13,6 +13,6 @@ class DisableAbility(DisableHotkeyBase):
     def init(cls):
         super().init()
         rand_ability = randint(0, 2)
-        cls.disable_types = {"ability": [rand_ability]}
+        cls.disable_hotkeys = {"ability": [rand_ability]}
 
         cls.title = f"Ability {rand_ability + 1} is disabled!"

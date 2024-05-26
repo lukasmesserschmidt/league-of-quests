@@ -6,10 +6,11 @@ from PySide6.QtGui import (
 
 
 class LineEdit(QLineEdit):
-    def __init__(self, parent, symbol: str, max_num: int):
+    def __init__(self, parent, symbol: str, max_num: int, min_num: int = 0):
         super().__init__(parent)
 
         self.symbol = symbol
+        self.min_num = min_num
         self.max_num = max_num
         self.setValidator(QIntValidator())
 
@@ -26,5 +27,8 @@ class LineEdit(QLineEdit):
         super().focusOutEvent(arg__1)
 
     def on_text_change(self, text):
-        if text.isdigit() and int(text) > self.max_num:
-            self.setText(str(self.max_num))
+        if text.isdigit():
+            if int(text) < self.min_num:
+                self.setText(str(self.min_num))
+            if int(text) > self.max_num:
+                self.setText(str(self.max_num))

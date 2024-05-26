@@ -16,6 +16,6 @@ class AutoAbility(RestrictionBase):
         if randint(1, 60) == 1:
             rand_ability = randint(0, 3)
             hotkey_type = {"quick_ability": [rand_ability]}
-            HotkeyManager().set_hotkeys("press_release", hotkey_type)
+            HotkeyManager().hotkey_event("press_release", hotkey_type)
             hotkey_type = {"ability": [rand_ability]}
-            HotkeyManager().set_hotkeys("press_release", hotkey_type)
+            HotkeyManager().hotkey_event("press_release", hotkey_type)

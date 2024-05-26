@@ -12,7 +12,7 @@ class AutoMove(RestrictionThreadBase):
     difficulty = 1
     attributes = [MOVE, AUTO]
 
-    interval = 0.1
+    interval = 0.2
 
     @classmethod
     def stop(cls):

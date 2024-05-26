@@ -15,6 +15,6 @@ class AutoSummonerSpell(RestrictionBase):
         if randint(1, 450) == 1:
             rand_summoner_spell = randint(0, 1)
             hotkey_type = {"quick_summoner_spell": [rand_summoner_spell]}
-            HotkeyManager().set_hotkeys("press_release", hotkey_type)
+            HotkeyManager().hotkey_event("press_release", hotkey_type)
             hotkey_type = {"summoner_spell": [rand_summoner_spell]}
-            HotkeyManager().set_hotkeys("press_release", hotkey_type)
+            HotkeyManager().hotkey_event("press_release", hotkey_type)

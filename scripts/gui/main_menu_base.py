@@ -174,7 +174,7 @@ class Ui_MainWindow(object):
 
         self.quest_settings_frame_layout.addWidget(self.quest_limit_label, 0, 0, 1, 1)
 
-        self.quest_after_time_lineedit = LineEdit(self.quest_settings_frame, "s", 36000)
+        self.quest_after_time_lineedit = LineEdit(self.quest_settings_frame, "s", 36000, 5)
         self.quest_after_time_lineedit.setObjectName("quest_after_time_lineedit")
         self.quest_after_time_lineedit.setStyleSheet(
             "color: rgb(235, 235, 235);\n"
@@ -187,7 +187,7 @@ class Ui_MainWindow(object):
             self.quest_after_time_lineedit, 3, 2, 1, 1
         )
 
-        self.quest_duration_lineedit = LineEdit(self.quest_settings_frame, "s", 36000)
+        self.quest_duration_lineedit = LineEdit(self.quest_settings_frame, "s", 36000, 5)
         self.quest_duration_lineedit.setObjectName("quest_duration_lineedit")
         self.quest_duration_lineedit.setEnabled(True)
         self.quest_duration_lineedit.setStyleSheet(
@@ -201,7 +201,7 @@ class Ui_MainWindow(object):
             self.quest_duration_lineedit, 1, 2, 1, 1
         )
 
-        self.quest_limit_lineedit = LineEdit(self.quest_settings_frame, "", 5)
+        self.quest_limit_lineedit = LineEdit(self.quest_settings_frame, "", 5, 1)
         self.quest_limit_lineedit.setObjectName("quest_limit_lineedit")
         self.quest_limit_lineedit.setEnabled(True)
         self.quest_limit_lineedit.setStyleSheet(

@@ -28,10 +28,10 @@ all_restrictions = [
     AutoSummonerSpell,
     AutoLevel,
     AutoMove,
+    SwitchAbilities,
     # hard
     DisableOnDmgTaken,
     AutoAbility,
-    SwitchAbilities,
     CoverMap,
     LockAllyCam,
 ]

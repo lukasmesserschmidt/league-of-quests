@@ -7,5 +7,5 @@ from ..utils.attributes import ABILITY
 class DisableUltimate(DisableHotkeyBase):
     title = "Ultimate is disabled!"
     difficulty = 1
-    disable_types = {"ability": [3]}
+    disable_hotkeys = {"ability": [3]}
     attributes = [ABILITY]

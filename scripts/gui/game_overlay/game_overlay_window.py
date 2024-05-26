@@ -41,7 +41,7 @@ class GameOverlayWindow(WindowBase):
         self.hide()
 
     def start(self):
-        self.main_loop_timer.start(10)
+        self.main_loop_timer.start(100)
 
     def stop(self):
         self.main_loop_timer.stop()

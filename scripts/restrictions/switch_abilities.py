@@ -8,6 +8,7 @@ from ..utils.attributes import ABILITY
 class SwitchAbilities(RestrictionBase):
     title = "Switched ability hotkeys!"
     difficulty = 1
+    remap = {"ability": []}
     attributes = [ABILITY]
 
     @classmethod
@@ -28,9 +29,9 @@ class SwitchAbilities(RestrictionBase):
 
     @classmethod
     def restriction_content(cls):
-        cls.hotkey_manager.set_hotkeys("remap", cls.remap, True)
+        cls.hotkey_manager.hotkey_event("remap", cls.remap, True)
 
     @classmethod
     def on_end(cls):
-        cls.hotkey_manager.set_hotkeys("remap", cls.remap, False)
+        cls.hotkey_manager.hotkey_event("remap", cls.remap, False)
         del cls.hotkey_manager

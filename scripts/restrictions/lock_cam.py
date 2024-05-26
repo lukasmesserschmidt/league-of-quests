@@ -5,8 +5,8 @@ from ..utils.attributes import CAM
 
 class LockCam(RestrictionThreadBase):
     title = "Cam is locked!"
-    difficulty = 1
-    disable_hotkeys = {"snap_cam": [0]}
+    difficulty = 0
+    hotkey_type = {"snap_cam": [0]}
     attributes = [CAM]
 
     interval = 0.1
@@ -17,9 +17,9 @@ class LockCam(RestrictionThreadBase):
 
     @classmethod
     def restriction_content(cls):
-        cls.hotkey_manager.set_hotkeys("press", cls.disable_hotkeys, True)
+        cls.hotkey_manager.hotkey_event("press", cls.hotkey_type, True)
 
     @classmethod
     def on_end(cls):
-        cls.hotkey_manager.set_hotkeys("press", cls.disable_hotkeys, False)
+        cls.hotkey_manager.hotkey_event("press", cls.hotkey_type, False)
         del cls.hotkey_manager

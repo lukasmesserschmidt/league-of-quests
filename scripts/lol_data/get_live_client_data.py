@@ -35,6 +35,8 @@ class GetLiveClientData:
 
             with suppress(Exception):
                 response = requests.get(cls.url, verify=False)
-                cls.all_data = response.json()
+                all_data = response.json()
+                if len(all_data["events"]["Events"]) > 0:
+                    cls.all_data = all_data
 
             time.sleep(0.2)

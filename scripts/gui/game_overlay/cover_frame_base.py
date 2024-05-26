@@ -1,6 +1,5 @@
 from typing import Callable
 from PySide6.QtWidgets import QFrame
-import time
 
 
 class CoverFrameBase(QFrame):
@@ -19,5 +18,4 @@ class CoverFrameBase(QFrame):
         super().show()
 
     def hide(self, *args):
-        time.sleep(0.001)
         super().hide()

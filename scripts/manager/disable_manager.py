@@ -6,6 +6,6 @@ class DisableManager:
     def __init__(self):
         self.hotkey_manager = HotkeyManager()
 
-    def enable_type(self, enable: bool, disable_types: dict[str, list[int]]):
-        self.hotkey_manager.set_hotkeys("enable", disable_types, enable)
-        get_game_overlay().enable_cover(not enable, disable_types)
+    def enable_hotkey(self, enable: bool, disable_hotkeys: dict[str, list[int]]):
+        self.hotkey_manager.hotkey_event("enable", disable_hotkeys, enable)
+        get_game_overlay().enable_cover(not enable, disable_hotkeys)

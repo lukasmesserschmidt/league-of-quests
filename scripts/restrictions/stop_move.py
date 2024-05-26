@@ -26,7 +26,7 @@ class StopMove(RestrictionBase):
     def restriction_content(cls):
         if cls.lock_move:
             if time.time() < cls.lock_end_time:
-                HotkeyManager().set_hotkeys("press_release", cls.hotkey_type)
+                HotkeyManager().hotkey_event("press_release", cls.hotkey_type)
             else:
                 cls.lock_move = False
         elif randint(1, 400) == 1:

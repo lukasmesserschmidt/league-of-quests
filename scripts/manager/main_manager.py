@@ -49,6 +49,7 @@ class MainManager:
         QuestFrameManager.stop()
 
         LolWindowData.stop()
+        GetLiveClientData.all_data = None
 
         is_program_active.program_active = False
 

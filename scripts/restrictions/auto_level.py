@@ -24,7 +24,7 @@ class AutoLevel(RestrictionBase):
             ability_nums.remove(rand_ability)
 
             hotkey_type = {"level_ability": [rand_ability]}
-            HotkeyManager().set_hotkeys("press_release", hotkey_type)
+            HotkeyManager().hotkey_event("press_release", hotkey_type)
 
     @classmethod
     def get_total_ability_level(cls):
