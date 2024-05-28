@@ -19,7 +19,7 @@ class QuestAfterTime:
         cls.end_time = cls._get_end_time()
         cls.remaining_time = cls._get_remaining_time()
 
-        cls.receive_loop_timer.start(200)
+        cls.receive_loop_timer.start(500)
 
     @classmethod
     def stop(cls):

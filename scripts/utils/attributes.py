@@ -1,7 +1,7 @@
 ABILITY = "ability"
 SUMMONER_SPELL = "summoner_spell"
 TRINKET = "trinket"
-TELEPORT = "teleport"
+RECALL = "recall"
 RESOURCE = "resource"
 GOLD = "gold"
 KILL = "kill"

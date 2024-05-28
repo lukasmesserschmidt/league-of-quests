@@ -2,7 +2,7 @@ from .disable_ability import DisableAbility
 from .disable_ultimate import DisableUltimate
 from .disable_summoner_spell import DisableSummonerSpell
 from .disable_trinket import DisableTrinket
-from .disable_teleport import DisableTeleport
+from .disable_Recall import DisableRecall
 from .disable_on_dmg_taken import DisableOnDmgTaken
 from .switch_abilities import SwitchAbilities
 from .auto_level import AutoLevel
@@ -19,7 +19,7 @@ all_restrictions = [
     # easy
     DisableAbility,
     DisableTrinket,
-    DisableTeleport,
+    DisableRecall,
     LockCam,
     StopMove,
     # mid

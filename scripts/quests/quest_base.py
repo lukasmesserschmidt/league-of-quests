@@ -14,7 +14,7 @@ class QuestBase:
 
     quest_loop_timer = None
     quest_complete = False
-    interval = 200
+    interval = 500
     update_title = False
     finish_color_enabled = False
 

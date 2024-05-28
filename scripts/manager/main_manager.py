@@ -53,11 +53,11 @@ class MainManager:
 
         is_program_active.program_active = False
 
+        keyboard.unhook_all()
+
     @classmethod
     def stop_program(cls):
         cls.stop_game()
 
         GetLolSettings.stop()
         GetLiveClientData.stop()
-
-        keyboard.unhook_all()

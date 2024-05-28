@@ -21,7 +21,7 @@ class QuestFrameManager:
 
         cls.active_quest_frames = []
         cls.create_quest_frame_amount = 0
-        cls.main_loop_timer.start(200)
+        cls.main_loop_timer.start(500)
 
     @classmethod
     def stop(cls):
@@ -35,13 +35,13 @@ class QuestFrameManager:
 
     @classmethod
     def main_loop(cls):
-        cls.update_quest_frames()
-        cls.update_quest_frame_available()
-
         for _ in range(cls.create_quest_frame_amount):
             if len(cls.active_quest_frames) < SettingsManager.get_quest_limit():
                 cls.create_quest_frame()
             cls.create_quest_frame_amount -= 1
+
+        cls.update_quest_frames()
+        cls.update_quest_frame_available()
 
     @classmethod
     def create_quest_frame(cls):
@@ -53,7 +53,8 @@ class QuestFrameManager:
     @classmethod
     def update_quest_frames(cls):
         for quest_frame in cls.active_quest_frames:
-            if quest_frame.quest.quest_complete:
+            quest = quest_frame.quest
+            if quest.quest_complete:
                 cls.delete_quest_frame(quest_frame)
 
     @classmethod

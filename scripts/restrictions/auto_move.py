@@ -30,7 +30,6 @@ class AutoMove(RestrictionThreadBase):
             and is_game_active()
             and not get_quest_display().dragg
         ):
-            LolWindowData.activate_lol()
             pyautogui.rightClick()
 
     @classmethod
@@ -40,5 +39,4 @@ class AutoMove(RestrictionThreadBase):
             and is_game_active()
             and not get_quest_display().dragg
         ):
-            LolWindowData.activate_lol()
             pyautogui.mouseUp(button="secondary")

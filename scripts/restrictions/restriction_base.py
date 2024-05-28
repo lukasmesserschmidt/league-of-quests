@@ -7,7 +7,7 @@ class RestrictionBase:
     attributes = []
 
     restriction_loop_timer = None
-    interval = 200
+    interval = 500
 
     # control
     @classmethod

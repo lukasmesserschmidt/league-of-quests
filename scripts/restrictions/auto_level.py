@@ -2,7 +2,7 @@ from random import choice
 
 from .restriction_base import RestrictionBase
 from ..lol_data.active_player_data import ActivePlayerData
-from ..manager.hotkey_manager import HotkeyManager
+from ..manager.hotkey_manager import HotkeyManager, EventType
 from ..lol_data.lol_window_data import LolWindowData
 from ..utils.attributes import AUTO
 
@@ -24,7 +24,7 @@ class AutoLevel(RestrictionBase):
             ability_nums.remove(rand_ability)
 
             hotkey_type = {"level_ability": [rand_ability]}
-            HotkeyManager().hotkey_event("press_release", hotkey_type)
+            HotkeyManager().hotkey_event(EventType.PRESS_RELEASE, hotkey_type)
 
     @classmethod
     def get_total_ability_level(cls):

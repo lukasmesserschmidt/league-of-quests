@@ -14,7 +14,7 @@ class QuestOnDeath:
             cls.receive_loop_timer.timeout.connect(cls.receive_loop)
 
         cls.last_death_cont = ActivePlayerData.get_deaths()
-        cls.receive_loop_timer.start(200)
+        cls.receive_loop_timer.start(500)
 
     @classmethod
     def stop(cls):

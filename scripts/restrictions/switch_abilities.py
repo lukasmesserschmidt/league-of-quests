@@ -1,7 +1,7 @@
 from random import choice, shuffle
 
 from .restriction_base import RestrictionBase
-from ..manager.hotkey_manager import HotkeyManager
+from ..manager.hotkey_manager import HotkeyManager, EventType
 from ..utils.attributes import ABILITY
 
 
@@ -29,9 +29,9 @@ class SwitchAbilities(RestrictionBase):
 
     @classmethod
     def restriction_content(cls):
-        cls.hotkey_manager.hotkey_event("remap", cls.remap, True)
+        cls.hotkey_manager.hotkey_event(EventType.REMAP, cls.remap, True)
 
     @classmethod
     def on_end(cls):
-        cls.hotkey_manager.hotkey_event("remap", cls.remap, False)
+        cls.hotkey_manager.hotkey_event(EventType.REMAP, cls.remap, False)
         del cls.hotkey_manager

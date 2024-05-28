@@ -41,7 +41,7 @@ class GameOverlayWindow(WindowBase):
         self.hide()
 
     def start(self):
-        self.main_loop_timer.start(100)
+        self.main_loop_timer.start(500)
 
     def stop(self):
         self.main_loop_timer.stop()
@@ -59,13 +59,13 @@ class GameOverlayWindow(WindowBase):
             self.hide()
 
     def enable_cover(self, enable: bool, overlay_types: dict[str, list[int]]):
-        if LolWindowData.lol_is_top and is_game_active():
-            for overlay_type, args in overlay_types.items():
-                cover = self.overlay_covers[overlay_type]
-                if enable:
+        for overlay_type, args in overlay_types.items():
+            cover = self.overlay_covers[overlay_type]
+            if enable:
+                if LolWindowData.lol_is_top and is_game_active():
                     cover.show(*args)
-                else:
-                    cover.hide(*args)
+            else:
+                cover.hide(*args)
 
 
 def create_game_overlay():

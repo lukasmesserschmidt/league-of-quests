@@ -1,5 +1,5 @@
 from .restriction_thread_base import RestrictionThreadBase
-from ..manager.hotkey_manager import HotkeyManager
+from ..manager.hotkey_manager import HotkeyManager, EventType
 from ..utils.attributes import CAM
 
 
@@ -17,9 +17,9 @@ class LockCam(RestrictionThreadBase):
 
     @classmethod
     def restriction_content(cls):
-        cls.hotkey_manager.hotkey_event("press", cls.hotkey_type, True)
+        cls.hotkey_manager.hotkey_event(EventType.PRESS, cls.hotkey_type, True)
 
     @classmethod
     def on_end(cls):
-        cls.hotkey_manager.hotkey_event("press", cls.hotkey_type, False)
+        cls.hotkey_manager.hotkey_event(EventType.PRESS, cls.hotkey_type, False)
         del cls.hotkey_manager

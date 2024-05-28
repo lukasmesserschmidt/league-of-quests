@@ -17,7 +17,7 @@ class LolWindowData:
             cls.check_lol_is_top_timer.timeout.connect(cls._check_lol_is_top)
 
         cls.lol_is_top = False
-        cls.check_lol_is_top_timer.start(10)
+        cls.check_lol_is_top_timer.start(100)
 
     @classmethod
     def stop(cls):
@@ -44,11 +44,6 @@ class LolWindowData:
         hwnd = cls.get_lol_hwnd()
 
         return hwnd != 0
-
-    @classmethod
-    def activate_lol(cls):
-        hwnd = cls.get_lol_hwnd()
-        win32gui.SetForegroundWindow(hwnd)
 
     @classmethod
     def get_window_mode(cls):

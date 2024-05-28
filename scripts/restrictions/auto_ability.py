@@ -1,7 +1,7 @@
 from random import randint
 
 from .restriction_base import RestrictionBase
-from ..manager.hotkey_manager import HotkeyManager
+from ..manager.hotkey_manager import HotkeyManager, EventType
 
 from ..utils.attributes import ABILITY, AUTO
 
@@ -13,9 +13,9 @@ class AutoAbility(RestrictionBase):
 
     @classmethod
     def restriction_content(cls):
-        if randint(1, 60) == 1:
+        if randint(1, int(6000 / cls.interval)) == 1:
             rand_ability = randint(0, 3)
             hotkey_type = {"quick_ability": [rand_ability]}
-            HotkeyManager().hotkey_event("press_release", hotkey_type)
+            HotkeyManager().hotkey_event(EventType.PRESS_RELEASE, hotkey_type)
             hotkey_type = {"ability": [rand_ability]}
-            HotkeyManager().hotkey_event("press_release", hotkey_type)
+            HotkeyManager().hotkey_event(EventType.PRESS_RELEASE, hotkey_type)

@@ -114,6 +114,9 @@ class QuestDisplay(WindowBase):
     def set_timer_text(self, text):
         self.ui.next_quest_time_label.setText(text)
 
+    def get_quest_count(self):
+        return self.ui.quest_count_label.text()
+
     def set_quest_count(self, count):
         self.ui.quest_count_label.setText(
             f"{count}/{SettingsManager.get_quest_limit()}"

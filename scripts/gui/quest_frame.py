@@ -23,7 +23,7 @@ class QuestFrame(QFrame):
 
         self.main_loop_timer = QTimer(self)
         self.main_loop_timer.timeout.connect(self.main_loop)
-        self.main_loop_timer.start(100)
+        self.main_loop_timer.start(500)
 
     def set_quest_title(self):
         self.ui.title_label.setText(self.quest.title)
@@ -46,7 +46,7 @@ class QuestFrame(QFrame):
         text = convert_time(self.quest.remaining_time)
         self.ui.time_label.setText(text)
 
-    def change_timer_color(self, color: tuple):
+    def change_timer_color(self, color: tuple[int, int, int]):
         self.ui.time_label.setStyleSheet(
             f"background-color: rgb{color};\n" "border-radius:5px"
         )

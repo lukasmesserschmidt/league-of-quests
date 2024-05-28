@@ -1,7 +1,7 @@
 from random import randint
 
 from .restriction_base import RestrictionBase
-from ..manager.hotkey_manager import HotkeyManager
+from ..manager.hotkey_manager import HotkeyManager, EventType
 from ..utils.attributes import SUMMONER_SPELL, AUTO
 
 
@@ -12,9 +12,9 @@ class AutoSummonerSpell(RestrictionBase):
 
     @classmethod
     def restriction_content(cls):
-        if randint(1, 450) == 1:
+        if randint(1, int(90000 / cls.interval)) == 1:
             rand_summoner_spell = randint(0, 1)
             hotkey_type = {"quick_summoner_spell": [rand_summoner_spell]}
-            HotkeyManager().hotkey_event("press_release", hotkey_type)
+            HotkeyManager().hotkey_event(EventType.PRESS_RELEASE, hotkey_type)
             hotkey_type = {"summoner_spell": [rand_summoner_spell]}
-            HotkeyManager().hotkey_event("press_release", hotkey_type)
+            HotkeyManager().hotkey_event(EventType.PRESS_RELEASE, hotkey_type)

@@ -39,4 +39,4 @@ class GetLiveClientData:
                 if len(all_data["events"]["Events"]) > 0:
                     cls.all_data = all_data
 
-            time.sleep(0.2)
+            time.sleep(0.5)

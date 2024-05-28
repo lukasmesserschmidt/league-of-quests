@@ -14,7 +14,8 @@ class LineEdit(QLineEdit):
         self.max_num = max_num
         self.setValidator(QIntValidator())
 
-        self.textChanged.connect(self.on_text_change)
+        if self.min_num == 0:
+            self.textChanged.connect(self.set_min_max)
 
     def focusInEvent(self, arg__1: QFocusEvent) -> None:
         if self.symbol != "":
@@ -22,13 +23,14 @@ class LineEdit(QLineEdit):
         super().focusInEvent(arg__1)
 
     def focusOutEvent(self, arg__1: QFocusEvent) -> None:
+        self.set_min_max()
         self.setText((self.text() or "0") + self.symbol)
         self.setText(self.text().replace("-", ""))
         super().focusOutEvent(arg__1)
 
-    def on_text_change(self, text):
-        if text.isdigit():
-            if int(text) < self.min_num:
+    def set_min_max(self):
+        if self.text().isdigit():
+            if int(self.text()) < self.min_num:
                 self.setText(str(self.min_num))
-            if int(text) > self.max_num:
+            if int(self.text()) > self.max_num:
                 self.setText(str(self.max_num))

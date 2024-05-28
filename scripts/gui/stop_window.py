@@ -31,7 +31,7 @@ class StopWindow(WindowBase):
 
     def start(self):
         self.show()
-        self.main_loop_timer.start(100)
+        self.main_loop_timer.start(500)
 
     def stop(self):
         self.hide()

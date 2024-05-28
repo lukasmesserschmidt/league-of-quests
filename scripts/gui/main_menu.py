@@ -38,9 +38,9 @@ class MainMenu(QMainWindow):
         if is_lol_installed():
             self.start()
         else:
-            self.update_start_button("N/A", (52, 54, 56))
+            self.set_start_button("N/A", (52, 54, 56))
             self.ui.info_label.setText(
-                "League of Legends is not installed,\n(install League of Legends and restart)!"
+                "League of Legends is not installed\n(install League of Legends and restart)!"
             )
             self.ui.info_label.show()
 
@@ -79,6 +79,7 @@ class MainMenu(QMainWindow):
 
     def start(self):
         self.start_state = "not_started"
+        self.set_start_button("Start", (31, 106, 165), True)
         self.main_loop_timer.start(100)
         self.show()
 
@@ -88,42 +89,52 @@ class MainMenu(QMainWindow):
 
     # main
     def main_loop(self):
-        if self.start_state == "started":
-            self.update_start_button("Waiting", (52, 54, 56), True)
-        elif self.start_state == "not_started":
-            self.update_start_button("Start", (31, 106, 165), True)
+        self.update_start_button()
+        self.check_lol_settings()
+        self.check_game_status()
 
+    def update_start_button(self):
+        if self.start_state == "started":
+            self.set_start_button("Waiting", (52, 54, 56), True)
+        elif self.start_state == "not_started":
+            self.set_start_button("Start", (31, 106, 165), True)
+
+    def check_lol_settings(self):
         if (
             GetLolSettings.observer is None
             and os.path.exists(get_lol_settings_path())
             and os.path.exists(get_game_cfg_path())
         ):
             GetLolSettings.start()
-        elif is_game_active():
-            if LolWindowData.get_window_mode() != 2:
-                self.start_state = "window_mode_error"
-                self.update_start_button("N/A", (52, 54, 56))
-                self.ui.info_label.setText("LoL must be in borderless window mode!")
-                self.ui.info_label.show()
-            elif GameData.get_game_mode() not in ("CLASSIC", "PRACTICETOOL"):
-                self.start_state = "game_mode_error"
-                self.update_start_button("N/A", (52, 54, 56))
-                self.ui.info_label.setText("Not playable in this game mode!")
-                self.ui.info_label.show()
-            elif ActivePlayerData.get_champion_name() == "Aphelios":
-                self.start_state = "champion_error"
-                self.update_start_button("N/A", (52, 54, 56))
-                self.ui.info_label.setText("Not playable with Aphelios!")
-                self.ui.info_label.show()
-            elif self.start_state == "started":
-                self.hide()
-                self.main_loop_timer.stop()
-                SettingsManager.update(self.ui)
-                MainManager.start_game()
-            else:
-                self.start_state = "not_started"
+
+    def check_game_status(self):
+        if is_game_active():
+            self.handle_active_game()
         elif self.start_state not in ("not_started", "started"):
             self.start_state = "not_started"
+
+    def handle_active_game(self):
+        if LolWindowData.get_window_mode() != 2:
+            self.set_error_state(
+                "window_mode_error", "LoL must be in borderless window mode!"
+            )
+        elif GameData.get_game_mode() not in ("CLASSIC", "ARAM", "PRACTICETOOL"):
+            self.set_error_state("game_mode_error", "Not playable in this game mode!")
+        elif ActivePlayerData.get_champion_name() == "Aphelios":
+            self.set_error_state("champion_error", "Not playable with Aphelios!")
+        elif self.start_state == "started":
+            self.hide()
+            self.main_loop_timer.stop()
+            SettingsManager.update(self.ui)
+            MainManager.start_game()
+        else:
+            self.start_state = "not_started"
+
+    def set_error_state(self, error_state: str, info_text: str):
+        self.start_state = error_state
+        self.set_start_button("N/A", (52, 54, 56))
+        self.ui.info_label.setText(info_text)
+        self.ui.info_label.show()
 
     # events
     def closeEvent(self, event: QCloseEvent) -> None:
@@ -140,7 +151,7 @@ class MainMenu(QMainWindow):
         QApplication.quit()
 
     # utils
-    def update_start_button(self, text: str, color: tuple, enable: bool = False):
+    def set_start_button(self, text: str, color: tuple, enable: bool = False):
         start_button = self.ui.start_button
         start_button.setText(text)
         start_button.setStyleSheet(
