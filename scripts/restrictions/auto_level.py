@@ -1,16 +1,18 @@
 from random import choice
 
-from .restriction_base import RestrictionBase
+from .restriction_hotkey_base import RestrictionHotkeyBase
 from ..lol_data.active_player_data import ActivePlayerData
-from ..manager.hotkey_manager import HotkeyManager, EventType
 from ..lol_data.lol_window_data import LolWindowData
+from ..utils.constants import Constants
 from ..utils.attributes import AUTO
 
 
-class AutoLevel(RestrictionBase):
+class AutoLevel(RestrictionHotkeyBase):
     title = "Auto level random ability!"
     difficulty = 1
     attributes = [AUTO]
+
+    hotkey_types = {Constants.LEVEL_ABILITY: []}
 
     @classmethod
     def restriction_content(cls):
@@ -23,8 +25,8 @@ class AutoLevel(RestrictionBase):
             rand_ability = choice(ability_nums)
             ability_nums.remove(rand_ability)
 
-            hotkey_type = {"level_ability": [rand_ability]}
-            HotkeyManager().hotkey_event(EventType.PRESS_RELEASE, hotkey_type)
+            cls.hotkey_types = {Constants.LEVEL_ABILITY: [rand_ability]}
+            cls.hotkey_event(Constants.PRESS_RELEASE, cls.hotkey_types)
 
     @classmethod
     def get_total_ability_level(cls):

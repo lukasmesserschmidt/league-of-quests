@@ -1,21 +1,24 @@
 from random import randint
 
-from .restriction_base import RestrictionBase
-from ..manager.hotkey_manager import HotkeyManager, EventType
-
+from .restriction_hotkey_base import RestrictionHotkeyBase
+from ..utils.constants import Constants
 from ..utils.attributes import ABILITY, AUTO
+from ..utils.constants import Constants
 
 
-class AutoAbility(RestrictionBase):
+class AutoAbility(RestrictionHotkeyBase):
     title = "Auto cast random abilities!"
     difficulty = 2
     attributes = [ABILITY, AUTO]
+
+    hotkey_types = {Constants.ABILITY: [], Constants.QUICK_ABILITY: []}
 
     @classmethod
     def restriction_content(cls):
         if randint(1, int(6000 / cls.interval)) == 1:
             rand_ability = randint(0, 3)
-            hotkey_type = {"quick_ability": [rand_ability]}
-            HotkeyManager().hotkey_event(EventType.PRESS_RELEASE, hotkey_type)
-            hotkey_type = {"ability": [rand_ability]}
-            HotkeyManager().hotkey_event(EventType.PRESS_RELEASE, hotkey_type)
+            cls.hotkey_types = {
+                Constants.ABILITY: [rand_ability],
+                Constants.QUICK_ABILITY: [rand_ability],
+            }
+            cls.hotkey_event(Constants.PRESS_RELEASE, cls.hotkey_types)

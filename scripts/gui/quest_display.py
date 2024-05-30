@@ -11,6 +11,7 @@ from ..utils import user_data
 from ..utils.game_overlay_scaling import get_map_size
 from ..utils.is_game_active import is_game_active
 from ..utils.is_program_active import is_program_active
+from ..utils.constants import Constants
 
 
 class QuestDisplay(WindowBase):
@@ -57,7 +58,9 @@ class QuestDisplay(WindowBase):
         map_size = get_map_size()
         space = get_map_size() * 0.05
         x -= (
-            (map_size + space) if not LolSettings.get_lol_setting("flip_map") else 0
+            (map_size + space)
+            if not LolSettings.get_lol_setting(Constants.FLIP_MAP)
+            else 0
         ) + 250
         y -= 300
 

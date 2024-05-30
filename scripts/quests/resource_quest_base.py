@@ -1,5 +1,6 @@
 from .quest_base import QuestBase
 from ..gui.game_overlay.game_overlay_window import get_game_overlay
+from ..utils.constants import Constants
 
 
 class ResourceQuestBase(QuestBase):
@@ -46,4 +47,4 @@ class ResourceQuestBase(QuestBase):
 
     @classmethod
     def get_overlay_type(cls, percent: float = 1):
-        return {"resource": [(cls.resource_num, percent)]}
+        return {Constants.RESOURCE: [(cls.resource_num, percent)]}

@@ -1,9 +1,10 @@
 from .restriction_base import RestrictionBase
 from ..manager.disable_manager import DisableManager
+from ..utils.constants import Constants
 
 
 class DisableHotkeyBase(RestrictionBase):
-    disable_hotkeys: dict[str, list[int]]
+    disable_hotkeys: dict[Constants, list[int]]
 
     @classmethod
     def init(cls):

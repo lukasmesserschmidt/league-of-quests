@@ -2,6 +2,7 @@ from .cover_frame_base import CoverFrameBase
 from ...lol_data.lol_settings import LolSettings
 from ...lol_data.lol_window_data import LolWindowData
 from ...utils.game_overlay_scaling import get_map_size
+from ...utils.constants import Constants
 
 
 class MapCover(CoverFrameBase):
@@ -17,7 +18,7 @@ class MapCover(CoverFrameBase):
         window_x, window_y = LolWindowData.get_scaled_pos()
         x = (
             (window_x + width - size)
-            if not LolSettings.get_lol_setting("flip_map")
+            if not LolSettings.get_lol_setting(Constants.FLIP_MAP)
             else LolWindowData.get_scaled_pos()[0]
         )
         y = window_y + height - size

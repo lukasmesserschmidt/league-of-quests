@@ -3,6 +3,7 @@ from PySide6.QtCore import QTimer
 
 from .lol_settings import LolSettings
 from ..utils import user_data
+from ..utils.constants import Constants
 
 
 class LolWindowData:
@@ -47,7 +48,7 @@ class LolWindowData:
 
     @classmethod
     def get_window_mode(cls):
-        window_mode = LolSettings.get_lol_setting("window_mode")
+        window_mode = LolSettings.get_lol_setting(Constants.WINDOW_MODE)
 
         return window_mode
 
@@ -60,8 +61,8 @@ class LolWindowData:
 
     @classmethod
     def _get_resolution(cls):
-        width = LolSettings.get_lol_setting("width")
-        height = LolSettings.get_lol_setting("height")
+        width = LolSettings.get_lol_setting(Constants.WIDTH)
+        height = LolSettings.get_lol_setting(Constants.HEIGHT)
 
         return width, height
 

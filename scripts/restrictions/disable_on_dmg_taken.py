@@ -3,13 +3,18 @@ import time
 from .disable_hotkey_base import DisableHotkeyBase
 from ..lol_data.active_player_data import ActivePlayerData
 from ..utils.attributes import ABILITY, SUMMONER_SPELL
+from ..utils.constants import Constants
 
 
 class DisableOnDmgTaken(DisableHotkeyBase):
     title = "Disable all on dmg taken!"
     difficulty = 2
-    disable_hotkeys = {"ability": [0, 1, 2, 3], "summoner_spell": [0, 1]}
     attributes = [ABILITY, SUMMONER_SPELL]
+
+    disable_hotkeys = {
+        Constants.ABILITY: [0, 1, 2, 3],
+        Constants.SUMMONER_SPELL: [0, 1],
+    }
 
     disable = False
     disable_end_time = 0

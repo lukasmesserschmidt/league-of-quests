@@ -1,89 +1,90 @@
 from .get_lol_settings import GetLolSettings
 from ..utils.hotkey_converter import convert_hotkey
+from ..utils.constants import Constants
 
 
 class LolSettings:
     lol_settings = {
         # general
-        "flip_map": lambda: int(
+        Constants.FLIP_MAP: lambda: int(
             GetLolSettings.all_lol_settings.get("files")[0]
             .get("sections")[5]
             .get("settings")[13]
             .get("value")
         ),
-        "map_scale": lambda: float(
+        Constants.MAP_SCALE: lambda: float(
             GetLolSettings.all_lol_settings.get("files")[0]
             .get("sections")[5]
             .get("settings")[23]
             .get("value")
         ),
-        "global_scale": lambda: float(
+        Constants.GLOBAL_SCALE: lambda: float(
             GetLolSettings.all_lol_settings.get("files")[0]
             .get("sections")[5]
             .get("settings")[14]
             .get("value")
         ),
-        "window_mode": lambda: int(
+        Constants.WINDOW_MODE: lambda: int(
             GetLolSettings.game_cfg.get("General", "WindowMode")
         ),
-        "width": lambda: int(GetLolSettings.game_cfg.get("General", "Width")),
-        "height": lambda: int(GetLolSettings.game_cfg.get("General", "Height")),
+        Constants.WIDTH: lambda: int(GetLolSettings.game_cfg.get("General", "Width")),
+        Constants.HEIGHT: lambda: int(GetLolSettings.game_cfg.get("General", "Height")),
         # hotkeys
-        "ability": lambda num: convert_hotkey(
+        Constants.ABILITY: lambda num: convert_hotkey(
             GetLolSettings.all_lol_settings.get("files")[1]
             .get("sections")[0]
             .get("settings")[8 + num]
             .get("value")
         ),
-        "quick_ability": lambda num: convert_hotkey(
+        Constants.QUICK_ABILITY: lambda num: convert_hotkey(
             GetLolSettings.all_lol_settings.get("files")[1]
             .get("sections")[0]
             .get("settings")[112 + num]
             .get("value")
         ),
-        "summoner_spell": lambda num: convert_hotkey(
-            GetLolSettings.all_lol_settings.get("files")[1]
-            .get("sections")[0]
-            .get("settings")[6 + num]
-            .get("value")
-        ),
-        "quick_summoner_spell": lambda num: convert_hotkey(
-            GetLolSettings.all_lol_settings.get("files")[1]
-            .get("sections")[0]
-            .get("settings")[104 + num]
-            .get("value")
-        ),
-        "trinket": lambda num: convert_hotkey(
-            GetLolSettings.all_lol_settings.get("files")[1]
-            .get("sections")[0]
-            .get("settings")[167]
-            .get("value")
-        ),
-        "teleport": lambda num: convert_hotkey(
-            GetLolSettings.all_lol_settings.get("files")[1]
-            .get("sections")[0]
-            .get("settings")[166]
-            .get("value")
-        ),
-        "level_ability": lambda num: convert_hotkey(
+        Constants.LEVEL_ABILITY: lambda num: convert_hotkey(
             GetLolSettings.all_lol_settings.get("files")[1]
             .get("sections")[0]
             .get("settings")[22 + num]
             .get("value")
         ),
-        "select_ally": lambda num: convert_hotkey(
+        Constants.SUMMONER_SPELL: lambda num: convert_hotkey(
+            GetLolSettings.all_lol_settings.get("files")[1]
+            .get("sections")[0]
+            .get("settings")[6 + num]
+            .get("value")
+        ),
+        Constants.QUICK_SUMMONER_SPELL: lambda num: convert_hotkey(
+            GetLolSettings.all_lol_settings.get("files")[1]
+            .get("sections")[0]
+            .get("settings")[104 + num]
+            .get("value")
+        ),
+        Constants.TRINKET: lambda num: convert_hotkey(
+            GetLolSettings.all_lol_settings.get("files")[1]
+            .get("sections")[0]
+            .get("settings")[167]
+            .get("value")
+        ),
+        Constants.TELEPORT: lambda num: convert_hotkey(
+            GetLolSettings.all_lol_settings.get("files")[1]
+            .get("sections")[0]
+            .get("settings")[166]
+            .get("value")
+        ),
+        Constants.SELECT_ALLY: lambda num: convert_hotkey(
             GetLolSettings.all_lol_settings.get("files")[1]
             .get("sections")[0]
             .get("settings")[77 + num]
             .get("value")
         ),
-        "snap_cam": lambda num: convert_hotkey(
+        Constants.SNAP_CAM: lambda num: convert_hotkey(
             GetLolSettings.all_lol_settings.get("files")[1]
             .get("sections")[0]
             .get("settings")[5]
             .get("value")
         ),
-        "stop_position": lambda num: convert_hotkey(
+        Constants.STOP_POSITION: lambda num: convert_hotkey(
             GetLolSettings.all_lol_settings.get("files")[1]
             .get("sections")[0]
             .get("settings")[59]
@@ -92,12 +93,12 @@ class LolSettings:
     }
 
     @classmethod
-    def get_lol_setting(cls, setting: str, *args):
+    def get_lol_setting(cls, setting: Constants, *args):
         setting = cls.lol_settings[setting](*args)
         return setting
 
     @classmethod
-    def get_hotkeys(cls, hotkey_types: dict[str, list[int]]):
+    def get_hotkeys(cls, hotkey_types: dict[Constants, list[int]]):
         hotkeys = []
         for hotkey_type, args in hotkey_types.items():
             for arg in args:

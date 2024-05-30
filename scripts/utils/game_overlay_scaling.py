@@ -1,5 +1,6 @@
 from ..lol_data.lol_settings import LolSettings
 from ..lol_data.lol_window_data import LolWindowData
+from ..utils.constants import Constants
 
 
 def get_scaled_overlay_size(min_size, max_size, scale, max_scale):
@@ -35,17 +36,22 @@ def get_overlay_pos(x, y):
 
 def get_map_size():
     return get_scaled_overlay_size(
-        400, 800, LolSettings.get_lol_setting("map_scale"), 3
+        400, 800, LolSettings.get_lol_setting(Constants.MAP_SCALE), 3
     )
 
 
 def get_global_size(min_size, max_size):
     return get_scaled_overlay_size(
-        min_size, max_size, LolSettings.get_lol_setting("global_scale"), 1
+        min_size, max_size, LolSettings.get_lol_setting(Constants.GLOBAL_SCALE), 1
     )
 
 
 def get_global_pos(min_x, max_x, min_y, max_y):
     return get_scaled_pos(
-        min_x, max_x, min_y, max_y, LolSettings.get_lol_setting("global_scale"), 1
+        min_x,
+        max_x,
+        min_y,
+        max_y,
+        LolSettings.get_lol_setting(Constants.GLOBAL_SCALE),
+        1,
     )
