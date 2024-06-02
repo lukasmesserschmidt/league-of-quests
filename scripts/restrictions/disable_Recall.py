@@ -6,5 +6,6 @@ from ..utils.constants import Constants
 class DisableRecall(DisableHotkeyBase):
     title = "Recall is disabled!"
     difficulty = 0
-    disable_hotkeys = {Constants.TELEPORT: [0]}
     attributes = [RECALL]
+
+    hotkey_types = {Constants.TELEPORT: [0]}

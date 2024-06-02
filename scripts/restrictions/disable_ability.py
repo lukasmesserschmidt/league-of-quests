@@ -10,12 +10,12 @@ class DisableAbility(DisableHotkeyBase):
     difficulty = 0
     attributes = [ABILITY]
 
-    disable_hotkeys = {Constants.ABILITY: []}
+    hotkey_types = {Constants.ABILITY: []}
 
     @classmethod
     def init(cls):
         super().init()
         rand_ability = randint(0, 2)
-        cls.disable_hotkeys = {Constants.ABILITY: [rand_ability]}
+        cls.hotkey_types = {Constants.ABILITY: [rand_ability]}
 
         cls.title = f"Ability {rand_ability + 1} is disabled!"

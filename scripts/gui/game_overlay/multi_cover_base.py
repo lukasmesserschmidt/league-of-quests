@@ -6,9 +6,13 @@ class MultiCoverBase:
     def __init__(self, parent, cover, num_covers):
         self.covers = [cover(parent, i) for i in range(0, num_covers)]
 
-    def update_cover(self, *args: bool | tuple[bool, float]):
-        for i, enable in enumerate(args):
-            self.covers[i].update_cover(enable)
+    def show(self, *args: int):
+        for arg in args:
+            self.covers[arg].show()
+
+    def hide(self, *args: int):
+        for arg in args:
+            self.covers[arg].hide()
 
 
 class MultiCoverFrameBase(CoverFrameBase):

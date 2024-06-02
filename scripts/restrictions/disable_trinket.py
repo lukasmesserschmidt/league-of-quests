@@ -8,4 +8,4 @@ class DisableTrinket(DisableHotkeyBase):
     difficulty = 0
     attributes = [TRINKET]
 
-    disable_hotkeys = {Constants.TRINKET: [0]}
+    hotkey_types = {Constants.TRINKET: [0]}

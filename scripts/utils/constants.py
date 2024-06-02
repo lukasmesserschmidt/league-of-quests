@@ -15,7 +15,7 @@ class Constants(Enum):
     STOP_POSITION = "stop_position"
 
     # events
-    ENABLE = "enable"
+    DISABLE = "enable"
     PRESS = "press"
     REMAP = "remap"
     PRESS_RELEASE = "press_release"

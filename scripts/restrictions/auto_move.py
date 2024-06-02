@@ -1,18 +1,16 @@
 import pyautogui
 
-from .restriction_thread_base import RestrictionThreadBase
+from .restriction_base import RestrictionBase
 from ..lol_data.lol_window_data import LolWindowData
 from ..gui.quest_display import get_quest_display
 from ..utils.is_game_active import is_game_active
 from ..utils.attributes import MOVE, AUTO
 
 
-class AutoMove(RestrictionThreadBase):
+class AutoMove(RestrictionBase):
     title = "Auto move!"
     difficulty = 1
     attributes = [MOVE, AUTO]
-
-    interval = 0.2
 
     @classmethod
     def stop(cls):

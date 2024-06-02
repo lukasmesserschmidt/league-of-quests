@@ -1,24 +1,19 @@
-from .restriction_base import RestrictionBase
-from ..manager.disable_manager import DisableManager
+from .restriction_hotkey_base import RestrictionHotkeyBase
+from ..gui.game_overlay.game_overlay_window import get_game_overlay
 from ..utils.constants import Constants
 
 
-class DisableHotkeyBase(RestrictionBase):
-    disable_hotkeys: dict[Constants, list[int]]
-
-    @classmethod
-    def init(cls):
-        cls.disable_manager = DisableManager()
+class DisableHotkeyBase(RestrictionHotkeyBase):
 
     @classmethod
     def restriction_content(cls):
-        cls.enable_hotkey(False)
+        cls.disable_hotkey(True)
 
     @classmethod
     def on_end(cls):
-        cls.enable_hotkey(True)
-        del cls.disable_manager
+        cls.disable_hotkey(False)
 
     @classmethod
-    def enable_hotkey(cls, enable: bool):
-        cls.disable_manager.enable_hotkey(enable, cls.disable_hotkeys)
+    def disable_hotkey(cls, enable: bool):
+        cls.hotkey_event(Constants.DISABLE, cls.hotkey_types, enable)
+        get_game_overlay().enable_cover(enable, cls.hotkey_types)

@@ -1,21 +1,18 @@
 from random import randint
 import time
 
-from .restriction_thread_base import RestrictionThreadBase
 from .restriction_hotkey_base import RestrictionHotkeyBase
 from ..lol_data.active_player_data import ActivePlayerData
 from ..utils.attributes import CAM
 from ..utils.constants import Constants
 
 
-class LockAllyCam(RestrictionThreadBase, RestrictionHotkeyBase):
+class LockAllyCam(RestrictionHotkeyBase):
     title = "Randomly lock cam on teammate!"
     difficulty = 2
     attributes = [CAM]
 
     hotkey_types = {Constants.SELECT_ALLY: []}
-
-    interval = 0.2
 
     lock_cam = False
     lock_end_time = 0
@@ -26,7 +23,6 @@ class LockAllyCam(RestrictionThreadBase, RestrictionHotkeyBase):
 
     @classmethod
     def init(cls):
-        super().init()
         cls.lock_cam = False
         cls.lock_end_time = 0
 
@@ -38,7 +34,7 @@ class LockAllyCam(RestrictionThreadBase, RestrictionHotkeyBase):
             else:
                 cls.hotkey_event(Constants.PRESS, cls.hotkey_types, False)
                 cls.lock_cam = False
-        elif randint(1, int(20 / cls.interval)) == 1:
+        elif randint(1, int(20000 / cls.interval)) == 1:
             cls.lock_end_time = time.time() + 5
             rand_ally = randint(0, len(ActivePlayerData.get_teammates()) - 1)
             cls.hotkey_types = {Constants.SELECT_ALLY: [rand_ally]}
@@ -47,4 +43,3 @@ class LockAllyCam(RestrictionThreadBase, RestrictionHotkeyBase):
     @classmethod
     def on_end(cls):
         cls.hotkey_event(Constants.PRESS, cls.hotkey_types, False)
-        super().on_end()

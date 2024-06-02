@@ -5,6 +5,7 @@ from .quest_frame_manager import QuestFrameManager
 from .quest_on_death import QuestOnDeath
 from .quest_after_time import QuestAfterTime
 from .settings_manager import SettingsManager
+from .hotkey_manager import HotkeyManager
 from ..lol_data.lol_window_data import LolWindowData
 from ..lol_data.get_live_client_data import GetLiveClientData
 from ..lol_data.get_lol_settings import GetLolSettings
@@ -27,6 +28,8 @@ class MainManager:
         if SettingsManager.get_quest_after_time("ischecked"):
             QuestAfterTime.start()
 
+        HotkeyManager.start()
+
         QuestDisplayManager.start()
         get_quest_display().start()
         get_game_overlay().start()
@@ -42,6 +45,8 @@ class MainManager:
         get_game_overlay().stop()
         get_quest_display().stop()
         QuestDisplayManager.stop()
+
+        HotkeyManager.stop()
 
         QuestAfterTime.stop()
         QuestOnDeath.stop()

@@ -14,7 +14,6 @@ class SwitchAbilities(RestrictionHotkeyBase):
 
     @classmethod
     def init(cls):
-        super().init()
         hotkeys = [i for i in range(4)]
         switch_hotkeys = hotkeys.copy()
         cls.remap = {Constants.ABILITY: []}
@@ -34,4 +33,3 @@ class SwitchAbilities(RestrictionHotkeyBase):
     @classmethod
     def on_end(cls):
         cls.hotkey_event(Constants.REMAP, cls.remap, False)
-        super().on_end()

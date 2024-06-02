@@ -18,10 +18,9 @@ class CoverFrameBase(QFrame):
 
         self.setGeometry(x, y, size, size)
 
-    def update_cover(self, *args: tuple[bool]):
-        enable = args[0]
-        if enable:
-            self.set_geometry()
-            self.show()
-        else:
-            self.hide()
+    def show(self, *args):
+        self.set_geometry()
+        super().show()
+
+    def hide(self, *args):
+        super().hide()

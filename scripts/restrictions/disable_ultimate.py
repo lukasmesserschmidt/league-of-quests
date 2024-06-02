@@ -8,4 +8,4 @@ class DisableUltimate(DisableHotkeyBase):
     difficulty = 1
     attributes = [ABILITY]
 
-    disable_hotkeys = {Constants.ABILITY: [3]}
+    hotkey_types = {Constants.ABILITY: [3]}

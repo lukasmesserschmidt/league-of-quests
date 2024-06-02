@@ -27,31 +27,34 @@ class GameOverlayWindow(WindowBase):
             | Qt.FramelessWindowHint
         )
 
-        # self.overlay_covers = {
-        #     Constants.ABILITY: AbilityCover(self),
-        #     Constants.SUMMONER_SPELL: SummonerSpellCover(self),
-        #     Constants.TRINKET: TrinketCover(self),
-        #     Constants.TELEPORT: TeleportCover(self),
-        #     Constants.RESOURCE: ResourceCover(self),
-        #     Constants.MAP: MapCover(self),
-        # }
-
         self.overlay_covers = {
             Constants.ABILITY: {
-                "nums": [False, False, False, False],
+                "active": set(),
+                "reset": {0, 1, 2, 3},
                 "cover": AbilityCover(self),
             },
             Constants.SUMMONER_SPELL: {
-                "nums": [False, False],
+                "active": set(),
+                "reset": {0, 1},
                 "cover": SummonerSpellCover(self),
             },
             Constants.RESOURCE: {
-                "nums": [(False, 0), (False, 0)],
+                "active": set(),
+                "reset": {0, 1},
+                "percent": [(0, 0), (1, 0)],
                 "cover": ResourceCover(self),
             },
-            Constants.TRINKET: {"nums": [False], "cover": TrinketCover(self)},
-            Constants.TELEPORT: {"nums": [False], "cover": TeleportCover(self)},
-            Constants.MAP: {"nums": [False], "cover": MapCover(self)},
+            Constants.TRINKET: {
+                "active": set(),
+                "reset": {0},
+                "cover": TrinketCover(self),
+            },
+            Constants.TELEPORT: {
+                "active": set(),
+                "reset": {0},
+                "cover": TeleportCover(self),
+            },
+            Constants.MAP: {"active": set(), "reset": {0}, "cover": MapCover(self)},
         }
 
         self.main_loop_timer = QTimer(self)
@@ -64,6 +67,9 @@ class GameOverlayWindow(WindowBase):
 
     def stop(self):
         self.main_loop_timer.stop()
+        for overlay_cover in self.overlay_covers.values():
+            overlay_cover["active"].clear()
+            self.update_covers()
         self.hide()
 
     def main_loop(self):
@@ -78,30 +84,36 @@ class GameOverlayWindow(WindowBase):
         else:
             self.hide()
 
-    # def enable_cover(self, enable: bool, overlay_types: dict[Enum, list[int]]):
-    #     for overlay_type, args in overlay_types.items():
-    #         cover = self.overlay_covers[overlay_type]
-    #         if enable:
-    #             if LolWindowData.lol_is_top and is_game_active():
-    #                 cover.show(*args)
-    #         else:
-    #             cover.hide(*args)
-
-    def enable_cover(self, enable: bool, overlay_types: dict[Constants, list[int]]):
+    def enable_cover(
+        self,
+        enable: bool,
+        overlay_types: dict[Constants, list[int | tuple[int, float | int]]],
+    ):
         for overlay_type, args in overlay_types.items():
-            for arg in args:
-                if overlay_type != Constants.RESOURCE:
-                    self.overlay_covers[overlay_type]["nums"][arg] = enable
-                else:
-                    percent = arg[1]
-                    arg = arg[0]
-                    self.overlay_covers[overlay_type]["nums"][arg] = (enable, percent)
+            if overlay_type == Constants.RESOURCE:
+                for arg in args:
+                    self.overlay_covers[overlay_type]["percent"][arg[0]] = arg
+                args = [arg[0] for arg in args]
+
+            if enable:
+                self.overlay_covers[overlay_type]["active"].update(args)
+            else:
+                self.overlay_covers[overlay_type]["active"].difference_update(args)
 
     def update_covers(self):
-        for overlay_cover in self.overlay_covers.values():
+        for overlay_type, overlay_cover in self.overlay_covers.items():
             cover = overlay_cover["cover"]
-            overlay_nums = overlay_cover["nums"]
-            cover.update_cover(*overlay_nums)
+            active_overlay = overlay_cover["active"]
+            reset_overlay = overlay_cover.get("reset", set()).copy()
+            reset_overlay.difference_update(active_overlay)
+
+            if reset_overlay:
+                cover.hide(*reset_overlay)
+            if active_overlay:
+                cover.show(*active_overlay)
+
+            if overlay_type == Constants.RESOURCE:
+                cover.set_percent(*overlay_cover["percent"])
 
 
 def create_game_overlay():

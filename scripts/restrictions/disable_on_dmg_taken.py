@@ -11,7 +11,7 @@ class DisableOnDmgTaken(DisableHotkeyBase):
     difficulty = 2
     attributes = [ABILITY, SUMMONER_SPELL]
 
-    disable_hotkeys = {
+    hotkey_types = {
         Constants.ABILITY: [0, 1, 2, 3],
         Constants.SUMMONER_SPELL: [0, 1],
     }
@@ -21,7 +21,6 @@ class DisableOnDmgTaken(DisableHotkeyBase):
 
     @classmethod
     def init(cls):
-        super().init()
         cls.disable = False
         cls.disable_end_time = 0
         cls.last_health_diff = cls.get_health_diff()
@@ -32,9 +31,9 @@ class DisableOnDmgTaken(DisableHotkeyBase):
 
         if cls.disable:
             if time.time() < cls.disable_end_time:
-                cls.enable_hotkey(False)
+                cls.disable_hotkey(True)
             else:
-                cls.enable_hotkey(True)
+                cls.disable_hotkey(False)
                 cls.disable = False
         elif cls.last_health_diff < current_health_diff:
             cls.disable_end_time = time.time() + 1
