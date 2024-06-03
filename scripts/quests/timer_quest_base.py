@@ -6,13 +6,13 @@ from .quest_base import QuestBase
 class TimerQuestBase(QuestBase):
     get_stat_func: Callable
 
-    max_doubling_number = 4
+    max_doubling_count = 4
 
     @classmethod
     def init(cls):
         super().init(1 / 12)
         cls.complete = False
-        cls._doubling_number = cls.max_doubling_number
+        cls._doubling_count = cls.max_doubling_count
         cls.last_stat = cls.get_stat_func()
 
     @classmethod
@@ -27,10 +27,10 @@ class TimerQuestBase(QuestBase):
 
     @classmethod
     def on_time_end(cls):
-        if cls._doubling_number > 0 and not cls.complete:
+        if cls._doubling_count > 0 and not cls.complete:
             cls.duration *= 2
             cls.end_time = cls.get_end_time(cls.duration)
-            cls._doubling_number -= 1
+            cls._doubling_count -= 1
         else:
             cls.quest_complete = True
 

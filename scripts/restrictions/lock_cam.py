@@ -16,3 +16,4 @@ class LockCam(RestrictionHotkeyBase):
     @classmethod
     def on_end(cls):
         cls.hotkey_event(Constants.PRESS, cls.hotkey_type, False)
+        cls.hotkey_event(Constants.PRESS_RELEASE, cls.hotkey_type)

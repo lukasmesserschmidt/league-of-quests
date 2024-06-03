@@ -128,9 +128,6 @@ class QuestDisplay(WindowBase):
     def add_widget(self, widget):
         self.ui.quest_frame_layout.addWidget(widget, 1, Qt.AlignRight | Qt.AlignTop)
 
-    def remove_widget(self, widget):
-        self.ui.quest_frame_layout.removeWidget(widget)
-
 
 def create_quest_display():
     global quest_display

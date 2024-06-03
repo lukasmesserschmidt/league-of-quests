@@ -34,6 +34,7 @@ class LockAllyCam(RestrictionHotkeyBase):
             else:
                 cls.hotkey_event(Constants.PRESS, cls.hotkey_types, False)
                 cls.lock_cam = False
+                cls.hotkey_event(Constants.PRESS_RELEASE, cls.hotkey_types)
         elif randint(1, int(20000 / cls.interval)) == 1:
             cls.lock_end_time = time.time() + 5
             rand_ally = randint(0, len(ActivePlayerData.get_teammates()) - 1)
@@ -43,3 +44,4 @@ class LockAllyCam(RestrictionHotkeyBase):
     @classmethod
     def on_end(cls):
         cls.hotkey_event(Constants.PRESS, cls.hotkey_types, False)
+        cls.hotkey_event(Constants.PRESS_RELEASE, cls.hotkey_types)

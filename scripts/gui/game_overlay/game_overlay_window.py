@@ -69,7 +69,8 @@ class GameOverlayWindow(WindowBase):
         self.main_loop_timer.stop()
         for overlay_cover in self.overlay_covers.values():
             overlay_cover["active"].clear()
-            self.update_covers()
+            if is_game_active():
+                self.update_covers()
         self.hide()
 
     def main_loop(self):

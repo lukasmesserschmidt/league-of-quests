@@ -12,6 +12,8 @@ class StopMove(RestrictionHotkeyBase):
     hotkey_type = {Constants.STOP_POSITION: [0]}
     attributes = [MOVE]
 
+    interval = 200
+
     lock_move = False
     lock_end_time = 0
 

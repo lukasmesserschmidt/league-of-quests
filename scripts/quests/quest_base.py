@@ -12,9 +12,10 @@ class QuestBase:
     duration = 0
     remaining_time = 0
 
+    interval = 500
+
     quest_loop_timer = None
     quest_complete = False
-    interval = 500
     update_title = False
     finish_color_enabled = False
 

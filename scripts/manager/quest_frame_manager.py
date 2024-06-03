@@ -61,7 +61,6 @@ class QuestFrameManager:
     def delete_quest_frame(cls, quest_frame: QuestFrame):
         quest_frame.restriction.stop()
         quest_frame.quest.stop()
-        get_quest_display().remove_widget(quest_frame)
         cls.active_quest_frames.remove(quest_frame)
         quest_frame.deleteLater()
 
