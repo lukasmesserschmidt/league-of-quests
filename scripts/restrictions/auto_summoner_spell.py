@@ -14,7 +14,7 @@ class AutoSummonerSpell(RestrictionHotkeyBase):
 
     @classmethod
     def restriction_content(cls):
-        if randint(1, int(90000 / cls.interval)) == 1:
+        if randint(1, int(60000 / cls.interval)) == 1:
             rand_summoner_spell = randint(0, 1)
             cls.hotkey_types = {
                 Constants.SUMMONER_SPELL: [rand_summoner_spell],

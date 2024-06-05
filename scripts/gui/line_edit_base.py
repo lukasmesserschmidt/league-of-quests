@@ -22,14 +22,19 @@ class LineEdit(QLineEdit):
         super().focusInEvent(arg__1)
 
     def focusOutEvent(self, arg__1: QFocusEvent) -> None:
-        if "-" in self.text():
-            self.setText(str(self.min_num))
+        if self.text()[0:4] == "+000":
+            self.setText(self.text()[4:])
+        else:
+            self.setText(self.text().replace("+", ""))
+
+            if "-" in self.text():
+                self.setText(str(self.min_num))
+
+            self.set_min()
+            self.set_max()
 
         while len(self.text()) > 1 and self.text()[0] == "0":
             self.setText(self.text()[1:])
-
-        self.set_min()
-        self.set_max()
 
         self.setText((self.text() or "0") + self.symbol)
         super().focusOutEvent(arg__1)

@@ -15,7 +15,7 @@ class AutoAbility(RestrictionHotkeyBase):
 
     @classmethod
     def restriction_content(cls):
-        if randint(1, int(6000 / cls.interval)) == 1:
+        if randint(1, int(5000 / cls.interval)) == 1:
             rand_ability = randint(0, 3)
             cls.hotkey_types = {
                 Constants.ABILITY: [rand_ability],
