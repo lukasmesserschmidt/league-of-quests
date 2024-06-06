@@ -1,10 +1,10 @@
 from .quest_base import QuestBase
+from ..common_classes.resource_base import ResouceBase
 from ..gui.game_overlay.game_overlay_window import get_game_overlay
 from ..utils.constants import Constants
 
 
-class ResourceQuestBase(QuestBase):
-    resource_num: int
+class ResourceQuestBase(ResouceBase, QuestBase):
 
     @classmethod
     def init(cls):
@@ -16,8 +16,9 @@ class ResourceQuestBase(QuestBase):
     def quest_content(cls):
         resource_data = cls.get_resource_data()
 
-        percent = resource_data["value"] / resource_data["max"]
-        get_game_overlay().enable_cover(True, cls.get_overlay_type(percent))
+        percent = cls.get_percent(resource_data)
+        cls.set_overlay_type((Constants.RESOURCE, [(cls.resource_num, percent)]))
+        get_game_overlay().enable_cover(True, cls.overlay_types)
 
         current_resource_diff = cls.get_resource_diff()
 
@@ -30,21 +31,4 @@ class ResourceQuestBase(QuestBase):
 
     @classmethod
     def on_end(cls):
-        get_game_overlay().enable_cover(False, cls.get_overlay_type())
-
-    @classmethod
-    def get_resource_data(
-        cls, type: str = None, max: float = None, value: float = None
-    ):
-        return {"type": type, "max": max, "value": value}
-
-    @classmethod
-    def get_resource_diff(cls):
-        resource_data = cls.get_resource_data()
-        resource_diff = resource_data["max"] - resource_data["value"]
-
-        return resource_diff
-
-    @classmethod
-    def get_overlay_type(cls, percent: float = 1):
-        return {Constants.RESOURCE: [(cls.resource_num, percent)]}
+        get_game_overlay().enable_cover(False, cls.overlay_types)

@@ -4,6 +4,7 @@ from .disable_summoner_spell import DisableSummonerSpell
 from .disable_trinket import DisableTrinket
 from .disable_Recall import DisableRecall
 from .disable_on_dmg_taken import DisableOnDmgTaken
+from .disable_on_resource_spend import DisableOnResourceSpend
 from .switch_abilities import SwitchAbilities
 from .auto_level import AutoLevel
 from .auto_ability import AutoAbility
@@ -31,6 +32,7 @@ all_restrictions = [
     SwitchAbilities,
     # hard
     DisableOnDmgTaken,
+    DisableOnResourceSpend,
     AutoAbility,
     CoverMap,
     LockAllyCam,

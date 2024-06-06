@@ -1,43 +1,13 @@
-from PySide6.QtCore import QTimer
+from ..common_classes.quest_restriction_base import QuestRestrictionBase
 
 
-class RestrictionBase:
-    title: str
-    difficulty: int
-    attributes = []
-
-    restriction_loop_timer = None
-    interval = 500
-
-    # control
-    @classmethod
-    def check_dependencies(cls):
-        return True
-
-    @classmethod
-    def start(cls):
-        cls.init()
-
-        if cls.restriction_loop_timer is None:
-            cls.restriction_loop_timer = QTimer()
-            cls.restriction_loop_timer.timeout.connect(cls.restriction_content)
-
-        cls.restriction_loop_timer.start(cls.interval)
-
-    @classmethod
-    def stop(cls):
-        cls.restriction_loop_timer.stop()
-        cls.on_end()
+class RestrictionBase(QuestRestrictionBase):
 
     # restriction
     @classmethod
-    def init(cls):
-        pass
+    def _main_loop(cls):
+        cls.restriction_content()
 
     @classmethod
     def restriction_content(cls):
         raise NotImplementedError
-
-    @classmethod
-    def on_end(cls):
-        pass

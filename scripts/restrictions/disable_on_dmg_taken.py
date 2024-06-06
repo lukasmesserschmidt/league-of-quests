@@ -1,50 +1,45 @@
 import time
 
+from .cycle_base import CycleBase
 from .disable_hotkey_base import DisableHotkeyBase
-from ..lol_data.active_player_data import ActivePlayerData
+from ..common_classes.resource_base import ResouceBase
 from ..utils.attributes import ABILITY, SUMMONER_SPELL
 from ..utils.constants import Constants
 
 
-class DisableOnDmgTaken(DisableHotkeyBase):
+class DisableOnDmgTaken(ResouceBase, CycleBase, DisableHotkeyBase):
     title = "Disable all on dmg taken!"
     difficulty = 2
     attributes = [ABILITY, SUMMONER_SPELL]
 
-    hotkey_types = {
-        Constants.ABILITY: [0, 1, 2, 3],
-        Constants.SUMMONER_SPELL: [0, 1],
-    }
+    resource_num = 0
 
-    disable = False
-    disable_end_time = 0
+    hotkey_types = {Constants.ABILITY: [0, 1, 2, 3], Constants.SUMMONER_SPELL: [0, 1]}
+
+    cycle_duration = 1
 
     @classmethod
     def init(cls):
         cls.disable = False
         cls.disable_end_time = 0
-        cls.last_health_diff = cls.get_health_diff()
+        cls.last_health_diff = cls.get_resource_diff()
 
     @classmethod
     def restriction_content(cls):
-        current_health_diff = cls.get_health_diff()
+        current_health_diff = cls.get_resource_diff()
 
-        if cls.disable:
-            if time.time() < cls.disable_end_time:
-                cls.disable_hotkey(True)
-            else:
-                cls.disable_hotkey(False)
-                cls.disable = False
-        elif cls.last_health_diff < current_health_diff:
-            cls.disable_end_time = time.time() + 1
-            cls.disable = True
+        super().restriction_content(current_health_diff)
 
         cls.last_health_diff = current_health_diff
 
     @classmethod
-    def get_health_diff(cls):
-        max_health = ActivePlayerData.get_champion_stat("maxHealth")
-        current_health = ActivePlayerData.get_champion_stat("currentHealth")
-        health_diff = max_health - current_health
+    def start_condition(cls, *args):
+        return cls.last_health_diff < args[0]
 
-        return health_diff
+    @classmethod
+    def cycle_content(cls):
+        cls.disable_hotkey(True)
+
+    @classmethod
+    def cycle_end(cls):
+        cls.disable_hotkey(False)

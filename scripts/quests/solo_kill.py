@@ -29,6 +29,6 @@ class SoloKill(KillQuestBase):
         if (
             event["Assisters"] == []
             and event["KillerName"] == cls.summoner_name
-            and event["VictimName"] == cls.target["riotIdGameName"]
+            and (event["VictimName"] == cls.target["riotIdGameName"] or event["VictimName"] == cls.target["summonerName"])
         ):
             return True

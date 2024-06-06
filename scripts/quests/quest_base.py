@@ -1,45 +1,29 @@
-from PySide6.QtCore import QTimer
 import time
 
+from ..common_classes.quest_restriction_base import QuestRestrictionBase
 from ..manager.settings_manager import SettingsManager
 
 
-class QuestBase:
-    title: str
-    difficulty: int
-    attributes: list
-
+class QuestBase(QuestRestrictionBase):
     duration = 0
     remaining_time = 0
 
-    interval = 500
-
-    quest_loop_timer = None
     quest_complete = False
+
     update_title = False
     finish_color_enabled = False
 
     # control
     @classmethod
-    def check_dependencies(cls):
-        return True
-
-    @classmethod
     def start(cls):
         cls.quest_complete = False
         cls.finish_color_enabled = False
 
-        cls.init()
-
-        if cls.quest_loop_timer is None:
-            cls.quest_loop_timer = QTimer()
-            cls.quest_loop_timer.timeout.connect(cls._quest_loop)
-
-        cls.quest_loop_timer.start(cls.interval)
+        super().start()
 
     @classmethod
     def stop(cls):
-        cls.quest_loop_timer.stop()
+        cls.main_loop_timer.stop()
         cls.remaining_time = 0
         cls.on_end()
 
@@ -50,8 +34,7 @@ class QuestBase:
         cls.end_time = cls.get_end_time(cls.duration)
 
     @classmethod
-    def _quest_loop(cls):
-
+    def _main_loop(cls):
         if time.time() < cls.end_time and not cls.quest_complete:
             cls.quest_content_container()
         elif not cls.quest_complete:
@@ -69,10 +52,6 @@ class QuestBase:
     @classmethod
     def on_time_end(cls):
         cls.quest_complete = True
-
-    @classmethod
-    def on_end(cls):
-        pass
 
     # utils
     @classmethod

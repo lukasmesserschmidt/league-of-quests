@@ -16,8 +16,9 @@ class AutoSummonerSpell(RestrictionHotkeyBase):
     def restriction_content(cls):
         if randint(1, int(60000 / cls.interval)) == 1:
             rand_summoner_spell = randint(0, 1)
-            cls.hotkey_types = {
-                Constants.SUMMONER_SPELL: [rand_summoner_spell],
-                Constants.QUICK_SUMMONER_SPELL: [rand_summoner_spell],
-            }
+            cls.set_hotkey_types(
+                (Constants.SUMMONER_SPELL, [rand_summoner_spell]),
+                (Constants.QUICK_SUMMONER_SPELL, [rand_summoner_spell]),
+            )
+
             cls.hotkey_event(Constants.PRESS_RELEASE, cls.hotkey_types)

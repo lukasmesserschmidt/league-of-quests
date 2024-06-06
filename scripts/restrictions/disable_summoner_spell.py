@@ -16,6 +16,6 @@ class DisableSummonerSpell(DisableHotkeyBase):
     def init(cls):
         super().init()
         rand_summoner_spell = randint(0, 1)
-        cls.hotkey_types = {Constants.SUMMONER_SPELL: [rand_summoner_spell]}
+        cls.set_hotkey_types((Constants.SUMMONER_SPELL, [rand_summoner_spell]))
 
         cls.title = f"Summoner spell {rand_summoner_spell + 1} is disabled!"

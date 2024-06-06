@@ -25,7 +25,7 @@ class AutoLevel(RestrictionHotkeyBase):
             rand_ability = choice(ability_nums)
             ability_nums.remove(rand_ability)
 
-            cls.hotkey_types = {Constants.LEVEL_ABILITY: [rand_ability]}
+            cls.set_hotkey_types((Constants.LEVEL_ABILITY, [rand_ability]))
             cls.hotkey_event(Constants.PRESS_RELEASE, cls.hotkey_types)
 
     @classmethod

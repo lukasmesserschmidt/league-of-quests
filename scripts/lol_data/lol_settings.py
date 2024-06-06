@@ -1,3 +1,5 @@
+import re
+
 from .get_lol_settings import GetLolSettings
 from ..utils.constants import Constants
 from ..utils import user_data
@@ -155,7 +157,7 @@ class LolSettings:
                 value = setting.get("value")
                 if value is not None:
                     return (
-                        LolSettings._convert_hotkey(value) if convert_hotkey else value
+                        LolSettings._convert_hotkeys(value) if convert_hotkey else value
                     )
                 else:
                     break
@@ -163,8 +165,13 @@ class LolSettings:
         return default
 
     @staticmethod
-    def _convert_hotkey(hotkey: str):
-        hotkey = hotkey.strip("[]")
-        hotkey = hotkey.replace("][", "+")
+    def _convert_hotkeys(hotkeys):
+        parts = re.split(r",(?![^\[]*\])", hotkeys)
+        for part in parts:
+            if "[<Unbound>]" not in part:
+                part = part.strip("[]")
+                hotkey = part.replace("][", "+")
 
-        return hotkey
+                return hotkey
+
+        return ""

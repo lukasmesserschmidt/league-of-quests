@@ -69,8 +69,6 @@ class GameOverlayWindow(WindowBase):
         self.main_loop_timer.stop()
         for overlay_cover in self.overlay_covers.values():
             overlay_cover["active"].clear()
-            if is_game_active():
-                self.update_covers()
         self.hide()
 
     def main_loop(self):
@@ -80,8 +78,8 @@ class GameOverlayWindow(WindowBase):
             and LolWindowData.lol_is_top
             and LolSettings.get_lol_setting(Constants.WINDOW_MODE) == 2
         ):
-            self.show()
             self.update_covers()
+            self.show()
         else:
             self.hide()
 

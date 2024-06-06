@@ -38,20 +38,26 @@ class HotkeyManager:
         if LolWindowData.lol_is_top and is_game_active():
             keyboard.unhook_all()
 
-            hotkeys = LolSettings.get_hotkeys(cls.hotkey_types.get(Constants.DISABLE))
-            cls._disable(*hotkeys)
+            with suppress(Exception):
+                hotkeys = LolSettings.get_hotkeys(
+                    cls.hotkey_types.get(Constants.DISABLE)
+                )
+                cls._disable(*hotkeys)
 
-            hotkeys = LolSettings.get_hotkeys(cls.hotkey_types.get(Constants.REMAP))
-            cls._remap(*hotkeys)
+            with suppress(Exception):
+                hotkeys = LolSettings.get_hotkeys(cls.hotkey_types.get(Constants.REMAP))
+                cls._remap(*hotkeys)
 
-            hotkeys = LolSettings.get_hotkeys(cls.hotkey_types.get(Constants.PRESS))
-            cls._press(*hotkeys)
+            with suppress(Exception):
+                hotkeys = LolSettings.get_hotkeys(cls.hotkey_types.get(Constants.PRESS))
+                cls._press(*hotkeys)
 
-            hotkeys = LolSettings.get_hotkeys(
-                cls.hotkey_types.get(Constants.PRESS_RELEASE)
-            )
-            cls._press_release(*hotkeys)
-            cls.hotkey_types[Constants.PRESS_RELEASE].clear()
+            with suppress(Exception):
+                hotkeys = LolSettings.get_hotkeys(
+                    cls.hotkey_types.get(Constants.PRESS_RELEASE)
+                )
+                cls._press_release(*hotkeys)
+                cls.hotkey_types[Constants.PRESS_RELEASE].clear()
         else:
             keyboard.unhook_all()
 

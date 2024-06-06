@@ -4,15 +4,15 @@ from ..utils.attributes import GOLD
 
 
 class HaveXGold(QuestCompletionBase):
-    title = "Have 4000 gold!"
+    title = "Have 3000 gold!"
     difficulty = 2
     attributes = [GOLD]
 
     @classmethod
     def check_dependencies(cls):
-        if ActivePlayerData.get_current_gold() < 2000:
+        if ActivePlayerData.get_current_gold() >= 1200:
             return True
 
     @classmethod
     def quest_content(cls):
-        cls.complete = ActivePlayerData.get_current_gold() >= 4000
+        cls.complete = ActivePlayerData.get_current_gold() >= 3000
