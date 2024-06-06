@@ -14,12 +14,6 @@ class ResourceQuestBase(ResouceBase, QuestBase):
 
     @classmethod
     def quest_content(cls):
-        resource_data = cls.get_resource_data()
-
-        percent = cls.get_percent(resource_data)
-        cls.set_overlay_type((Constants.RESOURCE, [(cls.resource_num, percent)]))
-        get_game_overlay().enable_cover(True, cls.overlay_types)
-
         current_resource_diff = cls.get_resource_diff()
 
         if cls.last_resource_diff < current_resource_diff:
@@ -28,7 +22,3 @@ class ResourceQuestBase(ResouceBase, QuestBase):
             cls.end_time = cls.get_end_time(cls.duration)
 
         cls.last_resource_diff = current_resource_diff
-
-    @classmethod
-    def on_end(cls):
-        get_game_overlay().enable_cover(False, cls.overlay_types)

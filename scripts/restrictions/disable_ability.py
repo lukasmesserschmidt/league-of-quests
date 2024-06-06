@@ -1,11 +1,11 @@
 from random import randint
 
-from .disable_hotkey_base import DisableHotkeyBase
+from .restriction_disable_hotkey_base import RestrictionDisableHotkeyBase
 from ..utils.attributes import ABILITY
 from ..utils.constants import Constants
 
 
-class DisableAbility(DisableHotkeyBase):
+class DisableAbility(RestrictionDisableHotkeyBase):
     title = "Ability ? is disabled!"
     difficulty = 0
     attributes = [ABILITY]

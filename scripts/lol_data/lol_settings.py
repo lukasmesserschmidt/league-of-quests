@@ -79,7 +79,13 @@ class LolSettings:
             "",
             True,
         ),
-        Constants.TELEPORT: lambda num: LolSettings._find_setting(
+        Constants.QUICK_TRINKET: lambda num: LolSettings._find_setting(
+            LolSettings._get_hotkey_settings(),
+            "evtSmartCastVisionItem",
+            "",
+            True,
+        ),
+        Constants.RECALL: lambda num: LolSettings._find_setting(
             LolSettings._get_hotkey_settings(),
             "evtUseItem7",
             "",

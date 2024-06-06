@@ -1,16 +1,16 @@
 import time
 
 from .cycle_base import CycleBase
-from .disable_hotkey_base import DisableHotkeyBase
+from .restriction_disable_hotkey_base import RestrictionDisableHotkeyBase
 from ..common_classes.resource_base import ResouceBase
-from ..utils.attributes import RESOURCE, ABILITY, SUMMONER_SPELL
+from ..utils.attributes import ABILITY, SUMMONER_SPELL
 from ..utils.constants import Constants
 
 
-class DisableOnResourceSpend(ResouceBase, CycleBase, DisableHotkeyBase):
+class DisableOnResourceSpend(ResouceBase, CycleBase, RestrictionDisableHotkeyBase):
     title = "Disable all on ? spend!"
     difficulty = 2
-    attributes = [RESOURCE, ABILITY, SUMMONER_SPELL]
+    attributes = [ABILITY, SUMMONER_SPELL]
 
     resource_num = 1
 
@@ -27,20 +27,20 @@ class DisableOnResourceSpend(ResouceBase, CycleBase, DisableHotkeyBase):
 
     @classmethod
     def restriction_content(cls):
-        current_resource_diff = cls.get_resource_diff()
+        cls.current_resource_diff = cls.get_resource_diff()
 
-        super().restriction_content(current_resource_diff)
+        super().restriction_content()
 
-        cls.last_resource_diff = current_resource_diff
+        cls.last_resource_diff = cls.current_resource_diff
 
     @classmethod
-    def start_condition(cls, *args, **kwargs):
-        return cls.last_resource_diff < args[0]
+    def start_condition(cls):
+        return cls.last_resource_diff < cls.current_resource_diff
 
     @classmethod
     def cycle_content(cls):
-        cls.disable_hotkey(True)
+        cls.disable_hotkeys(True)
 
     @classmethod
     def cycle_end(cls):
-        cls.disable_hotkey(False)
+        cls.disable_hotkeys(False)

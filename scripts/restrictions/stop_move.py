@@ -1,5 +1,4 @@
 from random import randint
-import time
 
 from .cycle_base import CycleBase
 from .restriction_hotkey_base import RestrictionHotkeyBase
@@ -13,12 +12,10 @@ class StopMove(CycleBase, RestrictionHotkeyBase):
     hotkey_type = {Constants.STOP_POSITION: [0]}
     attributes = [MOVE]
 
-    interval = 200
-
     cycle_duration = 3
 
     @classmethod
-    def start_condition(cls, *args, **kwargs):
+    def start_condition(cls):
         return randint(1, int(20000 / cls.interval)) == 1
 
     @classmethod

@@ -6,8 +6,10 @@ class QuestRestrictionBase:
     difficulty: int
     attributes = []
 
+    alternating_difficulties = None
+
     main_loop_timer = None
-    interval = 500
+    interval = 300
 
     # control
     @classmethod

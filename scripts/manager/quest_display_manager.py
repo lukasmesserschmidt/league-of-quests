@@ -40,7 +40,7 @@ class QuestDisplayManager:
             len(QuestFrameManager.active_quest_frames)
             < SettingsManager.get_quest_limit()
         ):
-            if SettingsManager.get_quest_after_time("ischecked"):
+            if SettingsManager.get_quest_after_time():
                 cls.quest_display.set_timer_text(
                     convert_time(QuestAfterTime.remaining_time)
                 )

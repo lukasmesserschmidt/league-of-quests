@@ -12,7 +12,9 @@ class BuyDarkSeal(QuestCompletionBase):
     @classmethod
     def check_dependencies(cls):
         summoner_name = ActivePlayerData.get_summoner_name()
-        if ItemData.get_has_item(summoner_name, 1082) == None:
+        if len(ItemData.get_data(summoner_name)) < 7 and not ItemData.get_has_item(
+            summoner_name, 1082
+        ):
             kills = ActivePlayerData.get_kills()
             deaths = ActivePlayerData.get_deaths()
             assists = ActivePlayerData.get_assists()

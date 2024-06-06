@@ -1,6 +1,6 @@
 import os
-from PySide6.QtCore import Qt, QTimer
-from PySide6.QtWidgets import QMainWindow, QApplication
+from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QMainWindow, QApplication, QMessageBox
 from PySide6.QtGui import QCloseEvent
 
 from .main_menu_base import Ui_MainWindow
@@ -21,19 +21,24 @@ from ..utils.is_lol_installed import is_lol_installed
 class MainMenu(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
-
+        # setup ui
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        # get windows
         self.stop_window = get_stop_window()
         self.quest_display = get_quest_display()
         self.game_overlay = get_game_overlay()
 
+        # config
         self.config_widgets()
 
+        # main loop
         self.main_loop_timer = QTimer(self)
         self.main_loop_timer.timeout.connect(self.main_loop)
+
+        # flags
+        self.has_shown_any_combination_warning = False
 
         if is_lol_installed():
             self.start()
@@ -57,6 +62,10 @@ class MainMenu(QMainWindow):
             lambda state: self.set_checkbox(self.ui.quest_on_death_checkbox, state)
         )
 
+        self.ui.allow_similar_checkbox.stateChanged.connect(
+            lambda state: self.show_any_combination_warning(state)
+        )
+
         # start button
         self.ui.start_button.clicked.connect(self.start_button_command)
 
@@ -72,10 +81,19 @@ class MainMenu(QMainWindow):
         if state == False:
             checkbox.setChecked(True)
 
+    def show_any_combination_warning(self, state):
+        if not self.has_shown_any_combination_warning and state:
+            self.show_popup(
+                "Warning!",
+                "This setting allows any quest/restriction combination, which can lead to unexpected behavior as it is not designed for this purpose. Please use with caution.",
+            )
+            self.has_shown_any_combination_warning = True
+
     def start_button_command(self):
         self.start_state = (
             "started" if self.start_state == "not_started" else "not_started"
         )
+        self.update_start_button()
 
     def start(self):
         self.start_state = "not_started"
@@ -168,6 +186,14 @@ class MainMenu(QMainWindow):
         start_button.setEnabled(enable)
 
         self.ui.info_label.hide()
+
+    def show_popup(self, title: str, message: str):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setText(message)
+        msg.setWindowTitle(title)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
 
 
 def create_main_menu():

@@ -5,7 +5,7 @@ from .ability_cover import AbilityCover
 from .summoner_spell_cover import SummonerSpellCover
 from .resource_cover import ResourceCover
 from .trinket_cover import TrinketCover
-from .teleport_cover import TeleportCover
+from .recall_cover import RecallCover
 from ..window_base import WindowBase
 from ...lol_data.lol_settings import LolSettings
 from ...lol_data.lol_window_data import LolWindowData
@@ -49,10 +49,10 @@ class GameOverlayWindow(WindowBase):
                 "reset": {0},
                 "cover": TrinketCover(self),
             },
-            Constants.TELEPORT: {
+            Constants.RECALL: {
                 "active": set(),
                 "reset": {0},
-                "cover": TeleportCover(self),
+                "cover": RecallCover(self),
             },
             Constants.MAP: {"active": set(), "reset": {0}, "cover": MapCover(self)},
         }

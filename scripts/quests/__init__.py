@@ -15,6 +15,7 @@ from .assist_objective import AssistObjective
 from .kill_objective import KillOjective
 from .dont_die import DontDie
 from .buy_dark_seal import BuyDarkSeal
+from .buy_health_potion import BuyHealthPotion
 
 
 all_quests = [
@@ -38,4 +39,6 @@ all_quests = [
     KillOjective,
     GetKillTimer,
     BuyDarkSeal,
+    # alternating
+    BuyHealthPotion,
 ]

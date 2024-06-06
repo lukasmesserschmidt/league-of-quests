@@ -14,3 +14,15 @@ class ItemData:
         for item in items:
             if item["itemID"] == item_id:
                 return True
+
+        return False
+
+    @classmethod
+    def get_item_count(cls, summoner_name: str, item_id: int):
+        items = cls.get_data(summoner_name)
+
+        for item in items:
+            if item["itemID"] == item_id:
+                return item["count"]
+
+        return 0

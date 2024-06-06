@@ -1,11 +1,11 @@
-from .disable_hotkey_base import DisableHotkeyBase
+from .restriction_disable_hotkey_base import RestrictionDisableHotkeyBase
 from ..utils.attributes import RECALL
 from ..utils.constants import Constants
 
 
-class DisableRecall(DisableHotkeyBase):
+class DisableRecall(RestrictionDisableHotkeyBase):
     title = "Recall is disabled!"
-    difficulty = 0
+    difficulty = 1
     attributes = [RECALL]
 
-    hotkey_types = {Constants.TELEPORT: [0]}
+    hotkey_types = {Constants.RECALL: [0]}

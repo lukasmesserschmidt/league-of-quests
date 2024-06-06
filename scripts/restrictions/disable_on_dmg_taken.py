@@ -1,13 +1,13 @@
 import time
 
 from .cycle_base import CycleBase
-from .disable_hotkey_base import DisableHotkeyBase
+from .restriction_disable_hotkey_base import RestrictionDisableHotkeyBase
 from ..common_classes.resource_base import ResouceBase
 from ..utils.attributes import ABILITY, SUMMONER_SPELL
 from ..utils.constants import Constants
 
 
-class DisableOnDmgTaken(ResouceBase, CycleBase, DisableHotkeyBase):
+class DisableOnDmgTaken(ResouceBase, CycleBase, RestrictionDisableHotkeyBase):
     title = "Disable all on dmg taken!"
     difficulty = 2
     attributes = [ABILITY, SUMMONER_SPELL]
@@ -20,26 +20,24 @@ class DisableOnDmgTaken(ResouceBase, CycleBase, DisableHotkeyBase):
 
     @classmethod
     def init(cls):
-        cls.disable = False
-        cls.disable_end_time = 0
         cls.last_health_diff = cls.get_resource_diff()
 
     @classmethod
     def restriction_content(cls):
-        current_health_diff = cls.get_resource_diff()
+        cls.current_health_diff = cls.get_resource_diff()
 
-        super().restriction_content(current_health_diff)
+        super().restriction_content()
 
-        cls.last_health_diff = current_health_diff
+        cls.last_health_diff = cls.current_health_diff
 
     @classmethod
-    def start_condition(cls, *args):
-        return cls.last_health_diff < args[0]
+    def start_condition(cls):
+        return cls.last_health_diff < cls.current_health_diff
 
     @classmethod
     def cycle_content(cls):
-        cls.disable_hotkey(True)
+        cls.disable_hotkeys(True)
 
     @classmethod
     def cycle_end(cls):
-        cls.disable_hotkey(False)
+        cls.disable_hotkeys(False)

@@ -137,7 +137,7 @@ class Ui_MainWindow(object):
 
         self.quest_after_time_checkbox = QCheckBox(self.quest_settings_frame)
         self.quest_after_time_checkbox.setObjectName("quest_after_time_checkbox")
-        self.quest_after_time_checkbox.setChecked(SettingsManager.get_quest_after_time("ischecked"))
+        self.quest_after_time_checkbox.setChecked(SettingsManager.get_quest_after_time())
 
         self.quest_settings_frame_layout.addWidget(
             self.quest_after_time_checkbox, 3, 1, 1, 1, Qt.AlignHCenter
@@ -450,7 +450,7 @@ class Ui_MainWindow(object):
         )
         self.allow_similar_checkbox.setText("")
         self.allow_similar_label.setText(
-            QCoreApplication.translate("MainWindow", "Allow all quest/restriction\ncombinations", None)
+            QCoreApplication.translate("MainWindow", "Allow any quest/restriction\ncombinations", None)
         )
         self.quest_duration_label.setText(
             QCoreApplication.translate("MainWindow", "Quest duration in seconds", None)
@@ -461,7 +461,7 @@ class Ui_MainWindow(object):
             )
         )
         self.quest_after_time_lineedit.setText(
-            QCoreApplication.translate("MainWindow", f"{SettingsManager.get_quest_after_time("time")}s", None)
+            QCoreApplication.translate("MainWindow", f"{SettingsManager.get_quest_after_time_duration()}s", None)
         )
         self.quest_after_time_lineedit.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "seconds", None)

@@ -12,9 +12,7 @@ class LineEdit(QLineEdit):
         self.symbol = symbol
         self.min_num = min_num
         self.max_num = max_num
-        self.setValidator(QIntValidator())
-
-        self.textChanged.connect(self.set_max)
+        self.setValidator(QIntValidator(0, 1000000, self))
 
     def focusInEvent(self, arg__1: QFocusEvent) -> None:
         if self.symbol != "":

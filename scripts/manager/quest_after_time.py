@@ -15,7 +15,7 @@ class QuestAfterTime:
             cls.receive_loop_timer = QTimer()
             cls.receive_loop_timer.timeout.connect(cls.receive_loop)
 
-        cls.cycle_time = SettingsManager.get_quest_after_time("time")
+        cls.cycle_time = SettingsManager.get_quest_after_time_duration()
         cls.end_time = cls._get_end_time()
         cls.remaining_time = cls._get_remaining_time()
 

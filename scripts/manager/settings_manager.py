@@ -32,8 +32,12 @@ class SettingsManager:
         return cls.get_quest_settings()["quest_on_death"]
 
     @classmethod
-    def get_quest_after_time(cls, key: str):
-        return cls.get_quest_settings()["quest_after_time"][key]
+    def get_quest_after_time(cls):
+        return cls.get_quest_settings()["quest_after_time"]
+
+    @classmethod
+    def get_quest_after_time_duration(cls):
+        return cls.get_quest_settings()["quest_after_time_duration"]
 
     @classmethod
     def get_quest_duration(cls):
@@ -45,7 +49,7 @@ class SettingsManager:
 
     @classmethod
     def get_easy_object(cls, object_type: str):
-        return cls.get_quest_rarity_settings()["easy"][object_type]
+        return cls.get_quest_rarity_settings()["easy"][object_type] or 1
 
     @classmethod
     def get_mid_object(cls, object_type: str):
@@ -85,13 +89,10 @@ class SettingsManager:
         quest_settings["quest_on_death"] = ui.quest_on_death_checkbox.isChecked()
 
         # quest after time
-        # is checked
-        quest_settings["quest_after_time"][
-            "ischecked"
-        ] = ui.quest_after_time_checkbox.isChecked()
+        quest_settings["quest_after_time"] = ui.quest_after_time_checkbox.isChecked()
 
-        # time
-        quest_settings["quest_after_time"]["time"] = get_value(
+        # quest after time duration
+        quest_settings["quest_after_time_duration"] = get_value(
             ui.quest_after_time_lineedit
         )
 

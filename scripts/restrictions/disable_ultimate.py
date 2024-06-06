@@ -1,9 +1,9 @@
-from .disable_hotkey_base import DisableHotkeyBase
+from .restriction_disable_hotkey_base import RestrictionDisableHotkeyBase
 from ..utils.attributes import ABILITY
 from ..utils.constants import Constants
 
 
-class DisableUltimate(DisableHotkeyBase):
+class DisableUltimate(RestrictionDisableHotkeyBase):
     title = "Ultimate is disabled!"
     difficulty = 1
     attributes = [ABILITY]

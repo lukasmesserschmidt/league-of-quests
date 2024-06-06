@@ -1,4 +1,5 @@
 from ..lol_data.active_player_data import ActivePlayerData
+from ..gui.game_overlay.game_overlay_window import get_game_overlay
 from ..utils.constants import Constants
 
 
@@ -36,7 +37,7 @@ class ResouceBase:
         return resource_diff
 
     @classmethod
-    def get_percent(cls, resource_data: dict):
+    def get_percent(cls, resource_data: dict[str, float, float]):
         percent = resource_data["value"] / resource_data["max"]
 
         return percent
@@ -48,3 +49,7 @@ class ResouceBase:
             overlay_nums = overlay_types[1]
 
             cls.overlay_types[overlay_type] = overlay_nums
+
+    @classmethod
+    def enable_overlays(cls, enable: bool):
+        get_game_overlay().enable_cover(enable, cls.overlay_types)

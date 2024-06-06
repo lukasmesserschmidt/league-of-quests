@@ -25,7 +25,7 @@ class MainManager:
 
         if SettingsManager.get_quest_on_death():
             QuestOnDeath.start()
-        if SettingsManager.get_quest_after_time("ischecked"):
+        if SettingsManager.get_quest_after_time():
             QuestAfterTime.start()
 
         HotkeyManager.start()

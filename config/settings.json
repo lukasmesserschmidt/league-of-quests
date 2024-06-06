@@ -3,7 +3,8 @@
         "quest_limit": 2,
         "quest_duration": 360,
         "quest_on_death": true,
-        "quest_after_time": {"ischecked": false, "time": 240},
+        "quest_after_time": false,
+        "quest_after_time_duration": 240,
         "allow_similar": false
     },
     "quest_rarity_settings": {

@@ -1,9 +1,9 @@
-from .disable_hotkey_base import DisableHotkeyBase
+from .restriction_disable_hotkey_base import RestrictionDisableHotkeyBase
 from ..utils.attributes import TRINKET
 from ..utils.constants import Constants
 
 
-class DisableTrinket(DisableHotkeyBase):
+class DisableTrinket(RestrictionDisableHotkeyBase):
     title = "Trinket is disabled!"
     difficulty = 0
     attributes = [TRINKET]

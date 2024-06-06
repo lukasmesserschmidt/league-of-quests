@@ -6,8 +6,9 @@ from ..utils.constants import Constants
 class LockCam(RestrictionHotkeyBase):
     title = "Cam is locked!"
     difficulty = 0
-    hotkey_type = {Constants.SNAP_CAM: [0]}
     attributes = [CAM]
+
+    hotkey_type = {Constants.SNAP_CAM: [0]}
 
     @classmethod
     def restriction_content(cls):

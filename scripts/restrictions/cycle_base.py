@@ -12,20 +12,20 @@ class CycleBase:
         cls.cycle_end_time = 0
 
     @classmethod
-    def restriction_content(cls, *args, **kwargs):
+    def restriction_content(cls):
         if cls.start_cycle:
             if time.time() < cls.cycle_end_time:
                 cls.cycle_content()
             else:
                 cls.cycle_end()
                 cls.start_cycle = False
-        elif cls.start_condition(*args, **kwargs):
+        elif cls.start_condition():
             cls.cycle_end_time = time.time() + cls.cycle_duration
             cls.condition_met()
             cls.start_cycle = True
 
     @classmethod
-    def start_condition(cls, *args, **kwargs):
+    def start_condition(cls):
         raise NotImplementedError
 
     @classmethod

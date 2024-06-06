@@ -1,5 +1,4 @@
 from random import randint
-import time
 
 from .cycle_base import CycleBase
 from .restriction_hotkey_base import RestrictionHotkeyBase
@@ -22,7 +21,7 @@ class LockAllyCam(CycleBase, RestrictionHotkeyBase):
         return bool(ActivePlayerData.get_teammates())
 
     @classmethod
-    def start_condition(cls, *args, **kwargs):
+    def start_condition(cls):
         return randint(1, int(20000 / cls.interval)) == 1
 
     @classmethod

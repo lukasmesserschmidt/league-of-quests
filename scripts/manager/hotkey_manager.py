@@ -24,7 +24,7 @@ class HotkeyManager:
             cls.main_loop_timer = QTimer()
             cls.main_loop_timer.timeout.connect(cls.main_loop)
 
-        cls.main_loop_timer.start(200)
+        cls.main_loop_timer.start(100)
 
     @classmethod
     def stop(cls):
@@ -87,6 +87,7 @@ class HotkeyManager:
         for arg in args:
             with suppress(Exception):
                 if not (arg == "F4" and keyboard.is_pressed("alt")):
+                    keyboard.release(arg)
                     keyboard.press(arg)
 
     @classmethod
