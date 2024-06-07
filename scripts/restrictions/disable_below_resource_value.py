@@ -2,14 +2,13 @@ from random import randint
 
 from .restriction_disable_hotkey_base import RestrictionDisableHotkeyBase
 from ..common_classes.resource_base import ResouceBase
-from ..utils.attributes import RESOURCE, ABILITY, SUMMONER_SPELL
 from ..utils.constants import Constants
 
 
 class DisableBelowResourceValue(ResouceBase, RestrictionDisableHotkeyBase):
     title = "Disable all if below 40% ?!"
     difficulty = None
-    attributes = [RESOURCE, ABILITY, SUMMONER_SPELL]
+    attributes = [Constants.RESOURCE, Constants.ABILITY, Constants.SUMMONER_SPELL]
 
     alternating_difficulties = (0, 1, 2)
 
@@ -18,6 +17,8 @@ class DisableBelowResourceValue(ResouceBase, RestrictionDisableHotkeyBase):
     overlay_types = {Constants.RESOURCE: []}
 
     hotkey_types = {Constants.ABILITY: [0, 1, 2, 3], Constants.SUMMONER_SPELL: [0, 1]}
+
+    disable = False
 
     @classmethod
     def init(cls):
@@ -37,8 +38,10 @@ class DisableBelowResourceValue(ResouceBase, RestrictionDisableHotkeyBase):
 
         if cls.get_percent(resource_data) < cls.percent_threshold:
             cls.disable_hotkeys(True)
-        else:
+            cls.disable = True
+        elif cls.disable:
             cls.disable_hotkeys(False)
+            cls.disable = False
 
     @classmethod
     def on_end(cls):

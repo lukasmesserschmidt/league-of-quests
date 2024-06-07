@@ -1,13 +1,12 @@
 from .restriction_base import RestrictionBase
 from ..gui.game_overlay.game_overlay_window import get_game_overlay
-from ..utils.attributes import MAP
 from ..utils.constants import Constants
 
 
 class CoverMap(RestrictionBase):
     title = "Map covered!"
     difficulty = 2
-    attributes = [MAP]
+    attributes = [Constants.MAP]
 
     overlay_types = {Constants.MAP: [0]}
 

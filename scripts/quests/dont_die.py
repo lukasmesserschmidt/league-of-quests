@@ -1,13 +1,13 @@
 from .quest_base import QuestBase
 
 from ..lol_data.active_player_data import ActivePlayerData
-from ..utils.attributes import DEATH, TIMER
+from ..utils.constants import Constants
 
 
 class DontDie(QuestBase):
     title = "Dont die or timer x4!"
     difficulty = 0
-    attributes = [DEATH, TIMER]
+    attributes = [Constants.DEATH, Constants.TIMER]
 
     @classmethod
     def init(cls):

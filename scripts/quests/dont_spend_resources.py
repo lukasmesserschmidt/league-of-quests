@@ -1,11 +1,11 @@
 from .resource_quest_base import ResourceQuestBase
-from ..utils.attributes import RESOURCE
+from ..utils.constants import Constants
 
 
 class DontSpendResources(ResourceQuestBase):
     title = "Dont spend ?!"
     difficulty = 1
-    attributes = [RESOURCE]
+    attributes = [Constants.RESOURCE]
 
     resource_num = 1
 

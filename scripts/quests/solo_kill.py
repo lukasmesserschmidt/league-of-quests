@@ -2,14 +2,14 @@ from random import randint
 
 from .kill_quest_base import KillQuestBase
 from ..lol_data.active_player_data import ActivePlayerData
-from ..utils.attributes import KILL
+from ..utils.constants import Constants
 
 
 class SoloKill(KillQuestBase):
     title = "Solo kill player x!"
     difficulty = 2
     event_names = ["ChampionKill"]
-    attributes = [KILL]
+    attributes = [Constants.KILL]
 
     @classmethod
     def check_dependencies(cls):

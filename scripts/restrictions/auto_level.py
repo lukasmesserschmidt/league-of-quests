@@ -4,13 +4,12 @@ from .restriction_hotkey_base import RestrictionHotkeyBase
 from ..lol_data.active_player_data import ActivePlayerData
 from ..lol_data.lol_window_data import LolWindowData
 from ..utils.constants import Constants
-from ..utils.attributes import AUTO
 
 
 class AutoLevel(RestrictionHotkeyBase):
     title = "Auto level random ability!"
     difficulty = 1
-    attributes = [AUTO]
+    attributes = [Constants.AUTO]
 
     hotkey_types = {Constants.LEVEL_ABILITY: []}
 

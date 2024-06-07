@@ -1,11 +1,10 @@
 from .resource_quest_base import ResourceQuestBase
-
-from ..utils.attributes import RESOURCE
+from ..utils.constants import Constants
 
 
 class DontTakeDmg(ResourceQuestBase):
     title = "Dont take damage!"
     difficulty = 0
-    attributes = [RESOURCE]
+    attributes = [Constants.RESOURCE]
 
     resource_num = 0

@@ -1,14 +1,13 @@
 from random import randint
 
 from .restriction_hotkey_base import RestrictionHotkeyBase
-from ..utils.attributes import SUMMONER_SPELL, AUTO
 from ..utils.constants import Constants
 
 
 class AutoSummonerSpell(RestrictionHotkeyBase):
     title = "Auto cast random summoner spell!"
     difficulty = 1
-    attributes = [SUMMONER_SPELL, AUTO]
+    attributes = [Constants.SUMMONER_SPELL, Constants.AUTO]
 
     hotkey_types = {Constants.SUMMONER_SPELL: [], Constants.QUICK_SUMMONER_SPELL: []}
 

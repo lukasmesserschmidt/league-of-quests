@@ -1,13 +1,13 @@
 from .quest_completion_base import QuestCompletionBase
 
 from ..lol_data.active_player_data import ActivePlayerData
-from ..utils.attributes import GOLD
+from ..utils.constants import Constants
 
 
 class HaveLowGold(QuestCompletionBase):
     title = "Have less than 100 gold!"
     difficulty = 0
-    attributes = [GOLD]
+    attributes = [Constants.GOLD]
 
     @classmethod
     def check_dependencies(cls):

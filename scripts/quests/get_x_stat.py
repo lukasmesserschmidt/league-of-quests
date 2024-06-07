@@ -3,13 +3,13 @@ from random import randint, choice
 from .quest_completion_base import QuestCompletionBase
 from ..lol_data.active_player_data import ActivePlayerData
 from ..lol_data.item_data import ItemData
-from ..utils.attributes import BUY
+from ..utils.constants import Constants
 
 
 class GetXStat(QuestCompletionBase):
     title = "Get x name!"
     difficulty = 0
-    attributes = [BUY]
+    attributes = [Constants.BUY]
 
     update_title = True
 

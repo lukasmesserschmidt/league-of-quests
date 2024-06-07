@@ -2,7 +2,6 @@ from random import randint
 
 from .cycle_base import CycleBase
 from .restriction_hotkey_base import RestrictionHotkeyBase
-from ..utils.attributes import MOVE
 from ..utils.constants import Constants
 
 
@@ -10,7 +9,7 @@ class StopMove(CycleBase, RestrictionHotkeyBase):
     title = "Randomly lock movement!"
     difficulty = 0
     hotkey_type = {Constants.STOP_POSITION: [0]}
-    attributes = [MOVE]
+    attributes = [Constants.MOVE]
 
     cycle_duration = 3
 

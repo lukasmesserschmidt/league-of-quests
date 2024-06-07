@@ -3,13 +3,13 @@ from random import randint
 from .quest_completion_base import QuestCompletionBase
 from ..lol_data.active_player_data import ActivePlayerData
 from ..lol_data.item_data import ItemData
-from ..utils.attributes import BUY
+from ..utils.constants import Constants
 
 
 class BuyHealthPotion(QuestCompletionBase):
     title = "Buy ? health potions!"
     difficulty = None
-    attributes = [BUY]
+    attributes = [Constants.BUY]
 
     update_title = True
 

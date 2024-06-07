@@ -1,16 +1,16 @@
 from .quest_completion_base import QuestCompletionBase
 from ..lol_data.active_player_data import ActivePlayerData
-from ..utils.attributes import GOLD
+from ..utils.constants import Constants
 
 
 class HaveXGold(QuestCompletionBase):
     title = "Have 3000 gold!"
     difficulty = 2
-    attributes = [GOLD]
+    attributes = [Constants.GOLD]
 
     @classmethod
     def check_dependencies(cls):
-        if ActivePlayerData.get_current_gold() >= 1200:
+        if 1000 < ActivePlayerData.get_current_gold() < 2500:
             return True
 
     @classmethod

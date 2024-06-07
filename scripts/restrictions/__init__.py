@@ -12,8 +12,9 @@ from .auto_ability import AutoAbility
 from .auto_summoner_spell import AutoSummonerSpell
 from .auto_trinket import AutoTrinket
 from .auto_recall import AutoRecall
-from .auto_move import AutoMove
+from .auto_move_buy import AutoMoveBuy
 from .stop_move import StopMove
+from .auto_chat import AutoChat
 from .cover_map import CoverMap
 from .lock_cam import LockCam
 from .lock_ally_cam import LockAllyCam
@@ -33,12 +34,13 @@ all_restrictions = [
     AutoSummonerSpell,
     AutoTrinket,
     AutoLevel,
-    AutoMove,
     SwitchAbilities,
     # hard
     DisableOnDmgTaken,
     DisableOnResourceSpend,
+    AutoMoveBuy,
     AutoAbility,
+    AutoChat,
     CoverMap,
     LockAllyCam,
     # alternating

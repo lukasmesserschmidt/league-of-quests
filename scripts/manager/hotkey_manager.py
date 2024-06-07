@@ -1,6 +1,7 @@
 from contextlib import suppress
 from PySide6.QtCore import QTimer
 import keyboard
+import time
 
 from ..lol_data.lol_settings import LolSettings
 from ..lol_data.lol_window_data import LolWindowData
@@ -16,25 +17,25 @@ class HotkeyManager:
         Constants.PRESS_RELEASE: set(),
     }
 
-    main_loop_timer = None
+    update_hotkeys_loop_timer = None
 
     @classmethod
     def start(cls):
-        if cls.main_loop_timer is None:
-            cls.main_loop_timer = QTimer()
-            cls.main_loop_timer.timeout.connect(cls.main_loop)
+        if cls.update_hotkeys_loop_timer is None:
+            cls.update_hotkeys_loop_timer = QTimer()
+            cls.update_hotkeys_loop_timer.timeout.connect(cls.update_hotkeys)
 
-        cls.main_loop_timer.start(100)
+        cls.update_hotkeys_loop_timer.start(100)
 
     @classmethod
     def stop(cls):
-        if cls.main_loop_timer is not None:
-            cls.main_loop_timer.stop()
+        if cls.update_hotkeys_loop_timer is not None:
+            cls.update_hotkeys_loop_timer.stop()
             for event_type in cls.hotkey_types:
                 cls.hotkey_types[event_type].clear()
 
     @classmethod
-    def main_loop(cls):
+    def update_hotkeys(cls):
         if LolWindowData.lol_is_top and is_game_active():
             keyboard.unhook_all()
 
@@ -75,6 +76,15 @@ class HotkeyManager:
                 cls.hotkey_types[event_type].update(hotkeys)
             else:
                 cls.hotkey_types[event_type].difference_update(hotkeys)
+
+    @classmethod
+    def write_chat(cls, text: str):
+        if LolWindowData.lol_is_top and is_game_active():
+            keyboard.press_and_release("enter")
+            time.sleep(0.05)
+            keyboard.write(text)
+            time.sleep(0.05)
+            keyboard.press_and_release("enter")
 
     @classmethod
     def _disable(cls, *args: str):

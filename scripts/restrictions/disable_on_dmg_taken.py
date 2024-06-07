@@ -3,14 +3,13 @@ import time
 from .cycle_base import CycleBase
 from .restriction_disable_hotkey_base import RestrictionDisableHotkeyBase
 from ..common_classes.resource_base import ResouceBase
-from ..utils.attributes import ABILITY, SUMMONER_SPELL
 from ..utils.constants import Constants
 
 
 class DisableOnDmgTaken(ResouceBase, CycleBase, RestrictionDisableHotkeyBase):
     title = "Disable all on dmg taken!"
     difficulty = 2
-    attributes = [ABILITY, SUMMONER_SPELL]
+    attributes = [Constants.ABILITY, Constants.SUMMONER_SPELL]
 
     resource_num = 0
 

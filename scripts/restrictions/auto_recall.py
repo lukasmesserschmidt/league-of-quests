@@ -2,14 +2,12 @@ from random import randint
 
 from .restriction_hotkey_base import RestrictionHotkeyBase
 from ..utils.constants import Constants
-from ..utils.attributes import RECALL, AUTO
-from ..utils.constants import Constants
 
 
 class AutoRecall(RestrictionHotkeyBase):
     title = "Randomly auto cast recall!"
     difficulty = 0
-    attributes = [RECALL, AUTO]
+    attributes = [Constants.RECALL, Constants.AUTO]
 
     hotkey_types = {Constants.RECALL: [0]}
 

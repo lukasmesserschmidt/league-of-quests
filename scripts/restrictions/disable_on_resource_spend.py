@@ -1,16 +1,13 @@
-import time
-
 from .cycle_base import CycleBase
 from .restriction_disable_hotkey_base import RestrictionDisableHotkeyBase
 from ..common_classes.resource_base import ResouceBase
-from ..utils.attributes import ABILITY, SUMMONER_SPELL
 from ..utils.constants import Constants
 
 
 class DisableOnResourceSpend(ResouceBase, CycleBase, RestrictionDisableHotkeyBase):
     title = "Disable all on ? spend!"
     difficulty = 2
-    attributes = [ABILITY, SUMMONER_SPELL]
+    attributes = [Constants.ABILITY, Constants.SUMMONER_SPELL]
 
     resource_num = 1
 

@@ -1,14 +1,13 @@
-from random import choice, shuffle
+from random import shuffle
 
 from .restriction_hotkey_base import RestrictionHotkeyBase
-from ..utils.attributes import ABILITY
 from ..utils.constants import Constants
 
 
 class SwitchAbilities(RestrictionHotkeyBase):
     title = "Switched ability hotkeys!"
     difficulty = 1
-    attributes = [ABILITY]
+    attributes = [Constants.ABILITY]
 
     hotkey_types = {Constants.ABILITY: []}
 

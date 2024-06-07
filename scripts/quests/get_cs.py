@@ -1,13 +1,13 @@
 from .quest_base import QuestBase
 from ..lol_data.active_player_data import ActivePlayerData
 from ..lol_data.score_data import ScoreData
-from ..utils.attributes import CS, GET_SCORE
+from ..utils.constants import Constants
 
 
 class GetCs(QuestBase):
     title = "Have ? cs!"
     difficulty = 0
-    attributes = [CS, GET_SCORE]
+    attributes = [Constants.CS, Constants.GET_SCORE]
 
     @classmethod
     def init(cls):

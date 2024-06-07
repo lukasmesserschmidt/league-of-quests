@@ -1,15 +1,15 @@
 from random import choice
 
 from .kill_quest_base import KillQuestBase
-from ..utils.attributes import KILL
 from ..lol_data.active_player_data import ActivePlayerData
+from ..utils.constants import Constants
 
 
 class StealKill(KillQuestBase):
     title = "Steal teammate ? one kill!"
     difficulty = 2
     event_names = ["ChampionKill"]
-    attributes = [KILL]
+    attributes = [Constants.KILL]
 
     @classmethod
     def check_dependencies(cls):

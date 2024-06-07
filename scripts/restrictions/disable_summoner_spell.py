@@ -1,14 +1,13 @@
 from random import randint
 
 from .restriction_disable_hotkey_base import RestrictionDisableHotkeyBase
-from ..utils.attributes import SUMMONER_SPELL
 from ..utils.constants import Constants
 
 
 class DisableSummonerSpell(RestrictionDisableHotkeyBase):
     title = "Summoner spell ? is disabled!"
     difficulty = 1
-    attributes = [SUMMONER_SPELL]
+    attributes = [Constants.SUMMONER_SPELL]
 
     hotkey_types = {Constants.SUMMONER_SPELL: []}
 

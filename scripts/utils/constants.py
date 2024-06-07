@@ -2,7 +2,8 @@ from enum import Enum
 
 
 class Constants(Enum):
-    # hotkeys
+    # attributes #
+    # attribute and hotkey
     ABILITY = "ability"
     QUICK_ABILITY = "quick_ability"
     LEVEL_ABILITY = "level_ability"
@@ -15,15 +16,31 @@ class Constants(Enum):
     SNAP_CAM = "snap_cam"
     STOP_POSITION = "stop_position"
 
+    # attribute and overlay
+    MAP = "map"
+    RESOURCE = "resource"
+
+    # attribute only
+    GOLD = "gold"
+    KILL = "kill"
+    DEATH = "death"
+    OBJECTIVE = "objective"
+    GET_SCORE = "get_score"
+    CS = "cs"
+    WARD_SCORE = "ward_score"
+    BUY = "buy"
+    CAM = "cam"
+    MOVE = "move"
+    TIMER = "timer"
+    AUTO = "auto"
+    CHAT = "chat"
+
+    # other #
     # events
     DISABLE = "disable"
     PRESS = "press"
     REMAP = "remap"
     PRESS_RELEASE = "press_release"
-
-    # overlay
-    MAP = "map"
-    RESOURCE = "resource"
 
     # settings
     FLIP_MAP = "flip_map"

@@ -2,13 +2,13 @@ from .quest_base import QuestBase
 
 from ..lol_data.active_player_data import ActivePlayerData
 from ..lol_data.score_data import ScoreData
-from ..utils.attributes import WARD_SCORE, TRINKET, GET_SCORE
+from ..utils.constants import Constants
 
 
 class GetWardScore(QuestBase):
     title = "Get ? ward score!"
     difficulty = 0
-    attributes = [WARD_SCORE, TRINKET, GET_SCORE]
+    attributes = [Constants.WARD_SCORE, Constants.TRINKET, Constants.GET_SCORE]
 
     update_title = True
 

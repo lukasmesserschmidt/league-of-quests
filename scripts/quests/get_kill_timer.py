@@ -1,12 +1,12 @@
 from .timer_quest_base import TimerQuestBase
 from ..lol_data.active_player_data import ActivePlayerData
-from ..utils.attributes import KILL, TIMER
+from ..utils.constants import Constants
 
 
 class GetKillTimer(TimerQuestBase):
     title = "Get one kill or timer x2!"
     difficulty = 2
-    attributes = [KILL, TIMER]
+    attributes = [Constants.KILL, Constants.TIMER]
 
     get_stat_func = ActivePlayerData.get_kills
 

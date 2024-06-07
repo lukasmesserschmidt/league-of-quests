@@ -1,12 +1,12 @@
 from .kill_quest_base import KillQuestBase
-from ..utils.attributes import OBJECTIVE
+from ..utils.constants import Constants
 
 
 class KillOjective(KillQuestBase):
     title = "Kill one objective!"
     difficulty = 2
     event_names = ["DragonKill", "HordeKill", "HeraldKill", "BaronKill"]
-    attributes = [OBJECTIVE]
+    attributes = [Constants.OBJECTIVE]
 
     @classmethod
     def kill_dependencies(cls, event: dict):

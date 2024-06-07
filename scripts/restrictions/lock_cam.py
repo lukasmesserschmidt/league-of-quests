@@ -1,12 +1,11 @@
 from .restriction_hotkey_base import RestrictionHotkeyBase
-from ..utils.attributes import CAM
 from ..utils.constants import Constants
 
 
 class LockCam(RestrictionHotkeyBase):
     title = "Cam is locked!"
     difficulty = 0
-    attributes = [CAM]
+    attributes = [Constants.CAM]
 
     hotkey_type = {Constants.SNAP_CAM: [0]}
 

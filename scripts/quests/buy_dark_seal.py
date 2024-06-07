@@ -1,13 +1,13 @@
 from .quest_completion_base import QuestCompletionBase
 from ..lol_data.active_player_data import ActivePlayerData
 from ..lol_data.item_data import ItemData
-from ..utils.attributes import BUY
+from ..utils.constants import Constants
 
 
 class BuyDarkSeal(QuestCompletionBase):
     title = "Buy a Dark Seal XD!"
     difficulty = 2
-    attributes = [BUY]
+    attributes = [Constants.BUY]
 
     @classmethod
     def check_dependencies(cls):

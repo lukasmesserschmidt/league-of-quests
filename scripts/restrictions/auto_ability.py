@@ -2,14 +2,12 @@ from random import randint
 
 from .restriction_hotkey_base import RestrictionHotkeyBase
 from ..utils.constants import Constants
-from ..utils.attributes import ABILITY, AUTO
-from ..utils.constants import Constants
 
 
 class AutoAbility(RestrictionHotkeyBase):
     title = "Auto cast random abilities!"
     difficulty = 2
-    attributes = [ABILITY, AUTO]
+    attributes = [Constants.ABILITY, Constants.AUTO]
 
     hotkey_types = {Constants.ABILITY: [], Constants.QUICK_ABILITY: []}
 
