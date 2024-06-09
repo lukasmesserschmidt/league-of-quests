@@ -13,7 +13,7 @@ class RestrictionHotkeyBase(RestrictionBase):
         hotkey_types: dict[Constants, list[int]],
         enable: bool = None,
     ):
-        HotkeyManager.hotkey_event(event_type, hotkey_types, enable)
+        HotkeyManager.hotkey_event(event_type, hotkey_types, enable, cls)
 
     @classmethod
     def set_hotkey_types(

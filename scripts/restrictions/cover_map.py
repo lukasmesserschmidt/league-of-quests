@@ -1,9 +1,10 @@
 from .restriction_base import RestrictionBase
+from ..common_classes.enable_overlay_base import EnableOverlayBase
 from ..gui.game_overlay.game_overlay_window import get_game_overlay
 from ..utils.constants import Constants
 
 
-class CoverMap(RestrictionBase):
+class CoverMap(RestrictionBase, EnableOverlayBase):
     title = "Map covered!"
     difficulty = 2
     attributes = [Constants.MAP]
@@ -12,8 +13,8 @@ class CoverMap(RestrictionBase):
 
     @classmethod
     def restriction_content(cls):
-        get_game_overlay().enable_cover(True, cls.overlay_types)
+        cls.enable_overlays(True)
 
     @classmethod
     def on_end(cls):
-        get_game_overlay().enable_cover(False, cls.overlay_types)
+        cls.enable_overlays(False)

@@ -68,9 +68,10 @@ class HotkeyManager:
         event_type: Constants,
         hotkey_types: dict[Constants, list[int]],
         enable: bool = None,
+        owner: object = None,
     ):
         for hotkey_type, args in hotkey_types.items():
-            hotkeys = [(hotkey_type, arg) for arg in args]
+            hotkeys = [(hotkey_type, arg, owner) for arg in args]
 
             if enable or enable is None:
                 cls.hotkey_types[event_type].update(hotkeys)
