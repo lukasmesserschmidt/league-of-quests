@@ -27,7 +27,7 @@ class GameOverlayWindow(WindowBase):
             | Qt.FramelessWindowHint
         )
 
-        self.overlay_covers = {
+        self.overlay_covers_dict = {
             Constants.ABILITY: {
                 "active": set(),
                 "reset": {0, 1, 2, 3},
@@ -41,7 +41,7 @@ class GameOverlayWindow(WindowBase):
             Constants.RESOURCE: {
                 "active": set(),
                 "reset": {0, 1},
-                "percent": [(0, 0), (1, 0)],
+                "percent": [[0, 0], [1, 0]],
                 "cover": ResourceCover(self),
             },
             Constants.TRINKET: {
@@ -58,55 +58,38 @@ class GameOverlayWindow(WindowBase):
         }
 
         self.main_loop_timer = QTimer(self)
-        self.main_loop_timer.timeout.connect(self.main_loop)
+        self.main_loop_timer.timeout.connect(self._main_loop)
 
         self.hide()
 
+    # main loop
     def start(self):
         self.main_loop_timer.start(100)
 
     def stop(self):
         self.main_loop_timer.stop()
-        for overlay_cover in self.overlay_covers.values():
+        for overlay_cover in self.overlay_covers_dict.values():
             overlay_cover["active"].clear()
         self.hide()
 
-    def main_loop(self):
+    def _main_loop(self):
         if (
             is_program_active()
             and is_game_active()
             and LolWindowData.lol_is_top
             and LolSettings.get_lol_setting(Constants.WINDOW_MODE) == 2
         ):
-            self.update_covers()
+            self._update_covers()
             self.show()
         else:
             self.hide()
 
-    def enable_overlays(
-        self,
-        overlay_types: dict[Constants, list[int | tuple[int, float | int]]],
-        enable: bool,
-        owner: object,
-    ):
-        for overlay_type, args in overlay_types.items():
-            if overlay_type == Constants.RESOURCE:
-                overlays = set()
-                for arg in args:
-                    self.overlay_covers[overlay_type]["percent"][arg[0]] = arg
-                    overlays.add((arg[0], owner))
-            else:
-                overlays = {(arg, owner) for arg in args}
-
-            if enable:
-                self.overlay_covers[overlay_type]["active"].update(overlays)
-            else:
-                self.overlay_covers[overlay_type]["active"].difference_update(overlays)
-
-    def update_covers(self):
-        for overlay_type, overlay_cover in self.overlay_covers.items():
+    def _update_covers(self):
+        for overlay_type, overlay_cover in self.overlay_covers_dict.items():
             cover = overlay_cover["cover"]
-            active_overlays = self.get_active_overlays(overlay_type)
+
+            active_overlays = {overlay[0] for overlay in overlay_cover["active"]}
+
             reset_overlays = overlay_cover["reset"].copy()
             reset_overlays.difference_update(active_overlays)
 
@@ -118,12 +101,30 @@ class GameOverlayWindow(WindowBase):
             if active_overlays:
                 cover.show(*active_overlays)
 
-    def get_active_overlays(self, overlay_type: Constants):
-        active_overlays = {
-            overlay[0] for overlay in self.overlay_covers[overlay_type]["active"]
-        }
+    # overlays control
+    def enable_overlays(
+        self,
+        overlay_types: dict[Constants, list[int | tuple[int, float | int]]],
+        enable: bool,
+        owner: object,
+    ):
+        for overlay_type, args in overlay_types.items():
+            if overlay_type == Constants.RESOURCE:
+                overlays = set()
+                for arg in args:
+                    self.overlay_covers_dict[overlay_type]["percent"][arg[0]][1] = arg[
+                        1
+                    ]
+                    overlays.add((arg[0], owner))
+            else:
+                overlays = {(arg, owner) for arg in args}
 
-        return active_overlays
+            if enable:
+                self.overlay_covers_dict[overlay_type]["active"].update(overlays)
+            else:
+                self.overlay_covers_dict[overlay_type]["active"].difference_update(
+                    overlays
+                )
 
 
 def create_game_overlay():

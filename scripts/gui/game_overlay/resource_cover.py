@@ -6,7 +6,7 @@ class ResourceCover(MultiCoverBase):
     def __init__(self, parent):
         super().__init__(parent, ResourceCoverFrame, 2)
 
-    def set_percent(self, *args: tuple[int, float | int]):
+    def set_percent(self, *args: list[int, float | int]):
         for arg in args:
             self.covers[arg[0]].percent = arg[1]
 

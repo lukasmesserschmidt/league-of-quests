@@ -116,20 +116,6 @@ class LolSettings:
         setting = cls.lol_settings[setting](*args)
         return setting
 
-    @classmethod
-    def get_hotkeys(cls, hotkey_types: set[tuple[Constants, int | tuple[int, int]]]):
-        hotkeys = set()
-        for hotkey_type in hotkey_types:
-            if type(hotkey_type[1]) == tuple:
-                hotkey = tuple(
-                    [cls.get_lol_setting(hotkey_type[0], num) for num in hotkey_type[1]]
-                )
-            else:
-                hotkey = cls.get_lol_setting(hotkey_type[0], hotkey_type[1])
-            hotkeys.add(hotkey)
-
-        return hotkeys
-
     # utils
     @staticmethod
     def _get_general_settings():

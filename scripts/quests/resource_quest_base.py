@@ -8,7 +8,7 @@ class ResourceQuestBase(ResouceBase, QuestBase):
 
     @classmethod
     def init(cls):
-        super().init(1 / 9)
+        super().init(40)
         cls.finish_color_enabled = True
         cls.last_resource_diff = cls.get_resource_diff()
 

@@ -11,7 +11,7 @@ class DontDie(QuestBase):
 
     @classmethod
     def init(cls):
-        super().init(1 / 6)
+        super().init(60)
         cls.finish_color_enabled = True
         cls.max_duration = cls.duration * 10
         cls.last_deaths = ActivePlayerData.get_deaths()

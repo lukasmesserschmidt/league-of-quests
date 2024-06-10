@@ -1,7 +1,4 @@
-from enum import Enum
-
-
-class Constants(Enum):
+class Constants:
     # attributes #
     # attribute and hotkey
     ABILITY = "ability"
@@ -49,3 +46,6 @@ class Constants(Enum):
     WINDOW_MODE = "window_mode"
     WIDTH = "width"
     HEIGHT = "height"
+
+    # general
+    MAX_DURATION = 1000000

@@ -10,7 +10,7 @@ class TimerQuestBase(QuestBase):
 
     @classmethod
     def init(cls):
-        super().init(1 / 12)
+        super().init(30)
         cls.complete = False
         cls._doubling_count = cls.max_doubling_count
         cls.last_stat = cls.get_stat_func()

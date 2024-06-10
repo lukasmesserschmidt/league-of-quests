@@ -20,6 +20,6 @@ class EnableOverlayBase:
         overlay_types: dict[Constants, list[int | tuple[int, float | int]]] = None,
     ):
         if overlay_types is None:
-            get_game_overlay().enable_overlays(cls.overlay_types, enable, cls)
-        else:
-            get_game_overlay().enable_overlays(overlay_types, enable, cls)
+            overlay_types = cls.overlay_types
+
+        get_game_overlay().enable_overlays(overlay_types, enable, cls)

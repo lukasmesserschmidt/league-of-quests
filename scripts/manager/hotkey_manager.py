@@ -10,7 +10,7 @@ from ..utils.constants import Constants
 
 
 class HotkeyManager:
-    hotkey_types = {
+    hotkey_types_dict = {
         Constants.DISABLE: set(),
         Constants.REMAP: set(),
         Constants.PRESS: set(),
@@ -19,11 +19,12 @@ class HotkeyManager:
 
     update_hotkeys_loop_timer = None
 
+    # upddate loop
     @classmethod
     def start(cls):
         if cls.update_hotkeys_loop_timer is None:
             cls.update_hotkeys_loop_timer = QTimer()
-            cls.update_hotkeys_loop_timer.timeout.connect(cls.update_hotkeys)
+            cls.update_hotkeys_loop_timer.timeout.connect(cls._update_hotkeys)
 
         cls.update_hotkeys_loop_timer.start(100)
 
@@ -31,42 +32,41 @@ class HotkeyManager:
     def stop(cls):
         if cls.update_hotkeys_loop_timer is not None:
             cls.update_hotkeys_loop_timer.stop()
-            for event_type in cls.hotkey_types:
-                cls.hotkey_types[event_type].clear()
+            for event_type in cls.hotkey_types_dict:
+                cls.hotkey_types_dict[event_type].clear()
 
     @classmethod
-    def update_hotkeys(cls):
+    def _update_hotkeys(cls):
         if LolWindowData.lol_is_top and is_game_active():
             keyboard.unhook_all()
 
             with suppress(Exception):
-                hotkeys = LolSettings.get_hotkeys(
-                    cls.hotkey_types.get(Constants.DISABLE)
-                )
+                hotkeys = cls._get_hotkeys(cls.hotkey_types_dict.get(Constants.DISABLE))
                 cls._disable(*hotkeys)
 
             with suppress(Exception):
-                hotkeys = LolSettings.get_hotkeys(cls.hotkey_types.get(Constants.REMAP))
+                hotkeys = cls._get_hotkeys(cls.hotkey_types_dict.get(Constants.REMAP))
                 cls._remap(*hotkeys)
 
             with suppress(Exception):
-                hotkeys = LolSettings.get_hotkeys(cls.hotkey_types.get(Constants.PRESS))
+                hotkeys = cls._get_hotkeys(cls.hotkey_types_dict.get(Constants.PRESS))
                 cls._press(*hotkeys)
 
             with suppress(Exception):
-                hotkeys = LolSettings.get_hotkeys(
-                    cls.hotkey_types.get(Constants.PRESS_RELEASE)
+                hotkeys = cls._get_hotkeys(
+                    cls.hotkey_types_dict.get(Constants.PRESS_RELEASE)
                 )
                 cls._press_release(*hotkeys)
-                cls.hotkey_types[Constants.PRESS_RELEASE].clear()
+                cls.hotkey_types_dict[Constants.PRESS_RELEASE].clear()
         else:
             keyboard.unhook_all()
 
+    # events
     @classmethod
     def hotkey_event(
         cls,
         event_type: Constants,
-        hotkey_types: dict[Constants, list[int]],
+        hotkey_types: dict[Constants, list[int | tuple[int, int]]],
         enable: bool = None,
         owner: object = None,
     ):
@@ -74,9 +74,9 @@ class HotkeyManager:
             hotkeys = [(hotkey_type, arg, owner) for arg in args]
 
             if enable or enable is None:
-                cls.hotkey_types[event_type].update(hotkeys)
+                cls.hotkey_types_dict[event_type].update(hotkeys)
             else:
-                cls.hotkey_types[event_type].difference_update(hotkeys)
+                cls.hotkey_types_dict[event_type].difference_update(hotkeys)
 
     @classmethod
     def write_chat(cls, text: str):
@@ -87,6 +87,7 @@ class HotkeyManager:
             time.sleep(0.05)
             keyboard.press_and_release("enter")
 
+    # event types
     @classmethod
     def _disable(cls, *args: str):
         for arg in args:
@@ -108,7 +109,33 @@ class HotkeyManager:
                 keyboard.press_and_release(arg)
 
     @classmethod
-    def _remap(cls, *args: tuple[str, str]):
+    def _remap(cls, *args: list[str, str]):
         for arg in args:
             with suppress(Exception):
                 keyboard.remap_key(arg[0], arg[1])
+
+    # utils
+    @classmethod
+    def _get_hotkeys(cls, hotkey_types_set: set[tuple[Constants, int | tuple[int]]]):
+        hotkeys = set()
+        for hotkey_types in hotkey_types_set:
+            hotkey_type = hotkey_types[0]
+            hotkey_nums = hotkey_types[1]
+            hotkey = cls._get_hotkey(hotkey_type, hotkey_nums)
+            hotkeys.add(hotkey)
+
+        return hotkeys
+
+    @classmethod
+    def _get_hotkey(cls, hotkey_type: Constants, hotkey_nums: int | tuple[int]):
+        hotkey = None
+        if type(hotkey_nums) == int:
+            hotkey = LolSettings.get_lol_setting(hotkey_type, hotkey_nums)
+        elif type(hotkey_nums) == tuple:
+            hotkey = []
+            for hotkey_num in hotkey_nums:
+                hotkey.append(cls._get_hotkey(hotkey_type, hotkey_num))
+
+            hotkey = tuple(hotkey)
+
+        return hotkey

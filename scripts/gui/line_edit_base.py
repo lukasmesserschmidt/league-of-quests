@@ -4,6 +4,8 @@ from PySide6.QtGui import (
     QIntValidator,
 )
 
+from ..utils.constants import Constants
+
 
 class LineEdit(QLineEdit):
     def __init__(self, parent, symbol: str, max_num: int, min_num: int = 0):
@@ -12,7 +14,7 @@ class LineEdit(QLineEdit):
         self.symbol = symbol
         self.min_num = min_num
         self.max_num = max_num
-        self.setValidator(QIntValidator(0, 1000000, self))
+        self.setValidator(QIntValidator(0, Constants.MAX_DURATION, self))
 
     def focusInEvent(self, arg__1: QFocusEvent) -> None:
         if self.symbol != "":

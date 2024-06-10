@@ -2,6 +2,7 @@ import time
 
 from ..common_classes.quest_restriction_base import QuestRestrictionBase
 from ..manager.settings_manager import SettingsManager
+from ..utils.constants import Constants
 
 
 class QuestBase(QuestRestrictionBase):
@@ -29,8 +30,8 @@ class QuestBase(QuestRestrictionBase):
 
     # quest
     @classmethod
-    def init(cls, duration_multiplier: float | int = 1):
-        cls.duration = cls.get_duration(duration_multiplier)
+    def init(cls, max_duration: int = Constants.MAX_DURATION):
+        cls.duration = cls.get_duration(max_duration)
         cls.end_time = cls.get_end_time(cls.duration)
 
     @classmethod
@@ -55,8 +56,11 @@ class QuestBase(QuestRestrictionBase):
 
     # utils
     @classmethod
-    def get_duration(cls, multiplier: float | int = 1):
-        return SettingsManager.get_quest_duration() * multiplier
+    def get_duration(cls, max_duration):
+        duration = SettingsManager.get_quest_duration()
+        if duration > max_duration:
+            duration = max_duration
+        return duration
 
     @classmethod
     def get_end_time(cls, duration):
