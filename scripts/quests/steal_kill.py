@@ -13,7 +13,9 @@ class StealKill(KillQuestBase):
 
     @classmethod
     def check_dependencies(cls):
-        return any(ActivePlayerData.get_teammates())
+        return any(ActivePlayerData.get_teammates()) and any(
+            ActivePlayerData.get_enemy_team()
+        )
 
     @classmethod
     def init(cls):

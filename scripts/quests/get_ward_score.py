@@ -27,9 +27,9 @@ class GetWardScore(QuestBase):
 
         cls.set_title(progress)
 
-        if progress >= 3:
+        if progress >= 2:
             cls.quest_complete = True
 
     @classmethod
     def set_title(cls, progress: float):
-        cls.title = f"Get {int(progress)}/3 ward score!"
+        cls.title = f"Get {int(progress)}/2 ward score!"

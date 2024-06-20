@@ -20,8 +20,8 @@ class CycleBase:
                 cls.cycle_end()
                 cls.start_cycle = False
         elif cls.start_condition():
-            cls.cycle_end_time = time.time() + cls.cycle_duration
             cls.condition_met()
+            cls.cycle_end_time = time.time() + cls.cycle_duration
             cls.start_cycle = True
 
     @classmethod

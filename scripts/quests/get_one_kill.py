@@ -9,5 +9,9 @@ class GetOneKill(KillQuestBase):
     attributes = [Constants.KILL]
 
     @classmethod
+    def check_dependencies(cls):
+        return any(ActivePlayerData.get_enemy_team())
+
+    @classmethod
     def get_kill_count(cls):
         return ActivePlayerData.get_kills()

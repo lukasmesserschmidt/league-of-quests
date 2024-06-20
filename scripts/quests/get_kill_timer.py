@@ -11,5 +11,9 @@ class GetKillTimer(TimerQuestBase):
     get_stat_func = ActivePlayerData.get_kills
 
     @classmethod
+    def check_dependencies(cls):
+        return any(ActivePlayerData.get_enemy_team())
+
+    @classmethod
     def complete_condition(cls, current_stat):
         return cls.last_stat < current_stat

@@ -14,6 +14,10 @@ class AutoLevel(RestrictionHotkeyBase):
     hotkey_types = {Constants.LEVEL_ABILITY: []}
 
     @classmethod
+    def check_dependencies(cls):
+        return ActivePlayerData.get_level() < 18
+
+    @classmethod
     def restriction_content(cls):
         current_level = ActivePlayerData.get_level()
         total_level = cls.get_total_ability_level()
