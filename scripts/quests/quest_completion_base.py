@@ -1,7 +1,16 @@
+"""
+This module contains the QuestCompletionBase class.
+"""
+
 from .quest_base import QuestBase
 
 
 class QuestCompletionBase(QuestBase):
+    """
+    The base class for all quest completion quests.
+    """
+
+    # init variables
     completion_duration = 20
     remaining_quest_time = 0
 

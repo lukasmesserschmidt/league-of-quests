@@ -1,3 +1,8 @@
+"""
+This module contains the constants used in the program.
+"""
+
+
 class Constants:
     # attributes #
     # attribute and hotkey

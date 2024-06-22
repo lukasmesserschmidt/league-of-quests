@@ -1,3 +1,7 @@
+"""
+This module contains the QuestFrameCreator class.
+"""
+
 from random import randint, shuffle, choice
 
 from .settings_manager import SettingsManager
@@ -8,6 +12,11 @@ from ..gui.quest_frame import QuestFrame
 
 
 class QuestFrameCreator:
+    """
+    A class for managing the quest frame creator.
+    """
+
+    # init all objects
     all_objects = {"quest": all_quests, "restriction": all_restrictions}
 
     @classmethod
@@ -19,7 +28,7 @@ class QuestFrameCreator:
             "restriction": list[list[QuestRestrictionBase],],
         }
 
-        for object_type in available_objects.keys():
+        for object_type in available_objects:
             # remove objects that are already active
             all_objects = cls.all_objects[object_type].copy()
             all_objects = [
@@ -60,13 +69,15 @@ class QuestFrameCreator:
     ):
         filtered_objects = [[], [], []]
 
-        for object in all_objects:
-            if object.check_dependencies() and cls._check_attributes(
-                object_type, object, active_objects
+        for current_object in all_objects:
+            if current_object.check_dependencies() and cls._check_attributes(
+                object_type, current_object, active_objects
             ):
-                if type(object.alternating_difficulties) == tuple:
-                    object.difficulty = choice(object.alternating_difficulties)
-                filtered_objects[object.difficulty].append(object)
+                if isinstance(current_object.alternating_difficulties, tuple):
+                    current_object.difficulty = choice(
+                        current_object.alternating_difficulties
+                    )
+                filtered_objects[current_object.difficulty].append(current_object)
 
         return filtered_objects
 
@@ -74,13 +85,13 @@ class QuestFrameCreator:
     def _check_attributes(
         cls,
         object_type: str,
-        object: QuestRestrictionBase,
+        current_object: QuestRestrictionBase,
         active_objects: dict[str, list[QuestRestrictionBase]],
     ):
         if not SettingsManager.get_allow_similar():
             for active_object in active_objects[object_type]:
                 for attribute in active_object.attributes:
-                    if attribute in object.attributes:
+                    if attribute in current_object.attributes:
                         return False
 
         return True
@@ -99,7 +110,7 @@ class QuestFrameCreator:
     def _get_difficultys(cls):
         object_difficultys = {"quest": None, "restriction": None}
 
-        for object_type in object_difficultys.keys():
+        for object_type in object_difficultys:
             easy_chance = SettingsManager.get_easy_object(object_type)
             mid_chance = SettingsManager.get_mid_object(object_type)
             hard_chance = SettingsManager.get_hard_object(object_type)
@@ -120,6 +131,9 @@ class QuestFrameCreator:
 
     @classmethod
     def get_compatible(cls, active_quest_frames: list[QuestFrame]):
+        """
+        Returns a tuple of compatible quest and restriction objects, if one is available.
+        """
         available_quests, available_restrictions = cls._get_available_objects(
             active_quest_frames
         ).values()
@@ -148,6 +162,9 @@ class QuestFrameCreator:
 
     @classmethod
     def get_quest_frame(cls, active_quest_frames: list[QuestFrame]):
+        """
+        Returns a quest frame and starts its quest and restriction, if one is available.
+        """
         compatible_objects = cls.get_compatible(active_quest_frames)
         if compatible_objects:
             quest, restriction = compatible_objects

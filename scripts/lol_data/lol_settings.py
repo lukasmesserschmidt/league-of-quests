@@ -1,4 +1,10 @@
+"""
+This module contains the LolSettings class.
+"""
+
 import re
+
+from contextlib import suppress
 
 from .get_lol_settings import GetLolSettings
 from ..utils.constants import Constants
@@ -6,7 +12,12 @@ from ..utils import user_data
 
 
 class LolSettings:
-    lol_settings = {
+    """
+    This class contains all League of Legends settings.
+    """
+
+    # init lol_settings_dict
+    lol_settings_dict = {
         # general
         Constants.FLIP_MAP: lambda: int(
             LolSettings._find_setting(
@@ -113,7 +124,10 @@ class LolSettings:
 
     @classmethod
     def get_lol_setting(cls, setting: Constants, *args):
-        setting = cls.lol_settings[setting](*args)
+        """
+        Returns the value of the given setting.
+        """
+        setting = cls.lol_settings_dict[setting](*args)
         return setting
 
     # utils
@@ -135,10 +149,9 @@ class LolSettings:
 
     @staticmethod
     def _get_game_cfg_setting(section: str, option: str, default):
-        try:
+        with suppress(Exception):
             return GetLolSettings.game_cfg.get(section, option)
-        except:
-            return default
+        return default
 
     @staticmethod
     def _find_setting(

@@ -16,18 +16,15 @@
 
 
 def start():
+    """
+    Creates the app and starts the program by instantiating the main menu.
+    """
     from .gui import app
 
     app.create_app()
 
-    from .gui import main_menu
-    from .gui import stop_window
-    from .gui import quest_display
-    from .gui.game_overlay import game_overlay_window
+    from .gui.main_menu import MainMenu
 
-    game_overlay_window.create_game_overlay()
-    quest_display.create_quest_display()
-    stop_window.create_stop_window()
-    main_menu.create_main_menu()
+    MainMenu()
 
     app.start()

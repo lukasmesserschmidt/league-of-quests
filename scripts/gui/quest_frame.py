@@ -1,58 +1,74 @@
+"""
+This module contains the QuestFrame class, which displays the quest frame in the quest display.
+"""
+
 from PySide6.QtWidgets import QFrame
 from PySide6.QtCore import QTimer
 
-from .quest_frame_base import Ui_QuestFrame
+from .quest_frame_ui import QuestFrameUi
 from ..quests.quest_base import QuestBase
 from ..restrictions.restriction_base import RestrictionBase
 from ..utils.time import convert_time
 
 
 class QuestFrame(QFrame):
+    """
+    A class for displaying the quest frame in the quest display.
+    """
+
     def __init__(self, quest: QuestBase, restriction: RestrictionBase):
         super().__init__()
+
+        # init variables
         self.quest = quest
         self.restriction = restriction
 
-        self.ui = Ui_QuestFrame()
+        # setup ui
+        self.ui = QuestFrameUi()
         self.ui.setupUi(self)
 
-        self.set_quest_title()
-        self.set_restriction_title()
+        # init titles
+        self._set_quest_title()
+        self._set_restriction_title()
 
-        self.main_loop_timer = QTimer(self)
-        self.main_loop_timer.timeout.connect(self.main_loop)
-        self.main_loop_timer.start(500)
+        # update loop
+        self._update_loop_timer = QTimer(self)
+        self._update_loop_timer.timeout.connect(self._update_loop)
+        self._update_loop_timer.start(500)
 
-    # main loop
-    def main_loop(self):
+    # update loop
+    def _update_loop(self):
         if not self.quest.quest_complete:
-            self.update_quest_time()
+            self._update_quest_time()
 
             if self.quest.update_title:
-                self.set_quest_title()
+                self._set_quest_title()
 
             if self.quest.finish_color_enabled:
-                self.change_timer_color((13, 219, 13))
+                self._change_timer_color((13, 219, 13))
             else:
-                self.change_timer_color((235, 235, 235))
+                self._change_timer_color((235, 235, 235))
 
     # utils
-    def set_quest_title(self):
+    def _set_quest_title(self):
         self.ui.title_label.setText(self.quest.title)
 
-    def set_restriction_title(self):
+    def _set_restriction_title(self):
         self.ui.restriction_label.setText(self.restriction.title)
 
-    def update_quest_time(self):
+    def _update_quest_time(self):
         time = convert_time(self.quest.remaining_time)
         self.ui.time_label.setText(time)
 
-    def change_timer_color(self, color: tuple[int, int, int]):
+    def _change_timer_color(self, color: tuple[int, int, int]):
         self.ui.time_label.setStyleSheet(
             f"background-color: rgb{color};\n" "border-radius:5px"
         )
 
     # events
     def deleteLater(self):
-        self.main_loop_timer.stop()
+        """
+        Stops the update loop timer and deletes the quest frame.
+        """
+        self._update_loop_timer.stop()
         super().deleteLater()

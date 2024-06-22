@@ -1,10 +1,17 @@
+"""
+This module contains the ActivePlayerData class.
+"""
+
 from .get_live_client_data import GetLiveClientData
-from .event_data import EventData
 from .score_data import ScoreData
 from .all_player_data import AllPlayerData
 
 
 class ActivePlayerData:
+    """
+    This class contains the active player data.
+    """
+
     @classmethod
     def get_data(cls) -> dict:
         return GetLiveClientData.all_data["activePlayer"]

@@ -1,9 +1,15 @@
+"""
+This module contains the QuestDisplay class, 
+which displays the quests, quest timer and quest count in the game overlay.
+"""
+
+from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QCursor
 from pynput import mouse
 
 from .window_base import WindowBase
-from .quest_display_base import Ui_QuestDisplay
+from .quest_display_ui import QuestDisplayUi
 from ..manager.settings_manager import SettingsManager
 from ..lol_data.lol_settings import LolSettings
 from ..lol_data.lol_window_data import LolWindowData
@@ -15,10 +21,14 @@ from ..utils.constants import Constants
 
 
 class QuestDisplay(WindowBase):
+    """
+    A class for displaying the quests, quest timer and quest count in the game overlay.
+    """
 
     def __init__(self):
         super().__init__()
 
+        # set window attributes
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlags(
             Qt.WindowStaysOnTopHint
@@ -26,34 +36,43 @@ class QuestDisplay(WindowBase):
             | Qt.FramelessWindowHint
         )
 
-        self.ui = Ui_QuestDisplay()
+        # setup ui
+        self.ui = QuestDisplayUi()
         self.ui.setupUi(self)
 
-        self.start_x_diff = 0
-        self.start_y_diff = 0
-        self.last_width = self.geometry().width()
-        self.dragg = False
+        # init variables
+        self._start_x_diff = 0
+        self._start_y_diff = 0
+        self._last_width = self.geometry().width()
+        self.is_dragging = False
 
-        self.mouse_listener = None
+        self._mouse_listener = None
 
-        self.main_loop_timer = QTimer(self)
-        self.main_loop_timer.timeout.connect(self.main_loop)
+        # update loop
+        self._update_loop_timer = QTimer(self)
+        self._update_loop_timer.timeout.connect(self._update_loop)
 
         self.hide()
 
     def start(self):
-        self.move_default_pos()
-        self.mouse_listener = mouse.Listener(on_click=self.on_click)
-        self.mouse_listener.start()
-        self.main_loop_timer.start(10)
+        """
+        Moves the quest display to the default position and start the quest display update loop.
+        """
+        self._move_default_pos()
+        self._mouse_listener = mouse.Listener(on_click=self._on_click)
+        self._mouse_listener.start()
+        self._update_loop_timer.start(10)
 
     def stop(self):
-        self.main_loop_timer.stop()
-        if self.mouse_listener is not None:
-            self.mouse_listener.stop()
+        """
+        Stop the quest display update loop and hide the quest display.
+        """
+        self._update_loop_timer.stop()
+        if self._mouse_listener is not None:
+            self._mouse_listener.stop()
         self.hide()
 
-    def move_default_pos(self):
+    def _move_default_pos(self):
         x, y = user_data.get_monitor_dpi_resolution()
         map_size = get_map_size()
         space = get_map_size() * 0.05
@@ -66,9 +85,9 @@ class QuestDisplay(WindowBase):
 
         self.move(x, y)
 
-    def main_loop(self):
-        self.move_to_mouse()
-        self.stretch_to_left()
+    def _update_loop(self):
+        self._move_to_mouse()
+        self._stretch_to_left()
 
         if is_program_active() and is_game_active() and LolWindowData.lol_is_top:
             self.show()
@@ -76,7 +95,7 @@ class QuestDisplay(WindowBase):
         else:
             self.hide()
 
-    def on_click(self, x, y, button, pressed):
+    def _on_click(self, x, y, button, pressed):
         mouse_x, mouse_y = QCursor.pos().toTuple()
         left_x, top_y = self.geometry().topLeft().toTuple()
         right_x, bottom_y = self.geometry().bottomRight().toTuple()
@@ -87,52 +106,58 @@ class QuestDisplay(WindowBase):
             and top_y < mouse_y < bottom_y
         ):
 
-            self.start_x_diff = mouse_x - left_x
-            self.start_y_diff = mouse_y - top_y
+            self._start_x_diff = mouse_x - left_x
+            self._start_y_diff = mouse_y - top_y
 
-            self.dragg = True
+            self.is_dragging = True
         else:
-            self.dragg = False
+            self.is_dragging = False
 
-    def move_to_mouse(self):
-        if self.dragg:
+    def _move_to_mouse(self):
+        if self.is_dragging:
             mouse_x, mouse_y = QCursor.pos().toTuple()
-            x = mouse_x - self.start_x_diff
-            y = mouse_y - self.start_y_diff
+            x = mouse_x - self._start_x_diff
+            y = mouse_y - self._start_y_diff
             self.move(x, y)
 
-    def stretch_to_left(self):
+    def _stretch_to_left(self):
         current_width = self.geometry().width()
-        if current_width != self.last_width:
-            width_diff = current_width - self.last_width
+        if current_width != self._last_width:
+            width_diff = current_width - self._last_width
             x = self.geometry().left() - width_diff
             y = self.geometry().top()
 
             self.move(x, y)
-            self.last_width = current_width
+            self._last_width = current_width
 
     def get_timer_text(self):
+        """
+        Returns the text displayed in the next quest time label.
+        """
         return self.ui.next_quest_time_label.text()
 
-    def set_timer_text(self, text):
+    def set_timer_text(self, text: str):
+        """
+        Sets the text of the next quest time label ot the given text.
+        """
         self.ui.next_quest_time_label.setText(text)
 
     def get_quest_count(self):
+        """
+        Returns the text displayed in the quest count label.
+        """
         return self.ui.quest_count_label.text()
 
-    def set_quest_count(self, count):
+    def set_quest_count(self, count: int):
+        """
+        Sets the text of the quest count label to the given count.
+        """
         self.ui.quest_count_label.setText(
             f"{count}/{SettingsManager.get_quest_limit()}"
         )
 
-    def add_widget(self, widget):
+    def add_widget(self, widget: QWidget):
+        """
+        Adds a widget to the quest frame layout.
+        """
         self.ui.quest_frame_layout.addWidget(widget, 1, Qt.AlignRight | Qt.AlignTop)
-
-
-def create_quest_display():
-    global quest_display
-    quest_display = QuestDisplay()
-
-
-def get_quest_display():
-    return quest_display

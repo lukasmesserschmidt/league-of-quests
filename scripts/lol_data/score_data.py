@@ -1,7 +1,15 @@
+"""
+This module contains the ScoreData class.
+"""
+
 from .all_player_data import AllPlayerData
 
 
 class ScoreData:
+    """
+    This class contains the score data for a given player.
+    """
+
     @classmethod
     def get_data(cls, summoner_name: str):
         return AllPlayerData.get_player_data(summoner_name)["scores"]

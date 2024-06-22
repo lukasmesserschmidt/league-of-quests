@@ -1,3 +1,7 @@
+"""
+This module contains the MainManager class, which manages the main components of the program.
+"""
+
 import keyboard
 
 from .quest_display_manager import QuestDisplayManager
@@ -9,16 +13,22 @@ from .hotkey_manager import HotkeyManager
 from ..lol_data.lol_window_data import LolWindowData
 from ..lol_data.get_live_client_data import GetLiveClientData
 from ..lol_data.get_lol_settings import GetLolSettings
-from ..gui.quest_display import get_quest_display
-from ..gui.stop_window import get_stop_window
-from ..gui.game_overlay.game_overlay_window import get_game_overlay
+from ..gui.quest_display import QuestDisplay
+from ..gui.stop_window import StopWindow
+from ..gui.game_overlay.game_overlay_window import GameOverlayWindow
 from ..utils import is_program_active
 
 
 class MainManager:
+    """
+    A class for managing the main components of the program.
+    """
 
     @classmethod
     def start_game(cls):
+        """
+        Starts the game by invoking start methods for various components.
+        """
         LolWindowData.start()
 
         QuestFrameManager.start()
@@ -31,19 +41,22 @@ class MainManager:
         HotkeyManager.start()
 
         QuestDisplayManager.start()
-        get_quest_display().start()
-        get_game_overlay().start()
+        QuestDisplay.get_instance().start()
+        GameOverlayWindow.get_instance().start()
 
-        get_stop_window().start()
+        StopWindow.get_instance().start()
 
         is_program_active.program_active = True
 
     @classmethod
     def stop_game(cls):
-        get_stop_window().stop()
+        """
+        Stops the game by invoking stop methods for various components and resetting program state.
+        """
+        StopWindow.get_instance().stop()
 
-        get_game_overlay().stop()
-        get_quest_display().stop()
+        GameOverlayWindow.get_instance().stop()
+        QuestDisplay.get_instance().stop()
         QuestDisplayManager.stop()
 
         HotkeyManager.stop()
@@ -62,6 +75,10 @@ class MainManager:
 
     @classmethod
     def stop_program(cls):
+        """
+        Stops the program by invoking the stop methods for the game
+        and the data retrieval components.
+        """
         cls.stop_game()
 
         GetLolSettings.stop()

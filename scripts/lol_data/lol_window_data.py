@@ -1,3 +1,7 @@
+"""
+This module contains the LolWindowData class.
+"""
+
 import win32gui
 from PySide6.QtCore import QTimer
 
@@ -7,12 +11,19 @@ from ..utils.constants import Constants
 
 
 class LolWindowData:
+    """
+    This class contains the data of the League of Legends window.
+    """
+
     lol_title = "League of Legends (TM) Client"
     lol_is_top = False
     check_lol_is_top_timer = None
 
     @classmethod
     def start(cls):
+        """
+        Starts the check if the League of Legends window is top loop.
+        """
         if cls.check_lol_is_top_timer is None:
             cls.check_lol_is_top_timer = QTimer()
             cls.check_lol_is_top_timer.timeout.connect(cls._check_lol_is_top)
@@ -22,6 +33,9 @@ class LolWindowData:
 
     @classmethod
     def stop(cls):
+        """
+        Stop the check if the League of Legends window is top loop.
+        """
         if cls.check_lol_is_top_timer is not None:
             cls.check_lol_is_top_timer.stop()
             cls.lol_is_top = False
@@ -34,7 +48,7 @@ class LolWindowData:
         cls.lol_is_top = title == cls.lol_title
 
     @classmethod
-    def get_lol_hwnd(cls):
+    def _get_lol_hwnd(cls):
         class_name = "RiotWindowClass"
         hwnd = win32gui.FindWindow(class_name, cls.lol_title)
 
@@ -42,12 +56,18 @@ class LolWindowData:
 
     @classmethod
     def is_lol_open(cls):
-        hwnd = cls.get_lol_hwnd()
+        """
+        Returns whether the League of Legends window is open.
+        """
+        hwnd = cls._get_lol_hwnd()
 
         return hwnd != 0
 
     @classmethod
     def get_window_mode(cls):
+        """
+        Returns the window mode of the League of Legends window.
+        """
         window_mode = LolSettings.get_lol_setting(Constants.WINDOW_MODE)
 
         return window_mode
@@ -90,6 +110,9 @@ class LolWindowData:
 
     @classmethod
     def get_scaled_resolution(cls):
+        """
+        Returns the resolution of the League of Legends window scaled with the DPI.
+        """
         lol_resolution = cls._get_resolution()
         scaled_resolution = cls._get_scaled_values(lol_resolution)
 
@@ -97,6 +120,9 @@ class LolWindowData:
 
     @classmethod
     def get_scaled_pos(cls):
+        """
+        Returns the position of the League of Legends window scaled with the DPI.
+        """
         monitor_position = cls._get_pos()
         scaled_pos = cls._get_scaled_values(monitor_position)
 

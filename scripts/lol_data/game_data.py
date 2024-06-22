@@ -1,7 +1,15 @@
+"""
+This module contains the GameData class.
+"""
+
 from .get_live_client_data import GetLiveClientData
 
 
 class GameData:
+    """
+    This class contains the game data.
+    """
+
     @classmethod
     def get_data(cls):
         return GetLiveClientData.all_data["gameData"]

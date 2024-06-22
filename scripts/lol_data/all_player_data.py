@@ -1,7 +1,15 @@
+"""
+This module contains the AllPlayerData class.
+"""
+
 from .get_live_client_data import GetLiveClientData
 
 
 class AllPlayerData:
+    """
+    This class contains the data of all players.
+    """
+
     @classmethod
     def get_data(cls):
         return GetLiveClientData.all_data["allPlayers"]

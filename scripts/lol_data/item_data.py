@@ -1,7 +1,14 @@
+"""
+This module contains the ItemData class.
+"""
+
 from .all_player_data import AllPlayerData
 
 
 class ItemData:
+    """
+    This class contains the item data for a given player.
+    """
 
     @classmethod
     def get_data(cls, summoner_name: str):

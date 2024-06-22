@@ -1,3 +1,8 @@
+"""
+This module contains the GameOverlayWindow class, which displays the game overlay.
+"""
+
+from contextlib import suppress
 from PySide6.QtCore import Qt, QTimer
 
 from .map_cover import MapCover
@@ -16,8 +21,14 @@ from ...utils.constants import Constants
 
 
 class GameOverlayWindow(WindowBase):
+    """
+    A class for displaying the game overlay.
+    """
+
     def __init__(self):
         super().__init__()
+
+        # set window attributes
         width, height = user_data.get_monitor_dpi_resolution()
         self.setGeometry(0, 0, width, height)
         self.setAttribute(Qt.WA_TranslucentBackground)
@@ -27,6 +38,7 @@ class GameOverlayWindow(WindowBase):
             | Qt.FramelessWindowHint
         )
 
+        # init overlay covers dict
         self.overlay_covers_dict = {
             Constants.ABILITY: {
                 "active": set(),
@@ -57,22 +69,30 @@ class GameOverlayWindow(WindowBase):
             Constants.MAP: {"active": set(), "reset": {0}, "cover": MapCover(self)},
         }
 
-        self.main_loop_timer = QTimer(self)
-        self.main_loop_timer.timeout.connect(self._main_loop)
+        # update loop
+        self._update_loop_timer = QTimer(self)
+        self._update_loop_timer.timeout.connect(self._update_loop)
 
         self.hide()
 
-    # main loop
+    # control
     def start(self):
-        self.main_loop_timer.start(100)
+        """
+        Starts the game overlay window update loop.
+        """
+        self._update_loop_timer.start(100)
 
     def stop(self):
-        self.main_loop_timer.stop()
+        """
+        Stops the game overlay window update loop and clears active overlays.
+        """
+        self._update_loop_timer.stop()
         for overlay_cover in self.overlay_covers_dict.values():
             overlay_cover["active"].clear()
         self.hide()
 
-    def _main_loop(self):
+    # update loop
+    def _update_loop(self):
         if (
             is_program_active()
             and is_game_active()
@@ -96,10 +116,11 @@ class GameOverlayWindow(WindowBase):
             if overlay_type == Constants.RESOURCE:
                 cover.set_percent(*overlay_cover["percent"])
 
-            if reset_overlays:
-                cover.hide(*reset_overlays)
-            if active_overlays:
-                cover.show(*active_overlays)
+            with suppress(Exception):
+                if reset_overlays:
+                    cover.hide(*reset_overlays)
+                if active_overlays:
+                    cover.show(*active_overlays)
 
     # overlays control
     def enable_overlays(
@@ -108,6 +129,14 @@ class GameOverlayWindow(WindowBase):
         enable: bool,
         owner: object,
     ):
+        """
+        Enable or disable overlays based on the given overlay types and owner.
+
+        Args:
+            overlay_types (dict[Constants, list[int | tuple[int, float | int]]]): A dictionary mapping overlay types to a list of arguments.
+            enable (bool): A boolean indicating whether to enable or disable the overlays.
+            owner (object): The owner of the overlays.
+        """
         for overlay_type, args in overlay_types.items():
             if overlay_type == Constants.RESOURCE:
                 overlays = set()
@@ -125,12 +154,3 @@ class GameOverlayWindow(WindowBase):
                 self.overlay_covers_dict[overlay_type]["active"].difference_update(
                     overlays
                 )
-
-
-def create_game_overlay():
-    global game_overlay
-    game_overlay = GameOverlayWindow()
-
-
-def get_game_overlay():
-    return game_overlay

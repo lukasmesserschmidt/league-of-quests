@@ -1,10 +1,15 @@
+"""
+This module contains the ResourceQuestBase class.
+"""
+
 from .quest_base import QuestBase
 from ..common_classes.resource_base import ResouceBase
-from ..gui.game_overlay.game_overlay_window import get_game_overlay
-from ..utils.constants import Constants
 
 
 class ResourceQuestBase(ResouceBase, QuestBase):
+    """
+    The base class for all resource quests.
+    """
 
     @classmethod
     def init(cls):

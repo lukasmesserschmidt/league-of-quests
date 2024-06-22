@@ -1,9 +1,17 @@
+"""
+This module contains the TimerQuestBase class.
+"""
+
 from typing import Callable
 
 from .quest_base import QuestBase
 
 
 class TimerQuestBase(QuestBase):
+    """
+    The base class for all timer quests.
+    """
+
     get_stat_func: Callable
 
     max_doubling_count = 4
@@ -36,4 +44,7 @@ class TimerQuestBase(QuestBase):
 
     @classmethod
     def complete_condition(cls, current_stat):
+        """
+        Checks if the quest is complete.
+        """
         raise NotImplementedError

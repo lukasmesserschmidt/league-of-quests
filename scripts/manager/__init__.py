@@ -1,4 +1,4 @@
 from .settings_manager import SettingsManager
 
 
-SettingsManager.import_settings()
+SettingsManager._import_settings()

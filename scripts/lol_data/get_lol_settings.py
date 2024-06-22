@@ -1,14 +1,23 @@
+"""
+This module contains the GetLolSettings class.
+"""
+
+import time
+
 from contextlib import suppress
 import configparser
 import json
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-import time
 
 from .get_lol_paths import get_lol_config_path, get_lol_settings_path, get_game_cfg_path
 
 
-class MyHandler(FileSystemEventHandler):
+class Handler(FileSystemEventHandler):
+    """
+    Observes the changes in the PersistedSettings.json and game.cfg files.
+    """
+
     def on_modified(self, event):
         if event.src_path.endswith("PersistedSettings.json") or event.src_path.endswith(
             "game.cfg"
@@ -19,6 +28,11 @@ class MyHandler(FileSystemEventHandler):
 
 
 class GetLolSettings:
+    """
+    This class gets the League of Legends settings.
+    """
+
+    # init variables
     all_lol_settings: dict
     game_cfg: configparser.ConfigParser
     all_lol_settings = None
@@ -28,16 +42,22 @@ class GetLolSettings:
 
     @classmethod
     def import_settings(cls):
+        """
+        Imports the persisted settings.
+        """
         imported = False
 
         while not imported:
             with suppress(Exception):
-                with open(get_lol_settings_path(), "r") as f:
+                with open(get_lol_settings_path(), "r", encoding="utf-8") as f:
                     cls.all_lol_settings = json.load(f)
                     imported = True
 
     @classmethod
     def import_game_cfg(cls):
+        """
+        Imports the game.cfg.
+        """
         imported = False
 
         while not imported:
@@ -52,11 +72,14 @@ class GetLolSettings:
 
     @classmethod
     def start(cls):
+        """
+        Starts the import loop and imports the settings and game.cfg once.
+        """
         if cls.observer is None:
             cls.import_settings()
             cls.import_game_cfg()
             path = get_lol_config_path()
-            event_handler = MyHandler()
+            event_handler = Handler()
             cls.observer = Observer()
             cls.observer.schedule(event_handler, path, recursive=False)
 
@@ -64,6 +87,9 @@ class GetLolSettings:
 
     @classmethod
     def stop(cls):
+        """
+        Stops the import loop.
+        """
         if cls.observer is not None:
             cls.observer.stop()
             cls.observer.join()

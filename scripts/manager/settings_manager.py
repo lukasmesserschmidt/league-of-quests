@@ -1,17 +1,25 @@
-import os
+"""
+This module contains the SettingsManager class.
+"""
+
 import json
 
 from ..utils.get_paths import get_path
 
 
 class SettingsManager:
+    """
+    A class for managing the settings.
+    """
+
+    # init variables
     all_settings: dict
 
     @classmethod
-    def import_settings(cls):
+    def _import_settings(cls):
         settings_file = get_path("config\\settings.json", 1)
 
-        with open(settings_file, "r") as f:
+        with open(settings_file, "r", encoding="utf-8") as f:
             data = json.load(f)
         cls.all_settings = data
 
@@ -60,15 +68,11 @@ class SettingsManager:
         return cls.get_quest_rarity_settings()["hard"][object_type]
 
     @classmethod
-    def get_setting(cls, *args):
-        setting = cls.all_settings
-        for arg in args:
-            setting = setting[arg]
-
-        return setting
-
-    @classmethod
     def update(cls, ui):
+        """
+        Update the settings with the values from the UI.
+        """
+
         def get_value(lineedit):
             text = lineedit.text()
             if text.isdigit():

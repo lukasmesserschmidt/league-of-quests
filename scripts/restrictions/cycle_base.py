@@ -1,7 +1,16 @@
+"""
+Aditional base class for cycling restrictions.
+"""
+
 import time
 
 
 class CycleBase:
+    """
+    Adds a cycle interface to a restriction.
+    """
+
+    # init variables
     start_cycle = False
     cycle_end_time = 0
     cycle_duration = 0
@@ -26,16 +35,26 @@ class CycleBase:
 
     @classmethod
     def start_condition(cls):
+        """
+        Checks if the start condition is met.
+        """
         raise NotImplementedError
 
     @classmethod
     def condition_met(cls):
-        pass
+        """
+        Everything that happens when the start condition is met.
+        """
 
     @classmethod
     def cycle_content(cls):
+        """
+        Everything that happens during the cycle.
+        """
         raise NotImplementedError
 
     @classmethod
     def cycle_end(cls):
-        pass
+        """
+        Everything that happens when the cycle ends.
+        """

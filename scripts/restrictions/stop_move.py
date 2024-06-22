@@ -11,6 +11,8 @@ class StopMove(CycleBase, RestrictionHotkeyBase):
     hotkey_type = {Constants.STOP_POSITION: [0]}
     attributes = [Constants.MOVE]
 
+    interval = 100
+
     cycle_duration = 3
 
     @classmethod

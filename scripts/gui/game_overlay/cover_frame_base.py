@@ -1,3 +1,7 @@
+"""
+This module contains the CoverFrameBase class,
+"""
+
 from typing import Callable
 from PySide6.QtWidgets import QFrame, QWidget
 
@@ -5,6 +9,10 @@ from ...utils.game_overlay_scaling import get_global_pos, get_global_size
 
 
 class CoverFrameBase(QFrame):
+    """
+    Base class for cover frames.
+    """
+
     def __init__(self, parent: QWidget):
         super().__init__(parent)
         self.set_geometry: Callable
@@ -13,6 +21,9 @@ class CoverFrameBase(QFrame):
         self.hide()
 
     def setgeometry(self, min_size, max_size, min_x, max_x, min_y, max_y):
+        """
+        Sets the geometry of the cover scaled to the game settings.
+        """
         size = get_global_size(min_size, max_size)
         x, y = get_global_pos(min_x, max_x, min_y, max_y)
 

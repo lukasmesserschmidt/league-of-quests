@@ -1,3 +1,7 @@
+"""
+This module contains the QuestOnDeath class.
+"""
+
 from PySide6.QtCore import QTimer
 
 from .quest_frame_manager import QuestFrameManager
@@ -5,24 +9,35 @@ from ..lol_data.active_player_data import ActivePlayerData
 
 
 class QuestOnDeath:
-    receive_loop_timer = None
+    """
+    A class for managing the quest on death option.
+    """
+
+    # init variables
+    _receive_loop_timer = None
 
     @classmethod
     def start(cls):
-        if cls.receive_loop_timer is None:
-            cls.receive_loop_timer = QTimer()
-            cls.receive_loop_timer.timeout.connect(cls.receive_loop)
+        """
+        Start the receive loop timer.
+        """
+        if cls._receive_loop_timer is None:
+            cls._receive_loop_timer = QTimer()
+            cls._receive_loop_timer.timeout.connect(cls._receive_loop)
 
         cls.last_death_cont = ActivePlayerData.get_deaths()
-        cls.receive_loop_timer.start(500)
+        cls._receive_loop_timer.start(500)
 
     @classmethod
     def stop(cls):
-        if cls.receive_loop_timer is not None:
-            cls.receive_loop_timer.stop()
+        """
+        Stop the receive loop timer.
+        """
+        if cls._receive_loop_timer is not None:
+            cls._receive_loop_timer.stop()
 
     @classmethod
-    def receive_loop(cls):
+    def _receive_loop(cls):
         death_cont = ActivePlayerData.get_deaths()
 
         if cls.last_death_cont < death_cont:

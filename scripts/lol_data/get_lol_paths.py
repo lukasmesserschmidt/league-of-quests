@@ -1,10 +1,17 @@
+"""
+This module contains functions to get the League of Legends paths.
+"""
+
 import json
 
 
 def get_lol_config_path():
+    """
+    Returns the Config folder path.
+    """
     riot_client_installs_path = "C:/ProgramData/Riot Games/RiotClientInstalls.json"
 
-    with open(riot_client_installs_path, "r") as f:
+    with open(riot_client_installs_path, "r", encoding="utf-8") as f:
         associated_clients: dict
         associated_clients = json.load(f)["associated_client"]
 
@@ -14,6 +21,9 @@ def get_lol_config_path():
 
 
 def get_lol_settings_path():
+    """
+    Returns the PersistedSettings.json path.
+    """
     lol_config_path = get_lol_config_path()
 
     lol_settings_path = lol_config_path + "/PersistedSettings.json"
@@ -22,6 +32,9 @@ def get_lol_settings_path():
 
 
 def get_game_cfg_path():
+    """
+    Returns the game.cfg path.
+    """
     lol_config_path = get_lol_config_path()
 
     game_cfg_path = lol_config_path + "/game.cfg"

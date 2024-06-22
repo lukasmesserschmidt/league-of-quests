@@ -1,8 +1,16 @@
+"""
+This module contains the MultiCoverBase class and MultiCoverFrameBase class.,
+"""
+
 from .cover_frame_base import CoverFrameBase
 from ...utils.game_overlay_scaling import get_global_size, get_global_pos
 
 
 class MultiCoverBase:
+    """
+    Base class for multi cover classes.
+    """
+
     def __init__(self, parent, cover, num_covers):
         self.covers = [cover(parent, i) for i in range(0, num_covers)]
 
@@ -16,6 +24,10 @@ class MultiCoverBase:
 
 
 class MultiCoverFrameBase(CoverFrameBase):
+    """
+    Base class for multi cover frame classes.
+    """
+
     def __init__(self, parent, cover_num):
         super().__init__(parent)
         self.cover_num = cover_num
