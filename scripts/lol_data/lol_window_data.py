@@ -111,7 +111,8 @@ class LolWindowData:
     @classmethod
     def get_scaled_resolution(cls):
         """
-        Returns the resolution of the League of Legends window scaled with the DPI.
+        Returns the resolution of the League of Legends window scaled with the
+        monitor dpi resolution.
         """
         lol_resolution = cls._get_resolution()
         scaled_resolution = cls._get_scaled_values(lol_resolution)
@@ -121,7 +122,8 @@ class LolWindowData:
     @classmethod
     def get_scaled_pos(cls):
         """
-        Returns the position of the League of Legends window scaled with the DPI.
+        Returns the position of the League of Legends window scaled with the
+        monitor dpi resolution.
         """
         monitor_position = cls._get_pos()
         scaled_pos = cls._get_scaled_values(monitor_position)

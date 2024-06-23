@@ -1,3 +1,7 @@
+"""
+Contains all quests.
+"""
+
 from .spend_gold_timer import SpendGoldTimer
 from .get_kill_timer import GetKillTimer
 from .have_low_gold import HaveLowGold

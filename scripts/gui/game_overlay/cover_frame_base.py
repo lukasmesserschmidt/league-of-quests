@@ -22,7 +22,8 @@ class CoverFrameBase(QFrame):
 
     def setgeometry(self, min_size, max_size, min_x, max_x, min_y, max_y):
         """
-        Sets the geometry of the cover scaled to the game settings.
+        Sets the geometry of the cover scaled to the League of Legends settings
+        and the monitor dpi resolution.
         """
         size = get_global_size(min_size, max_size)
         x, y = get_global_pos(min_x, max_x, min_y, max_y)

@@ -64,9 +64,8 @@ class HotkeyManager:
                 (Constants.PRESS, cls._press),
                 (Constants.PRESS_RELEASE, cls._press_release),
             ]:
-                with suppress(Exception):
-                    hotkeys = cls._get_hotkeys(cls.hotkey_types_dict.get(event))
-                    handler(*hotkeys)
+                hotkeys = cls._get_hotkeys(cls.hotkey_types_dict.get(event))
+                handler(*hotkeys)
         else:
             keyboard.unhook_all()
 

@@ -1,3 +1,7 @@
+"""
+Contains all restrictions.
+"""
+
 from .disable_ability import DisableAbility
 from .disable_ultimate import DisableUltimate
 from .disable_summoner_spell import DisableSummonerSpell

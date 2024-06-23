@@ -12,8 +12,10 @@ class WindowBase(QWidget):
     A base class for most windows in the program.
     """
 
+    # init instances dict
     _instances = {}
 
+    # signals
     closed = Signal()
 
     @classmethod

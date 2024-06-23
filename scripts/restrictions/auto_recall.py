@@ -13,5 +13,5 @@ class AutoRecall(RestrictionHotkeyBase):
 
     @classmethod
     def restriction_content(cls):
-        if randint(1, int(15000 / cls.interval)) == 1:
+        if randint(1, int(20000 / cls.interval)) == 1:
             cls.hotkey_event(Constants.PRESS_RELEASE, cls.hotkey_types)

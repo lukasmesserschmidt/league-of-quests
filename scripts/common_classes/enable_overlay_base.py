@@ -1,5 +1,5 @@
 """
-This module contains the Base class for all enable overlays.	
+This module contains the Base class for all quests and restrictions that use overlays.	
 """
 
 from ..gui.game_overlay.game_overlay_window import GameOverlayWindow

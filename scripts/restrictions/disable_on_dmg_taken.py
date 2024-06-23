@@ -15,7 +15,7 @@ class DisableOnDmgTaken(ResouceBase, CycleBase, RestrictionDisableHotkeyBase):
 
     hotkey_types = {Constants.ABILITY: [0, 1, 2, 3], Constants.SUMMONER_SPELL: [0, 1]}
 
-    cycle_duration = 1
+    cycle_duration = 2
 
     @classmethod
     def init(cls):

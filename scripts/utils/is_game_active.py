@@ -12,7 +12,7 @@ from ..lol_data.lol_window_data import LolWindowData
 def is_game_active():
     """
     Returns if the game is active, based on: game started and not ended, lol is open,
-      all lol settings are available and the game cfg is available.
+    all lol settings are available and the game cfg is available.
     """
     with suppress(Exception):
         if EventData.get_event("GameEnd"):

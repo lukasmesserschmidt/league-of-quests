@@ -2,7 +2,6 @@
 This module contains the GameOverlayWindow class, which displays the game overlay.
 """
 
-from contextlib import suppress
 from PySide6.QtCore import Qt, QTimer
 
 from .map_cover import MapCover
@@ -116,11 +115,10 @@ class GameOverlayWindow(WindowBase):
             if overlay_type == Constants.RESOURCE:
                 cover.set_percent(*overlay_cover["percent"])
 
-            with suppress(Exception):
-                if reset_overlays:
-                    cover.hide(*reset_overlays)
-                if active_overlays:
-                    cover.show(*active_overlays)
+            if reset_overlays:
+                cover.hide(*reset_overlays)
+            if active_overlays:
+                cover.show(*active_overlays)
 
     # overlays control
     def enable_overlays(
