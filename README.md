@@ -44,7 +44,7 @@ League of Quests is a tool for the game **League of Legends** that enhances game
 League of Quests is designed for entertainment purposes and should be used responsibly. Be aware that the use of third-party tools may conflict with League of Legends' anti-cheat system and could potentially result in penalties, including bans. If you have concerns about this, it is recommended to use the tool only in custom games with friends to avoid any potential issues.
 
 ⚠️ Note: This is an early project
-This code was written when I was still learning Python and best practices. It may contain inefficiencies, suboptimal patterns, or outdated approaches.
+This code was written when I was still learning Python and best practices. It may contain inefficiencies, suboptimal patterns, or outdated approaches. Additionally, it might no longer work as expected, since it hasn't been tested or updated in a long time.
 
 ## License
 
