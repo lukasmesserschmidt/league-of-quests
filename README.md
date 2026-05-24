@@ -29,10 +29,10 @@ League of Quests is a tool for the game **League of Legends** that enhances game
 
 ### Important Notes
 
-- **Non-Competitive Use:** This tool should only be used in non-competitive modes to maintain fair play.
-- **ARAM Mode:** The tool works in ARAM mode, but it is not optimized for this mode and may not provide the best experience.
 - **Borderless Window Mode:** The window mode of League of Legends must be set to borderless so that the UI from League of Quests can be shown.
+- **ARAM Mode:** The tool works in ARAM mode, but it is not optimized for this mode and may not provide the best experience.
 - **Compatibility:** Please note that the program is not compatible with the champion Aphelios due to his unique mechanics.
+- **Non-Competitive Use:** This tool should only be used in non-competitive modes to maintain fair play.
 
 ### System Requirements
 
@@ -41,15 +41,8 @@ League of Quests is a tool for the game **League of Legends** that enhances game
 
 ## Disclaimer
 
-League of Quests is designed for entertainment purposes and should be used responsibly. Be aware that the use of third-party tools may conflict with League of Legends' anti-cheat system and could potentially result in penalties, including bans. If you have concerns about this, it is recommended to use the tool only in custom games with friends to avoid any potential issues.
-
-⚠️ Note: This is an early project
-This code was written when I was still learning Python and best practices. It may contain inefficiencies, suboptimal patterns, or outdated approaches. Additionally, it might no longer work as expected, since it hasn't been tested or updated in a long time.
+League of Quests is designed for entertainment purposes and should be used responsibly. Be aware that the use of third-party tools may conflict with League of Legends' anti-cheat system and could potentially result in penalties, including bans. If you have concerns about this, it is recommended to use the tool only in custom games to avoid any potential issues.
 
 ## License
 
 This project is licensed under the GPL-3.0 license. For more details, refer to the LICENSE file.
-
-## About the Developer
-
-Hi there! I'm relatively new to programming. This project is a learning experience for me, helping me gain new skills and knowledge.

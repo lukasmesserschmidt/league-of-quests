@@ -1,8 +1,4 @@
-.pylintrc
 .vscode/
-.VSCodeCounter/
 __pycache__/
-output/
-loq exe/
-other/
 .venv/
+NOTES.md
