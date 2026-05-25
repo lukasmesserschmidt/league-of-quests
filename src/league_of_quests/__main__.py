@@ -1,16 +1,9 @@
-import time
-
-from .platform import KeyboardController
+from .engine.quest_manager import QuestManager
 
 
 def main():
-    keyboard_controller = KeyboardController()
-    keyboard_controller.block_key("q")
-
-    time.sleep(5)
-    keyboard_controller.press_release_key("w")
-
-    # time.sleep(20)
+    quest_manager = QuestManager()
+    quest_manager.loop()
 
 
 if __name__ == "__main__":

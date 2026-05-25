@@ -21,7 +21,7 @@ class LiveClientDataFetcher:
         self.session = requests.Session()
         self.logger = logging.getLogger(__name__)
 
-    def fetch_data(self) -> Optional[Dict[str, Any]]:
+    def fetch(self) -> Optional[Dict[str, Any]]:
         try:
             if not self.verify:
                 warnings.simplefilter(

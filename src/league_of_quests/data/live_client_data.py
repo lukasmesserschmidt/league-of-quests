@@ -10,6 +10,9 @@ class LiveClientData:
     def get_ability_power(self) -> Optional[float]:
         return self._get_field("activePlayer", "championStats", "abilityPower")
 
+    def get_game_time(self) -> Optional[float]:
+        return self._get_field("gameData", "gameTime")
+
     def _get_field(self, *path, default: Any = None) -> Any:
         """Safely get a nested field from the payload.
 
