@@ -6,7 +6,7 @@ class LiveClient:
         self._window_title = "League of Legends (TM) Client"
         self._window_class = "RiotWindowClass"
 
-    def is_focused(self):
+    def is_focused(self) -> bool:
         # Get the handle of the foreground window
         foreground_window = ctypes.windll.user32.GetForegroundWindow()
 
