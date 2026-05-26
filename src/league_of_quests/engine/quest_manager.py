@@ -1,9 +1,8 @@
 import time
 
 from ..data import LiveClientDataFetcher
-from ..data import LiveClientData
-from ..core import Quest, TaskEvaluator, RestrictionEffect
-from ..content.evaluators import StatTaskEvaluator
+from ..content.quests import GetStatQuest
+from ..core.states import Difficulty
 
 
 class QuestManager:
@@ -12,32 +11,15 @@ class QuestManager:
         self.live_client_data_fetcher = LiveClientDataFetcher()
 
     def loop(self):
-        # test
-        evaluator = StatTaskEvaluator(
-            "get_ability_power",
-            "Get ability power.",
-            ["stat", "ability_power"],
-            300,
-            20,
-            stat_type="ability_power",
-            target_value=20,
-        )
-        restriction = RestrictionEffect(
-            "No Attack", "You cannot use basic attacks.", ["attack"]
-        )
-        quest = Quest(evaluator, restriction)
+        quest = GetStatQuest(300, Difficulty.EASY, None)
 
         last_time = None
         while True:
-            data = self.live_client_data_fetcher.fetch()
-            if data is None:
+            live_client_data = self.live_client_data_fetcher.fetch()
+            if live_client_data is None:
                 continue
 
-            live_client_data = LiveClientData(data)
-
-            t = live_client_data.get_game_time()
-            if t is None:
-                continue
+            t = live_client_data.gameData.gameTime
 
             if last_time is None:
                 last_time = t

@@ -31,6 +31,9 @@ class Clock:
     def get_holding_time_left(self):
         return self._holding_time_left
 
+    def start(self):
+        self._state = ClockState.ACTIVE
+
     def update(self, dt: float):
         # reduce the remaining time
         match self._state:

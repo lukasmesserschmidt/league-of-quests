@@ -1,9 +1,9 @@
-from .engine.quest_manager import QuestManager
+from .engine import QuestManager
 
 
 def main():
-    quest_manager = QuestManager()
-    quest_manager.loop()
+    manager = QuestManager()
+    manager.loop()
 
 
 if __name__ == "__main__":

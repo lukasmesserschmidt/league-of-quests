@@ -10,8 +10,10 @@ class Quest(ABC):
     describtion: str
     difficultys: list[Difficulty]
     tags: list[str]
-    
-    def __init__(self, duration: float, difficulty: Difficulty, restriction: Restriction):
+
+    def __init__(
+        self, duration: float, difficulty: Difficulty, restriction: Restriction
+    ):
         self._clock = Clock(duration)
         self._state = QuestState.INACTIVE
 
@@ -46,11 +48,11 @@ class Quest(ABC):
     def get_completion_time_left(self):
         return self._clock.get_holding_time_left()
 
-    @staticmethod
-    def conditions_met(live_client_data: LiveClientData):
-        return True
-
     def start(self, live_client_data: LiveClientData):
+        self._on_start(live_client_data)
+        self._clock.start()
+
+    def _on_start(self, live_client_data: LiveClientData):
         pass
 
     def update(self, dt: float, live_client_data: LiveClientData):
@@ -59,11 +61,11 @@ class Quest(ABC):
 
         self._clock.update(dt)
         self._on_update(dt, live_client_data)
-        
+
     @abstractmethod
     def _on_update(self, dt: float, live_client_data: LiveClientData):
         pass
-        
+
     @abstractmethod
     def get_progress(self):
         pass
@@ -71,5 +73,3 @@ class Quest(ABC):
     @abstractmethod
     def get_goal(self):
         pass
-
-
