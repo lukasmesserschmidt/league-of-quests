@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 
-from .clock import Clock
 from .restriction import Restriction
 from .states import Difficulty, QuestState
 from ..data import LiveClientData
@@ -8,33 +7,20 @@ from ..data import LiveClientData
 
 class Quest(ABC):
     describtion: str
-    difficultys: list[Difficulty]
+    difficultys: Difficulty
     tags: list[str]
 
-    def __init__(
-        self, duration: float, difficulty: Difficulty, restriction: Restriction
-    ):
-        self._clock = Clock(duration)
+    duration: float
+
+    def __init__(self, restriction: Restriction):
+        self._duration = self.duration
+        self._time_left = self._duration
         self._state = QuestState.INACTIVE
 
-        self._difficulty = difficulty
-
         self._restriction = restriction
-        self._restriction_paused = False
 
-        self._on_init()
-
-    def _on_init(self):
-        pass
-
-    def is_completed(self):
-        return self._state == QuestState.COMPLETED
-
-    def is_failed(self):
-        return self._state == QuestState.FAILED
-
-    def is_holding(self):
-        return self._clock.is_holding()
+    def get_time_left(self):
+        return self._time_left
 
     def get_state(self):
         return self._state
@@ -42,29 +28,24 @@ class Quest(ABC):
     def set_state(self, state: QuestState):
         self._state = state
 
-    def get_time_left(self):
-        return self._clock.get_time_left()
-
-    def get_completion_time_left(self):
-        return self._clock.get_holding_time_left()
-
     def start(self, live_client_data: LiveClientData):
+        self.set_state(QuestState.ACTIVE)
         self._on_start(live_client_data)
-        self._clock.start()
-
-    def _on_start(self, live_client_data: LiveClientData):
-        pass
 
     def update(self, dt: float, live_client_data: LiveClientData):
-        if self.is_completed() or self.is_failed():
-            return
+        if self.get_state() not in (QuestState.INACTIVE, QuestState.COMPLETED, QuestState.FAILED):
+            self._update_time(dt)
+            self._update_condition(live_client_data)
 
-        self._clock.update(dt)
-        self._on_update(dt, live_client_data)
+    def _update_time(self, dt: float):
+        self._time_left -= dt
+        if self._time_left <= 0:
+            self.set_state(QuestState.FAILED)
 
-    @abstractmethod
-    def _on_update(self, dt: float, live_client_data: LiveClientData):
-        pass
+    def _update_condition(self, live_client_data: LiveClientData):
+        condition_met = self._condition_met(live_client_data)
+        if condition_met:
+            self.set_state(QuestState.COMPLETED)
 
     @abstractmethod
     def get_progress(self):
@@ -72,4 +53,15 @@ class Quest(ABC):
 
     @abstractmethod
     def get_goal(self):
+        pass
+
+    @classmethod
+    def requirements_met(cls, live_client_data: LiveClientData):
+        return True
+
+    def _on_start(self, live_client_data: LiveClientData):
+        pass
+
+    @abstractmethod
+    def _condition_met(self, live_client_data: LiveClientData) -> bool:
         pass

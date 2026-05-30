@@ -1,7 +1,7 @@
 import time
 
 from ..data import LiveClientDataFetcher
-from ..content.quests import GetStatQuest
+from ..content.quests import GetStatQuest, GetLevelQuest
 from ..core.states import Difficulty
 
 
@@ -11,7 +11,7 @@ class QuestManager:
         self.live_client_data_fetcher = LiveClientDataFetcher()
 
     def loop(self):
-        quest = GetStatQuest(300, Difficulty.EASY, None)
+        quest = GetStatQuest(None)
 
         last_time = None
         while True:
@@ -32,11 +32,8 @@ class QuestManager:
 
             # print completed, failed, holding, time left, holding timer, stat value each on a new line
             print("-----")
-            print(f"Completed: {quest.is_completed()}")
-            print(f"Failed: {quest.is_failed()}")
+            print(f"State: {quest.get_state()}")
             print(f"Time Left: {quest.get_time_left()}")
-            print(f"Holding: {quest.is_holding()}")
-            print(f"Completion Timer: {quest.get_completion_time_left()}")
             print(f"Current Value: {quest.get_progress()}")
             print(f"Goal: {quest.get_goal()}")
 
