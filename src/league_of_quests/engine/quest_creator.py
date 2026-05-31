@@ -6,10 +6,16 @@ from ..data import LiveClientData
 from ..core import Difficulty
 from ..content.quests import ALL_QUEST_CLASSES
 from ..content.restrictions import ALL_RESTRICTION_CLASSES
+from ..core import GameDisruptor
 
 
 class QuestCreator:
-    def create_quest(self, existing_quests: list[Quest], live_client_data: LiveClientData) -> Quest:
+    def create_quest(
+        self,
+        existing_quests: list[Quest],
+        live_client_data: LiveClientData,
+        game_disruptor: GameDisruptor,
+    ) -> Quest:
         available_quest_classes = self._get_available_quests(existing_quests, live_client_data)
         available_restriction_classes = self._get_available_restrictions(
             existing_quests, live_client_data
@@ -31,7 +37,7 @@ class QuestCreator:
         selected_quest_class = random.choice(quest_classes_with_difficulty)
         selected_restriction_class = random.choice(restriction_classes_with_difficulty)
 
-        restriction_object = selected_restriction_class()
+        restriction_object = selected_restriction_class(game_disruptor)
         quest_object = selected_quest_class(restriction_object)
 
         return quest_object

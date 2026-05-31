@@ -51,8 +51,8 @@ def parse_hotkey(hotkey_string: str) -> list[str]:
     if not hotkey_string or hotkey_string.strip() == "":
         return []
 
-    # Split by comma for multiple bindings
-    bindings = hotkey_string.split(",")
+    # Split by comma for multiple bindings, but only when comma is outside brackets
+    bindings = re.split(r",(?![^\[]*\])", hotkey_string)
     result = []
 
     for binding in bindings:

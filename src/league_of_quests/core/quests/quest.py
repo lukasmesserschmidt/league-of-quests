@@ -34,6 +34,10 @@ class Quest(ABC):
     def start(self, live_client_data: LiveClientData):
         self.set_state(QuestState.ACTIVE)
         self._on_start(live_client_data)
+        self._restriction.start(live_client_data)
+
+    def stop(self):
+        self._restriction.stop()
 
     def update(self, dt: float, live_client_data: LiveClientData):
         if self.get_state() not in (

@@ -8,9 +8,9 @@ from .enums import HotkeyType
 
 
 class GameDisruptor:
-    def __init__(self):
+    def __init__(self, live_client_config_monitor: LiveClientConfigMonitor):
         self._keyboard_controller = KeyboardController()
-        self._config_monitor = LiveClientConfigMonitor()
+        self._live_client_config_monitor = live_client_config_monitor
         self._lock = threading.Lock()
 
         # Reference counting for blocked abilities: HotkeyType -> count
@@ -59,7 +59,7 @@ class GameDisruptor:
             return ability in self._blocked_abilities
 
     def _get_hotkey_for_ability(self, ability: HotkeyType) -> Optional[list[str]]:
-        config = self._config_monitor.get_config()
+        config = self._live_client_config_monitor.get_config()
         if not config:
             return None
 
