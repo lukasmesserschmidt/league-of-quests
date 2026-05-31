@@ -1,14 +1,15 @@
-from ...data import LiveClientData
-from ...core import HoldingQuest
-from ...core.states import Difficulty
 import random
+
+from ...data import LiveClientData
+from ...core import Difficulty
+from ...core.quests import HoldingQuest
 
 
 class GetStatQuest(HoldingQuest):
     description = "Get {value} {stat}."
-    difficultys = Difficulty.EASY
+    difficulty = Difficulty.EASY
     tags = ["stat"]
-    duration = 20
+    duration = 300
     holding_duration = 20
 
     options = (

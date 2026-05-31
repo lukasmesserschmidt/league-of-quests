@@ -1,5 +1,5 @@
-from typing import Optional, List, Dict
-from pydantic import BaseModel, Field
+from typing import Optional
+from pydantic import BaseModel
 
 
 class Ability(BaseModel):
@@ -65,11 +65,11 @@ class StatRune(BaseModel):
 
 
 class FullRunes(BaseModel):
-    generalRunes: List[Rune]
+    generalRunes: list[Rune]
     keystone: Rune
     primaryRuneTree: Rune
     secondaryRuneTree: Rune
-    statRunes: List[StatRune]
+    statRunes: list[StatRune]
 
 
 class ActivePlayer(BaseModel):
@@ -126,7 +126,7 @@ class Player(BaseModel):
     championName: str
     isBot: bool
     isDead: bool
-    items: List[Item]
+    items: list[Item]
     level: int
     position: str
     rawChampionName: str
@@ -148,7 +148,7 @@ class Event(BaseModel):
     EventID: int
     EventName: str
     EventTime: float
-    Assisters: Optional[List[str]] = None
+    Assisters: Optional[list[str]] = None
     KillerName: Optional[str] = None
     VictimName: Optional[str] = None
     Recipient: Optional[str] = None
@@ -163,7 +163,7 @@ class Event(BaseModel):
 
 
 class Events(BaseModel):
-    Events: List[Event]
+    Events: list[Event]
 
 
 class GameData(BaseModel):
@@ -176,6 +176,6 @@ class GameData(BaseModel):
 
 class LiveClientData(BaseModel):
     activePlayer: ActivePlayer
-    allPlayers: List[Player]
+    allPlayers: list[Player]
     events: Events
     gameData: GameData

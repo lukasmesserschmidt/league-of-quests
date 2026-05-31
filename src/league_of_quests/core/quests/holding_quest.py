@@ -1,7 +1,7 @@
 from .quest import Quest
-from .states import QuestState
-from ..data import LiveClientData
-from ..core.restriction import Restriction
+from .. import QuestState
+from ..restrictions import Restriction
+from ...data import LiveClientData
 
 
 class HoldingQuest(Quest):
@@ -19,9 +19,9 @@ class HoldingQuest(Quest):
         return self._time_left
 
     def _update_time(self, dt: float):
-        if self.get_state() == QuestState.CONDITION_NOT_MET:
+        if self.get_state() != QuestState.CONDITION_MET:
             self._time_left -= dt
-        elif self.get_state() == QuestState.CONDITION_MET:
+        else:
             self._holding_time_left -= dt
 
         if self._time_left <= 0:
@@ -46,4 +46,3 @@ class HoldingQuest(Quest):
 
     def _on_condition_not_met(self, live_client_data: LiveClientData):
         pass
-

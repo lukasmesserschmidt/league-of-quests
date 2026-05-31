@@ -1,12 +1,12 @@
-from ...core import Quest
-from ...core.states import Difficulty
+from ...core import Difficulty
 from ...data import LiveClientData
+from ...core.quests import Quest
 
 
 class GetLevelQuest(Quest):
     description = "Get to level {target_level}."
     tags = ["level"]
-    difficultys = Difficulty.MEDIUM
+    difficulty = Difficulty.MEDIUM
     duration = 300
 
     level_offset = 1
@@ -30,5 +30,3 @@ class GetLevelQuest(Quest):
 
     def get_goal(self):
         return self._target_level
-
-

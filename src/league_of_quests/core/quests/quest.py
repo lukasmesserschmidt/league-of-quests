@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 
-from .restriction import Restriction
-from .states import Difficulty, QuestState
-from ..data import LiveClientData
+from .. import Difficulty, QuestState
+from ..restrictions import Restriction
+from ...data import LiveClientData
 
 
 class Quest(ABC):
     describtion: str
-    difficultys: Difficulty
+    difficulty: Difficulty
     tags: list[str]
 
     duration: float
@@ -18,6 +18,9 @@ class Quest(ABC):
         self._state = QuestState.INACTIVE
 
         self._restriction = restriction
+
+    def get_restriction(self):
+        return self._restriction
 
     def get_time_left(self):
         return self._time_left
@@ -33,9 +36,14 @@ class Quest(ABC):
         self._on_start(live_client_data)
 
     def update(self, dt: float, live_client_data: LiveClientData):
-        if self.get_state() not in (QuestState.INACTIVE, QuestState.COMPLETED, QuestState.FAILED):
+        if self.get_state() not in (
+            QuestState.INACTIVE,
+            QuestState.COMPLETED,
+            QuestState.FAILED,
+        ):
             self._update_time(dt)
             self._update_condition(live_client_data)
+            self._restriction.update(live_client_data)
 
     def _update_time(self, dt: float):
         self._time_left -= dt

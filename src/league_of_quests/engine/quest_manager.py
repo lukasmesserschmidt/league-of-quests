@@ -1,17 +1,20 @@
 import time
 
+from .quest_creator import QuestCreator
 from ..data import LiveClientDataFetcher
-from ..content.quests import GetStatQuest, GetLevelQuest
-from ..core.states import Difficulty
 
 
 class QuestManager:
     def __init__(self):
         self.active_quests = []
         self.live_client_data_fetcher = LiveClientDataFetcher()
+        self.quest_creator = QuestCreator()
 
     def loop(self):
-        quest = GetStatQuest(None)
+        quest = self.quest_creator.create_quest(
+            self.active_quests, self.live_client_data_fetcher.fetch()
+        )
+        self.active_quests.append(quest)
 
         last_time = None
         while True:
@@ -30,7 +33,6 @@ class QuestManager:
 
             quest.update(dt, live_client_data)
 
-            # print completed, failed, holding, time left, holding timer, stat value each on a new line
             print("-----")
             print(f"State: {quest.get_state()}")
             print(f"Time Left: {quest.get_time_left()}")

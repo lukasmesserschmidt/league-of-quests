@@ -7,7 +7,7 @@ from .live_client import LiveClient
 
 class KeyboardController:
     def __init__(self):
-        self._blocked_keys = {}
+        self._blocked_keys = set()
         self._lock = threading.Lock()
         self._live_client = LiveClient()
 
@@ -16,7 +16,7 @@ class KeyboardController:
 
     def block_key(self, key: str):
         with self._lock:
-            self._blocked_keys[key] = self._blocked_keys.get(key, 0) + 1
+            self._blocked_keys.add(key)
 
             if self._live_client.is_focused():
                 keyboard.block_key(key)
@@ -24,10 +24,8 @@ class KeyboardController:
     def unblock_key(self, key: str):
         with self._lock:
             if key in self._blocked_keys:
-                self._blocked_keys[key] -= 1
-                if self._blocked_keys[key] <= 0:
-                    del self._blocked_keys[key]
-                    keyboard.unblock_key(key)
+                self._blocked_keys.remove(key)
+                keyboard.unblock_key(key)
 
     def press_release_key(self, key: str):
         if self._live_client.is_focused():
@@ -39,7 +37,7 @@ class KeyboardController:
             is_focused = self._live_client.is_focused()
             if is_focused != was_focused:
                 with self._lock:
-                    for key in self._blocked_keys.keys():
+                    for key in self._blocked_keys:
                         if is_focused:
                             keyboard.block_key(key)
                         else:
