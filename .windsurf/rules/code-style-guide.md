@@ -32,7 +32,7 @@ def block_key(self, key: str):
 
 # Good - return type needed for abstract method
 @abstractmethod
-def _condition_met(self, live_client_data: LiveClientData) -> bool:
+def _condition_met(self, game_context: GameContext) -> bool:
     pass
 
 # Good - class attribute typing

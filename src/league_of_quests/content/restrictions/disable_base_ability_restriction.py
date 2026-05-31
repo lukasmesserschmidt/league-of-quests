@@ -1,6 +1,7 @@
 import random
 
 from ...core import Difficulty
+from ...core import GameContext
 from ...core.restrictions import Restriction
 from ...core.enums import HotkeyType
 
@@ -17,17 +18,15 @@ class DisableBaseAbilityRestriction(Restriction):
     }
 
     @classmethod
-    def requirements_met(cls, live_client_data, live_client_config):
-        available_options = cls._get_available_options(live_client_config)
+    def requirements_met(cls, game_context: GameContext):
+        available_options = cls._get_available_options(game_context)
         return len(available_options) > 0
 
-    def _on_start(self, live_client_data):
-        available_options = self._get_available_options(self.live_client_config)
+    def _on_start(self, game_context: GameContext):
+        available_options = self.__class__._get_available_options(game_context)
         self.selected_option = random.choice(available_options)
 
-        self.description = self.description.format(
-            ability=f"ability {self.options[self.selected_option]}"
-        )
+        self.description = self.description.format(ability=self.options[self.selected_option])
 
     def activate(self):
         self._game_disruptor.disable_ability(self.selected_option)
@@ -35,9 +34,11 @@ class DisableBaseAbilityRestriction(Restriction):
     def deactivate(self):
         self._game_disruptor.enable_ability(self.selected_option)
 
-    def _get_available_options(self, live_client_config):
+    @classmethod
+    def _get_available_options(cls, game_context: GameContext):
+        live_client_config = game_context.get_live_client_config()
         return [
             option
-            for option in self.options.keys()
+            for option in cls.options.keys()
             if getattr(live_client_config.input, option.value)
         ]

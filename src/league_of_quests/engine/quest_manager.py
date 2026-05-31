@@ -27,19 +27,19 @@ class QuestManager:
 
             game_context = GameContext(live_client_data, live_client_config)
 
-            t = live_client_data.gameData.gameTime
+            t = game_context.get_live_client_data().gameData.gameTime
 
             if last_time is None:
                 last_time = t
                 # test
-                quest = self._create_quest(live_client_data)
-                quest.start(live_client_data)
+                quest = self._create_quest(game_context)
+                quest.start(game_context)
 
             dt = t - last_time
             last_time = t
 
             for quest in self.active_quests:
-                quest.update(dt, live_client_data)
+                quest.update(dt, game_context)
 
                 if (
                     quest.get_state() == QuestState.COMPLETED
@@ -55,11 +55,15 @@ class QuestManager:
                 print(f"Current Value: {quest.get_progress()}")
                 print(f"Goal: {quest.get_goal()}")
 
+                restriction = quest.get_restriction()
+                print(f"Restriction: {restriction.__class__.__name__}")
+                print(f"Restriction Description: {restriction.description}")
+
             time.sleep(1)
 
-    def _create_quest(self, live_client_data):
+    def _create_quest(self, game_context):
         quest = self.quest_creator.create_quest(
-            self.active_quests, live_client_data, self.game_disruptor
+            self.active_quests, game_context, self.game_disruptor
         )
         self.active_quests.append(quest)
         return quest

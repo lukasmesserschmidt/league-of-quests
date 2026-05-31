@@ -25,7 +25,10 @@ class KeyboardController:
         with self._lock:
             if key in self._blocked_keys:
                 self._blocked_keys.remove(key)
-                keyboard.unblock_key(key)
+                try:
+                    keyboard.unblock_key(key)
+                except KeyError:
+                    pass
 
     def press_release_key(self, key: str):
         if self._live_client.is_focused():

@@ -2,23 +2,23 @@ import random
 
 from ..core.restrictions import Restriction
 from ..core.quests import Quest
-from ..data import LiveClientData
+from ..core import GameContext
 from ..core import Difficulty
+from ..core import GameDisruptor
 from ..content.quests import ALL_QUEST_CLASSES
 from ..content.restrictions import ALL_RESTRICTION_CLASSES
-from ..core import GameDisruptor
 
 
 class QuestCreator:
     def create_quest(
         self,
         existing_quests: list[Quest],
-        live_client_data: LiveClientData,
+        game_context: GameContext,
         game_disruptor: GameDisruptor,
     ) -> Quest:
-        available_quest_classes = self._get_available_quests(existing_quests, live_client_data)
+        available_quest_classes = self._get_available_quests(existing_quests, game_context)
         available_restriction_classes = self._get_available_restrictions(
-            existing_quests, live_client_data
+            existing_quests, game_context
         )
 
         if not available_quest_classes or not available_restriction_classes:
@@ -43,18 +43,18 @@ class QuestCreator:
         return quest_object
 
     def _get_available_quests(
-        self, existing_quests: list[Quest], live_client_data: LiveClientData
+        self, existing_quests: list[Quest], game_context: GameContext
     ) -> list[type[Quest]]:
         filtered_by_duplicates = self._filter_duplicate_classes(ALL_QUEST_CLASSES, existing_quests)
 
         filtered_by_tags = self._filter_duplicate_tags(filtered_by_duplicates, existing_quests)
 
-        filtered_by_requirements = self._filter_by_requirements(filtered_by_tags, live_client_data)
+        filtered_by_requirements = self._filter_by_requirements(filtered_by_tags, game_context)
 
         return filtered_by_requirements
 
     def _get_available_restrictions(
-        self, existing_quests: list[Quest], live_client_data: LiveClientData
+        self, existing_quests: list[Quest], game_context: GameContext
     ) -> list[type[Restriction]]:
         existing_restriction_objects = [
             quest.get_restriction() for quest in existing_quests if quest.get_restriction()
@@ -66,7 +66,7 @@ class QuestCreator:
 
         filtered_by_tags = self._filter_duplicate_tags(filtered_by_duplicates, existing_quests)
 
-        filtered_by_requirements = self._filter_by_requirements(filtered_by_tags, live_client_data)
+        filtered_by_requirements = self._filter_by_requirements(filtered_by_tags, game_context)
 
         return filtered_by_requirements
 
@@ -92,9 +92,9 @@ class QuestCreator:
     def _filter_by_requirements(
         self,
         classes: list[type[Quest | Restriction]],
-        live_client_data: LiveClientData,
+        game_context: GameContext,
     ) -> list[type[Quest | Restriction]]:
-        return [cls for cls in classes if cls.requirements_met(live_client_data)]
+        return [cls for cls in classes if cls.requirements_met(game_context)]
 
     def _get_weighted_difficulty(self, classes: list[type[Quest | Restriction]]) -> Difficulty:
         available_difficulties = set()

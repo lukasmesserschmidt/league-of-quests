@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
 from .. import Difficulty, QuestState
+from .. import GameContext
 from ..restrictions import Restriction
-from ...data import LiveClientData
 
 
 class Quest(ABC):
@@ -31,31 +31,31 @@ class Quest(ABC):
     def set_state(self, state: QuestState):
         self._state = state
 
-    def start(self, live_client_data: LiveClientData):
+    def start(self, game_context: GameContext):
         self.set_state(QuestState.ACTIVE)
-        self._on_start(live_client_data)
-        self._restriction.start(live_client_data)
+        self._on_start(game_context)
+        self._restriction.start(game_context)
 
     def stop(self):
         self._restriction.stop()
 
-    def update(self, dt: float, live_client_data: LiveClientData):
+    def update(self, dt: float, game_context: GameContext):
         if self.get_state() not in (
             QuestState.INACTIVE,
             QuestState.COMPLETED,
             QuestState.FAILED,
         ):
             self._update_time(dt)
-            self._update_condition(live_client_data)
-            self._restriction.update(live_client_data)
+            self._update_condition(game_context)
+            self._restriction.update(dt, game_context)
 
     def _update_time(self, dt: float):
         self._time_left -= dt
         if self._time_left <= 0:
             self.set_state(QuestState.FAILED)
 
-    def _update_condition(self, live_client_data: LiveClientData):
-        condition_met = self._condition_met(live_client_data)
+    def _update_condition(self, game_context: GameContext):
+        condition_met = self._condition_met(game_context)
         if condition_met:
             self.set_state(QuestState.COMPLETED)
 
@@ -68,12 +68,12 @@ class Quest(ABC):
         pass
 
     @classmethod
-    def requirements_met(cls, live_client_data: LiveClientData):
+    def requirements_met(cls, game_context: GameContext):
         return True
 
-    def _on_start(self, live_client_data: LiveClientData):
+    def _on_start(self, game_context: GameContext):
         pass
 
     @abstractmethod
-    def _condition_met(self, live_client_data: LiveClientData) -> bool:
+    def _condition_met(self, game_context: GameContext) -> bool:
         pass

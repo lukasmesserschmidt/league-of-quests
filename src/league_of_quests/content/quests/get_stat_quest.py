@@ -1,7 +1,7 @@
 import random
 
-from ...data import LiveClientData
 from ...core import Difficulty
+from ...core import GameContext
 from ...core.quests import HoldingQuest
 
 
@@ -20,7 +20,7 @@ class GetStatQuest(HoldingQuest):
         },
     )
 
-    def _on_start(self, live_client_data: LiveClientData):
+    def _on_start(self, game_context: GameContext):
         option = random.choice(self.options)
         self._key = option["key"]
         self._target_value = option["value"]
@@ -30,19 +30,18 @@ class GetStatQuest(HoldingQuest):
             value=self._target_value, stat=self._display_name
         )
 
-        value = self._get_stat(live_client_data)
-        self._start_value = value
-        self._current_value = value
+        self._current_value = self._get_stat(game_context)
+        self._start_value = self._current_value
 
-    def _condition_met(self, live_client_data: LiveClientData) -> bool:
-        self._current_value = self._get_stat(live_client_data)
-        return self._current_value >= self._target_value
+    def _condition_met(self, game_context: GameContext) -> bool:
+        self._current_value = self._get_stat(game_context)
+        return (self._current_value - self._start_value) >= self._target_value
 
     def get_progress(self):
-        return self._current_value
+        return self._current_value - self._start_value
 
     def get_goal(self):
         return self._target_value
 
-    def _get_stat(self, live_client_data: LiveClientData):
-        return getattr(live_client_data.activePlayer.championStats, self._key, 0)
+    def _get_stat(self, game_context: GameContext):
+        return getattr(game_context.get_live_client_data().activePlayer.championStats, self._key, 0)
