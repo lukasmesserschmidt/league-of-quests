@@ -1,5 +1,6 @@
 import random
 
+from ..data import ConfigFetcher
 from ..core.restrictions import Restriction
 from ..core.quests import Quest
 from ..core import GameContext
@@ -10,6 +11,9 @@ from ..content.restrictions import ALL_RESTRICTION_CLASSES
 
 
 class QuestCreator:
+    def __init__(self, config_fetcher: ConfigFetcher):
+        self._config_fetcher = config_fetcher
+
     def create_quest(
         self,
         existing_quests: list[Quest],
@@ -37,8 +41,9 @@ class QuestCreator:
         selected_quest_class = random.choice(quest_classes_with_difficulty)
         selected_restriction_class = random.choice(restriction_classes_with_difficulty)
 
+        config = self._config_fetcher.fetch()
         restriction_object = selected_restriction_class(game_disruptor)
-        quest_object = selected_quest_class(restriction_object)
+        quest_object = selected_quest_class(config, restriction_object)
 
         return quest_object
 

@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from .. import Difficulty, QuestState
 from .. import GameContext
 from ..restrictions import Restriction
+from ...data import Config
 
 
 class Quest(ABC):
@@ -12,8 +13,8 @@ class Quest(ABC):
 
     duration: float
 
-    def __init__(self, restriction: Restriction):
-        self._duration = self.duration
+    def __init__(self, config: Config, restriction: Restriction):
+        self._duration = self.duration * config.quests.duration_factor
         self._time_left = self._duration
         self._state = QuestState.INACTIVE
 

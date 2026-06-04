@@ -29,10 +29,10 @@ class DisableBaseAbilityRestriction(Restriction):
         self.description = self.description.format(ability=self.options[self.selected_option])
 
     def activate(self):
-        self._game_disruptor.disable_ability(self.selected_option)
+        self._game_disruptor.disable_ability(self.selected_option, id(self))
 
     def deactivate(self):
-        self._game_disruptor.enable_ability(self.selected_option)
+        self._game_disruptor.enable_ability(self.selected_option, id(self))
 
     @classmethod
     def _get_available_options(cls, game_context: GameContext):

@@ -43,3 +43,7 @@ def get_inputini_path():
 def get_gamecfg_path():
     lol_config_path = get_lol_config_path()
     return lol_config_path / "game.cfg"
+
+
+def get_config_path():
+    return Path(__file__).parent.parent.parent.parent / "config" / "config.json"

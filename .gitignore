@@ -1,4 +1,4 @@
 .vscode/
-__pycache__/
+.devin/
 .venv/
-NOTES.md
+__pycache__/

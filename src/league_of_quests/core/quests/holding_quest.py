@@ -2,13 +2,14 @@ from .quest import Quest
 from .. import QuestState
 from .. import GameContext
 from ..restrictions import Restriction
+from ...data import Config
 
 
 class HoldingQuest(Quest):
     holding_duration: float
 
-    def __init__(self, restriction: Restriction):
-        super().__init__(restriction)
+    def __init__(self, config: Config, restriction: Restriction):
+        super().__init__(config, restriction)
         self._holding_time_left = self.holding_duration
 
         self._condition_was_met = False

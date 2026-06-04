@@ -1,7 +1,4 @@
 import configparser
-import os
-import time
-from threading import Thread, Lock
 
 from .live_client_config import Game, Input, LiveClientConfig
 from .resources import get_gamecfg_path, get_inputini_path
@@ -11,51 +8,31 @@ from ..utils import parse_hotkey
 class LiveClientConfigMonitor:
     def __init__(self):
         self._config = None
-        self._lock = Lock()
         self._input_ini_path = get_inputini_path()
         self._game_cfg_path = get_gamecfg_path()
         self._last_modified_input = 0
         self._last_modified_game = 0
-        self._running = False
-        self._thread = None
 
         # Initial load
         self._update_config()
 
-        # Start monitoring
-        self._start_monitoring()
-
     def get_config(self):
-        with self._lock:
-            return self._config
+        # Check if files have been modified
+        try:
+            input_modified = self._input_ini_path.stat().st_mtime
+            game_modified = self._game_cfg_path.stat().st_mtime
 
-    def _start_monitoring(self):
-        self._running = True
-        self._thread = Thread(target=self._monitor_thread, daemon=True)
-        self._thread.start()
+            if (
+                input_modified != self._last_modified_input
+                or game_modified != self._last_modified_game
+            ):
+                self._last_modified_input = input_modified
+                self._last_modified_game = game_modified
+                self._update_config()
+        except (FileNotFoundError, OSError):
+            pass
 
-    def _stop_monitoring(self):
-        self._running = False
-        if self._thread:
-            self._thread.join()
-
-    def _monitor_thread(self):
-        while self._running:
-            try:
-                input_modified = os.path.getmtime(self._input_ini_path)
-                game_modified = os.path.getmtime(self._game_cfg_path)
-
-                if (
-                    input_modified != self._last_modified_input
-                    or game_modified != self._last_modified_game
-                ):
-                    self._last_modified_input = input_modified
-                    self._last_modified_game = game_modified
-                    self._update_config()
-            except (FileNotFoundError, OSError):
-                pass
-
-            time.sleep(0.5)
+        return self._config
 
     def _update_config(self):
         try:
@@ -78,7 +55,6 @@ class LiveClientConfigMonitor:
 
             game_data = Game(MinimapScale=game_config.get("HUD", "MinimapScale"))
 
-            with self._lock:
-                self._config = LiveClientConfig(game=game_data, input=input_data)
+            self._config = LiveClientConfig(game=game_data, input=input_data)
         except (configparser.Error, FileNotFoundError, OSError):
             pass
