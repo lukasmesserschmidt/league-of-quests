@@ -53,7 +53,13 @@ class LiveClientConfigMonitor:
                 evtCastSpell1=parse_hotkey(input_config.get("GameEvents", "evtCastSpell1")),
             )
 
-            game_data = Game(MinimapScale=game_config.get("HUD", "MinimapScale"))
+            game_data = Game(
+                MinimapScale=game_config.get("HUD", "MinimapScale"),
+                GlobalScale=game_config.get("HUD", "GlobalScale"),
+                FlipMiniMap=game_config.get("HUD", "FlipMiniMap"),
+                Width=game_config.get("General", "Width"),
+                Height=game_config.get("General", "Height"),
+            )
 
             self._config = LiveClientConfig(game=game_data, input=input_data)
         except (configparser.Error, FileNotFoundError, OSError):

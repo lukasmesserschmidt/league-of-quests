@@ -10,8 +10,19 @@ def validate_float(value: str) -> float:
         return 1.0
 
 
+def validate_int(value: str) -> int:
+    try:
+        return int(value)
+    except ValueError:
+        return 0
+
+
 class Game(BaseModel):
     MinimapScale: Annotated[float, BeforeValidator(validate_float)] = 1.0
+    GlobalScale: Annotated[float, BeforeValidator(validate_float)] = 0.0
+    FlipMiniMap: Annotated[int, BeforeValidator(validate_int)] = 0
+    Width: Annotated[int, BeforeValidator(validate_int)] = 2560
+    Height: Annotated[int, BeforeValidator(validate_int)] = 1440
 
 
 class Input(BaseModel):

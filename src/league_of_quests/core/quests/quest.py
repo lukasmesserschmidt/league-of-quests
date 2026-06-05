@@ -1,19 +1,17 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
-from .. import Difficulty, QuestState
+from .. import QuestState
 from .. import GameContext
 from ..restrictions import Restriction
 from ...data import Config
+from .. import GameEntity
 
 
-class Quest(ABC):
-    describtion: str
-    difficulty: Difficulty
-    tags: list[str]
-
+class Quest(GameEntity):
     duration: float
 
     def __init__(self, config: Config, restriction: Restriction):
+        self._description = self.description
         self._duration = self.duration * config.quests.duration_factor
         self._time_left = self._duration
         self._state = QuestState.INACTIVE
@@ -66,13 +64,6 @@ class Quest(ABC):
 
     @abstractmethod
     def get_goal(self):
-        pass
-
-    @classmethod
-    def requirements_met(cls, game_context: GameContext):
-        return True
-
-    def _on_start(self, game_context: GameContext):
         pass
 
     @abstractmethod

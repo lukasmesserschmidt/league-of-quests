@@ -1,4 +1,7 @@
 .vscode/
 .devin/
+.agents/
 .venv/
 __pycache__/
+notes.md
+overlay_specification.md

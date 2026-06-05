@@ -1,11 +1,11 @@
 {
     "quests": {
-        "limit": 2,
+        "limit": 1,
         "duration_factor": 1.0,
         "new_quest_on_death": true,
         "new_quest_on_fail": false,
         "new_quest_after_time": false,
-        "new_quest_after_time_interval": 240,
+        "new_quest_after_time_interval": 300,
         "allow_similar": false,
         "difficulties": {
             "easy": 0.6,

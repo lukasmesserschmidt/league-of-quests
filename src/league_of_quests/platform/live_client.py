@@ -1,4 +1,5 @@
 import ctypes
+import ctypes.wintypes
 
 
 class LiveClient:
@@ -29,4 +30,31 @@ class LiveClient:
         return (
             window_title.value == self._window_title
             and class_name.value == self._window_class
+        )
+
+    def get_window_handle(self) -> int | None:
+        """Find the LoL game window handle. Returns None if not found."""
+        hwnd = ctypes.windll.user32.FindWindowW(
+            self._window_class, self._window_title
+        )
+        return hwnd if hwnd else None
+
+    def get_window_rect(self) -> tuple[int, int, int, int] | None:
+        """Return (x, y, width, height) of the game window in screen pixels.
+
+        Returns None if the window is not found.
+        """
+        hwnd = self.get_window_handle()
+        if not hwnd:
+            return None
+
+        rect = ctypes.wintypes.RECT()
+        if not ctypes.windll.user32.GetWindowRect(hwnd, ctypes.byref(rect)):
+            return None
+
+        return (
+            rect.left,
+            rect.top,
+            rect.right - rect.left,
+            rect.bottom - rect.top,
         )

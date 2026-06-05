@@ -26,7 +26,7 @@ class DisableBaseAbilityRestriction(Restriction):
         available_options = self.__class__._get_available_options(game_context)
         self.selected_option = random.choice(available_options)
 
-        self.description = self.description.format(ability=self.options[self.selected_option])
+        self._format_description(ability=self.options[self.selected_option])
 
     def activate(self):
         self._game_disruptor.disable_ability(self.selected_option, id(self))
@@ -36,7 +36,7 @@ class DisableBaseAbilityRestriction(Restriction):
 
     @classmethod
     def _get_available_options(cls, game_context: GameContext):
-        live_client_config = game_context.get_live_client_config()
+        live_client_config = game_context.get_config()
         return [
             option
             for option in cls.options.keys()
