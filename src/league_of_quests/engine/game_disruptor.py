@@ -4,13 +4,13 @@ from typing import Optional
 
 from ..platform.keyboard_controller import KeyboardController
 from ..data.live_client_config_monitor import LiveClientConfigMonitor
-from .enums import HotkeyType
+from ..core import HotkeyType
 
 
 class GameDisruptor:
-    def __init__(self, live_client_config_monitor: LiveClientConfigMonitor):
+    def __init__(self):
         self._keyboard_controller = KeyboardController()
-        self._live_client_config_monitor = live_client_config_monitor
+        self._live_client_config_monitor = LiveClientConfigMonitor()
         self._lock = threading.Lock()
 
         # Track owners of blocked abilities: HotkeyType -> set of owner IDs

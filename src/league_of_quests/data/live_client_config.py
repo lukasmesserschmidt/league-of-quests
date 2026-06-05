@@ -23,13 +23,16 @@ class Game(BaseModel):
     FlipMiniMap: Annotated[int, BeforeValidator(validate_int)] = 0
     Width: Annotated[int, BeforeValidator(validate_int)] = 2560
     Height: Annotated[int, BeforeValidator(validate_int)] = 1440
+    WindowMode: Annotated[int, BeforeValidator(validate_int)] = 2
 
 
 class Input(BaseModel):
-    evtCastSpell4: list[str]
-    evtCastSpell3: list[str]
-    evtCastSpell2: list[str]
     evtCastSpell1: list[str]
+    evtCastSpell2: list[str]
+    evtCastSpell3: list[str]
+    evtCastSpell4: list[str]
+    evtUseItem7: list[str]
+    evtUseVisionItem: list[str]
 
 
 class LiveClientConfig(BaseModel):

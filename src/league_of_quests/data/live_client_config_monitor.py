@@ -3,9 +3,10 @@ import configparser
 from .live_client_config import Game, Input, LiveClientConfig
 from .resources import get_gamecfg_path, get_inputini_path
 from ..utils import parse_hotkey
+from ..utils import SingletonMeta
 
 
-class LiveClientConfigMonitor:
+class LiveClientConfigMonitor(metaclass=SingletonMeta):
     def __init__(self):
         self._config = None
         self._input_ini_path = get_inputini_path()
@@ -47,10 +48,12 @@ class LiveClientConfigMonitor:
             # Extract only the fields defined in live_client_config.py
             # Let pydantic handle type conversion and validation with defaults
             input_data = Input(
-                evtCastSpell4=parse_hotkey(input_config.get("GameEvents", "evtCastSpell4")),
-                evtCastSpell3=parse_hotkey(input_config.get("GameEvents", "evtCastSpell3")),
-                evtCastSpell2=parse_hotkey(input_config.get("GameEvents", "evtCastSpell2")),
                 evtCastSpell1=parse_hotkey(input_config.get("GameEvents", "evtCastSpell1")),
+                evtCastSpell2=parse_hotkey(input_config.get("GameEvents", "evtCastSpell2")),
+                evtCastSpell3=parse_hotkey(input_config.get("GameEvents", "evtCastSpell3")),
+                evtCastSpell4=parse_hotkey(input_config.get("GameEvents", "evtCastSpell4")),
+                evtUseItem7=parse_hotkey(input_config.get("GameEvents", "evtUseItem7")),
+                evtUseVisionItem=parse_hotkey(input_config.get("GameEvents", "evtUseVisionItem")),
             )
 
             game_data = Game(
@@ -59,6 +62,7 @@ class LiveClientConfigMonitor:
                 FlipMiniMap=game_config.get("HUD", "FlipMiniMap"),
                 Width=game_config.get("General", "Width"),
                 Height=game_config.get("General", "Height"),
+                WindowMode=game_config.get("General", "WindowMode"),
             )
 
             self._config = LiveClientConfig(game=game_data, input=input_data)

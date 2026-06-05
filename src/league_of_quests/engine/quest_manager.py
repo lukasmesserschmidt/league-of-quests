@@ -5,7 +5,7 @@ from ..data import LiveClientDataFetcher
 from ..data import LiveClientConfigMonitor
 from ..data import ConfigFetcher
 from ..data import Config
-from ..core import GameDisruptor
+from ..engine import GameDisruptor
 from ..core import GameContext
 from ..core import QuestState
 from ..core.quests import Quest
@@ -16,7 +16,7 @@ class QuestManager:
         self.active_quests: list[Quest] = []
         self.live_client_data_fetcher = LiveClientDataFetcher()
         self.live_client_config_monitor = LiveClientConfigMonitor()
-        self.game_disruptor = GameDisruptor(self.live_client_config_monitor)
+        self.game_disruptor = GameDisruptor()
         self.config_fetcher = ConfigFetcher()
         self.quest_creator = QuestCreator(self.config_fetcher)
 
@@ -75,10 +75,7 @@ class QuestManager:
                     self._remove_quest(quest)
 
                     # If a quest has failed and the config allows it, create a new quest
-                    if (
-                        quest.get_state() == QuestState.FAILED
-                        and config.quests.new_quest_on_fail
-                    ):
+                    if quest.get_state() == QuestState.FAILED and config.quests.new_quest_on_fail:
                         self._try_add_quest(game_context, config)
 
                     continue

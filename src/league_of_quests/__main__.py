@@ -1,14 +1,22 @@
 import time
 import keyboard
 
-from .engine import QuestManager
-from .core import GameDisruptor, HotkeyType
-from .data import LiveClientConfigMonitor
+from PySide6.QtWidgets import QApplication
+
+from .ui import GameOverlayWindow
 
 
 def main():
-    manager = QuestManager()
-    manager.start()
+    app = QApplication([])
+    app.setApplicationName("League of Quests")
+
+    window = GameOverlayWindow()
+    window.show()
+
+    app.exec()
+
+    # manager = QuestManager()
+    # manager.start()
 
 
 if __name__ == "__main__":

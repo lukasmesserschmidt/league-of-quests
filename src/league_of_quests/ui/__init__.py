@@ -1,1 +1,1 @@
-from .game_overlay import GameOverlay
+from .game_overlay_window import GameOverlayWindow

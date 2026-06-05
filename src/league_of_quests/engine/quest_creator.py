@@ -6,7 +6,7 @@ from ..core.restrictions import Restriction
 from ..core.quests import Quest
 from ..core import GameContext
 from ..core import Difficulty
-from ..core import GameDisruptor
+from ..engine import GameDisruptor
 from ..content.quests import ALL_QUEST_CLASSES
 from ..content.restrictions import ALL_RESTRICTION_CLASSES
 
@@ -22,9 +22,7 @@ class QuestCreator:
         game_disruptor: GameDisruptor,
     ) -> Quest:
         """Create a new quest by selecting a quest class and a restriction class."""
-        available_quest_classes = self._get_available_quests(
-            existing_quests, game_context
-        )
+        available_quest_classes = self._get_available_quests(existing_quests, game_context)
         available_restriction_classes = self._get_available_restrictions(
             existing_quests, game_context
         )
@@ -59,17 +57,11 @@ class QuestCreator:
         self, existing_quests: list[Quest], game_context: GameContext
     ) -> list[type[Quest]]:
         """Get available quest classes after filtering."""
-        filtered_by_duplicates = self._filter_duplicate_classes(
-            ALL_QUEST_CLASSES, existing_quests
-        )
+        filtered_by_duplicates = self._filter_duplicate_classes(ALL_QUEST_CLASSES, existing_quests)
 
-        filtered_by_tags = self._filter_duplicate_tags(
-            filtered_by_duplicates, existing_quests
-        )
+        filtered_by_tags = self._filter_duplicate_tags(filtered_by_duplicates, existing_quests)
 
-        filtered_by_requirements = self._filter_by_requirements(
-            filtered_by_tags, game_context
-        )
+        filtered_by_requirements = self._filter_by_requirements(filtered_by_tags, game_context)
 
         return filtered_by_requirements
 
@@ -78,22 +70,16 @@ class QuestCreator:
     ) -> list[type[Restriction]]:
         """Get available restriction classes after filtering."""
         existing_restriction_objects = [
-            quest.get_restriction()
-            for quest in existing_quests
-            if quest.get_restriction()
+            quest.get_restriction() for quest in existing_quests if quest.get_restriction()
         ]
 
         filtered_by_duplicates = self._filter_duplicate_classes(
             ALL_RESTRICTION_CLASSES, existing_restriction_objects
         )
 
-        filtered_by_tags = self._filter_duplicate_tags(
-            filtered_by_duplicates, existing_quests
-        )
+        filtered_by_tags = self._filter_duplicate_tags(filtered_by_duplicates, existing_quests)
 
-        filtered_by_requirements = self._filter_by_requirements(
-            filtered_by_tags, game_context
-        )
+        filtered_by_requirements = self._filter_by_requirements(filtered_by_tags, game_context)
 
         return filtered_by_requirements
 
@@ -112,9 +98,7 @@ class QuestCreator:
         existing_quests: list[Quest],
     ) -> list[type[Quest | Restriction]]:
         existing_tags = {
-            tag
-            for quest in existing_quests
-            for tag in quest.tags + quest.get_restriction().tags
+            tag for quest in existing_quests for tag in quest.tags + quest.get_restriction().tags
         }
 
         return [cls for cls in classes if not existing_tags.intersection(cls.tags)]
