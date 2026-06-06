@@ -1,22 +1,16 @@
-import time
-import keyboard
-
 from PySide6.QtWidgets import QApplication
 
-from .ui import GameOverlayWindow
+from .engine import QuestManager
 
 
 def main():
     app = QApplication([])
     app.setApplicationName("League of Quests")
 
-    window = GameOverlayWindow()
-    window.show()
+    manager = QuestManager()
+    manager.start()
 
     app.exec()
-
-    # manager = QuestManager()
-    # manager.start()
 
 
 if __name__ == "__main__":

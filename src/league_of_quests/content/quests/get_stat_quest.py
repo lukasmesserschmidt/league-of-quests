@@ -1,8 +1,8 @@
 import random
 
-from ...core import Difficulty
-from ...core import GameContext
-from ...core.quests import HoldingQuest
+from .base import HoldingQuest
+from ...data import Difficulty
+from ...game import GameContext
 
 
 class GetStatQuest(HoldingQuest):

@@ -1,7 +1,9 @@
 import ctypes
 
+from ..utils import SingletonMeta
 
-class User:
+
+class User(metaclass=SingletonMeta):
     """Provides system-level info: screen resolution, DPI scaling."""
 
     def get_screen_resolution(self) -> tuple[int, int]:
@@ -28,12 +30,3 @@ class User:
             dpi = ctypes.windll.gdi32.GetDeviceCaps(hdc, 88)  # LOGPIXELSX
             ctypes.windll.user32.ReleaseDC(0, hdc)
             return dpi / 96.0
-
-
-if __name__ == "__main__":
-    user = User()
-    print(f"Screen resolution: {user.get_screen_resolution()}")
-    print(f"DPI scale: {user.get_dpi_scale()}")
-    print(
-        f"Screen resolution scaled: {user.get_screen_resolution()[0] / user.get_dpi_scale()}, {user.get_screen_resolution()[1] / user.get_dpi_scale()}"
-    )

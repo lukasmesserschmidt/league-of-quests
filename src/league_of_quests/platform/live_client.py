@@ -1,8 +1,10 @@
 import ctypes
 import ctypes.wintypes
 
+from ..utils import SingletonMeta
 
-class LiveClient:
+
+class LiveClient(metaclass=SingletonMeta):
     def __init__(self):
         self._window_title = "League of Legends (TM) Client"
         self._window_class = "RiotWindowClass"
@@ -34,9 +36,7 @@ class LiveClient:
 
     def get_window_handle(self) -> int | None:
         """Find the LoL game window handle. Returns None if not found."""
-        hwnd = ctypes.windll.user32.FindWindowW(
-            self._window_class, self._window_title
-        )
+        hwnd = ctypes.windll.user32.FindWindowW(self._window_class, self._window_title)
         return hwnd if hwnd else None
 
     def get_window_rect(self) -> tuple[int, int, int, int] | None:

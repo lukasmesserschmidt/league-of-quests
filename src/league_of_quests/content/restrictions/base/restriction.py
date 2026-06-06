@@ -1,8 +1,7 @@
 from abc import abstractmethod
 
-from .. import GameContext
-from .. import GameEntity
-from ...engine import GameDisruptor
+from ... import GameEntity
+from ....game import GameDisruptor, GameContext
 
 
 class Restriction(GameEntity):

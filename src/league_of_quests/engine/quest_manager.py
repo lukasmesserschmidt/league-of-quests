@@ -1,14 +1,16 @@
 import time
+from threading import Thread
 
 from .quest_creator import QuestCreator
-from ..data import LiveClientDataFetcher
-from ..data import LiveClientConfigMonitor
-from ..data import ConfigFetcher
-from ..data import Config
-from ..engine import GameDisruptor
-from ..core import GameContext
-from ..core import QuestState
-from ..core.quests import Quest
+from ..data import (
+    LiveClientDataFetcher,
+    LiveClientConfigMonitor,
+    ConfigFetcher,
+    Config,
+    QuestState,
+)
+from ..game import GameDisruptor, GameContext
+from ..content.quests.base import Quest
 
 
 class QuestManager:
@@ -21,7 +23,8 @@ class QuestManager:
         self.quest_creator = QuestCreator(self.config_fetcher)
 
     def start(self):
-        self._loop()
+        """Start the quest manager loop in a separate thread."""
+        Thread(target=self._loop, daemon=True).start()
 
     def _loop(self):
         config = self.config_fetcher.fetch()

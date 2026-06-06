@@ -27,6 +27,8 @@ class KeyboardController:
             if self._live_client.is_focused():
                 self._physically_block_key(key)
 
+            print(self._key_ref_counts)
+
     def unblock_key(self, key: str):
         """Release a block request. Key is unblocked only when no owners want it blocked."""
         with self._lock:

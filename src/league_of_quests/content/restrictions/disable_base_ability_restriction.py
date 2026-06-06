@@ -1,9 +1,8 @@
 import random
 
-from ...core import Difficulty
-from ...core import GameContext
-from ...core.restrictions import Restriction
-from ...core.enums import HotkeyType
+from .base import Restriction
+from ...data import Difficulty, HotkeyType
+from ...game import GameContext
 
 
 class DisableBaseAbilityRestriction(Restriction):

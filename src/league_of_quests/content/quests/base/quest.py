@@ -1,10 +1,9 @@
 from abc import abstractmethod
 
-from .. import QuestState
-from .. import GameContext
-from ..restrictions import Restriction
-from ...data import Config
-from .. import GameEntity
+from ... import GameEntity
+from ...restrictions import Restriction
+from ....game import GameContext
+from ....data import Config, QuestState
 
 
 class Quest(GameEntity):

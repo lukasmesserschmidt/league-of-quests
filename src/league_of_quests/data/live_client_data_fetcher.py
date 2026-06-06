@@ -3,7 +3,7 @@ from urllib3.exceptions import InsecureRequestWarning
 
 import requests
 
-from .live_client_data import LiveClientData
+from .models import LiveClientData
 
 
 class LiveClientDataFetcher:

@@ -1,6 +1,6 @@
 import configparser
 
-from .live_client_config import Game, Input, LiveClientConfig
+from .models import Game, Input, LiveClientConfig
 from .resources import get_gamecfg_path, get_inputini_path
 from ..utils import parse_hotkey
 from ..utils import SingletonMeta
@@ -48,12 +48,22 @@ class LiveClientConfigMonitor(metaclass=SingletonMeta):
             # Extract only the fields defined in live_client_config.py
             # Let pydantic handle type conversion and validation with defaults
             input_data = Input(
-                evtCastSpell1=parse_hotkey(input_config.get("GameEvents", "evtCastSpell1")),
-                evtCastSpell2=parse_hotkey(input_config.get("GameEvents", "evtCastSpell2")),
-                evtCastSpell3=parse_hotkey(input_config.get("GameEvents", "evtCastSpell3")),
-                evtCastSpell4=parse_hotkey(input_config.get("GameEvents", "evtCastSpell4")),
+                evtCastSpell1=parse_hotkey(
+                    input_config.get("GameEvents", "evtCastSpell1")
+                ),
+                evtCastSpell2=parse_hotkey(
+                    input_config.get("GameEvents", "evtCastSpell2")
+                ),
+                evtCastSpell3=parse_hotkey(
+                    input_config.get("GameEvents", "evtCastSpell3")
+                ),
+                evtCastSpell4=parse_hotkey(
+                    input_config.get("GameEvents", "evtCastSpell4")
+                ),
                 evtUseItem7=parse_hotkey(input_config.get("GameEvents", "evtUseItem7")),
-                evtUseVisionItem=parse_hotkey(input_config.get("GameEvents", "evtUseVisionItem")),
+                evtUseVisionItem=parse_hotkey(
+                    input_config.get("GameEvents", "evtUseVisionItem")
+                ),
             )
 
             game_data = Game(

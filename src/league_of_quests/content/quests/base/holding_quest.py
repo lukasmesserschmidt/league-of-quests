@@ -1,8 +1,7 @@
 from .quest import Quest
-from .. import QuestState
-from .. import GameContext
-from ..restrictions import Restriction
-from ...data import Config
+from ...restrictions import Restriction
+from ....data import Config, QuestState
+from ....game import GameContext
 
 
 class HoldingQuest(Quest):

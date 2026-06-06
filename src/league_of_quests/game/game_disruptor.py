@@ -2,14 +2,15 @@ import threading
 import time
 from typing import Optional
 
+from .game_overlay import GameOverlay
 from ..platform.keyboard_controller import KeyboardController
-from ..data.live_client_config_monitor import LiveClientConfigMonitor
-from ..core import HotkeyType
+from ..data import LiveClientConfigMonitor, HotkeyType
 
 
 class GameDisruptor:
     def __init__(self):
         self._keyboard_controller = KeyboardController()
+        self._game_overlay = GameOverlay()
         self._live_client_config_monitor = LiveClientConfigMonitor()
         self._lock = threading.Lock()
 
@@ -34,6 +35,7 @@ class GameDisruptor:
                 self._current_hotkeys[ability] = hotkey
                 for key in hotkey:
                     self._keyboard_controller.block_key(key)
+                self._game_overlay.show_aility_cover(ability)
 
     def enable_ability(self, ability: HotkeyType, owner: int):
         """Release a block request for an ability."""
@@ -52,6 +54,7 @@ class GameDisruptor:
             if hotkey:
                 for key in hotkey:
                     self._keyboard_controller.unblock_key(key)
+                self._game_overlay.hide_aility_cover(ability)
                 del self._current_hotkeys[ability]
 
     def _get_hotkey_for_ability(self, ability: HotkeyType) -> Optional[list[str]]:

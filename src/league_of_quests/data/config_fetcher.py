@@ -1,6 +1,6 @@
 import json
 
-from .config import Config, DEFAULT_CONFIG
+from .models import Config, DEFAULT_CONFIG
 from .resources import get_config_path
 
 

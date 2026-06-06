@@ -1,6 +1,6 @@
-from ...core import Difficulty
-from ...core import GameContext
-from ...core.quests import Quest
+from .base import Quest
+from ...data import Difficulty
+from ...game import GameContext
 
 
 class GetLevelQuest(Quest):

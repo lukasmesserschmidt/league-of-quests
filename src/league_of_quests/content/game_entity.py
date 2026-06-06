@@ -1,7 +1,7 @@
 from abc import ABC
 
-from ..core.enums import Difficulty
-from ..core.game_context import GameContext
+from ..data import Difficulty
+from ..game import GameContext
 
 
 class GameEntity(ABC):
@@ -21,3 +21,6 @@ class GameEntity(ABC):
     @classmethod
     def requirements_met(cls, game_context: GameContext) -> bool:
         return True
+
+    def _on_start(self, game_context: GameContext):
+        pass
