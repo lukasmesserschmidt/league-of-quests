@@ -4,15 +4,16 @@ from typing import Optional
 
 from .game_overlay import GameOverlay
 from ..platform.keyboard_controller import KeyboardController
-from ..data import LiveClientConfigMonitor, HotkeyType
+from ..data import LiveClientConfigFetcher, HotkeyType
 
 
 class GameDisruptor:
-    def __init__(self):
+    def __init__(self, game_overlay: GameOverlay):
         self._keyboard_controller = KeyboardController()
-        self._game_overlay = GameOverlay()
-        self._live_client_config_monitor = LiveClientConfigMonitor()
+        self._live_client_config_fetcher = LiveClientConfigFetcher()
         self._lock = threading.Lock()
+
+        self._game_overlay = game_overlay
 
         # Track owners of blocked abilities: HotkeyType -> set of owner IDs
         self._blocked_abilities: dict[HotkeyType, set[int]] = {}
@@ -59,7 +60,7 @@ class GameDisruptor:
 
     def _get_hotkey_for_ability(self, ability: HotkeyType) -> Optional[list[str]]:
         """Get the current hotkey for an ability from the live client config."""
-        config = self._live_client_config_monitor.get_config()
+        config = self._live_client_config_fetcher.fetch()
         if not config:
             return None
 

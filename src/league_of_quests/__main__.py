@@ -1,14 +1,13 @@
 from PySide6.QtWidgets import QApplication
 
-from .engine import QuestManager
+from .engine import AppController
 
 
 def main():
     app = QApplication([])
     app.setApplicationName("League of Quests")
 
-    manager = QuestManager()
-    manager.start()
+    controller = AppController()
 
     app.exec()
 

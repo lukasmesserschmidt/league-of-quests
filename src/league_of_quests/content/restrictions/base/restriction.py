@@ -1,11 +1,12 @@
 from abc import abstractmethod
 
-from ... import GameEntity
+from ...game_entity import GameEntity
 from ....game import GameDisruptor, GameContext
 
 
 class Restriction(GameEntity):
     def __init__(self, game_disruptor: GameDisruptor):
+        super().__init__()
         self._game_disruptor = game_disruptor
 
     def start(self, game_context: GameContext):

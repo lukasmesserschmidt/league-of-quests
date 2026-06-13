@@ -34,7 +34,11 @@ class HoldingQuest(Quest):
         if condition_met != self._condition_was_met:
             if condition_met:
                 self.set_state(QuestState.CONDITION_MET)
-                self._holding_time_left = self.holding_duration
+                self._holding_time_left = (
+                    self.holding_duration
+                    if self._time_left > self.holding_duration
+                    else self._time_left
+                )
                 self._restriction.deactivate()
                 self._on_condition_met(game_context)
             else:

@@ -12,6 +12,9 @@ class GameEntity(ABC):
     def __init__(self):
         self._description = self.description
 
+    def get_id(self):
+        return id(self)
+
     def get_description(self):
         return self._description
 

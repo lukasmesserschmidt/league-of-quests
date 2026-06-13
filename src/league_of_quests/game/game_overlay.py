@@ -6,10 +6,10 @@ from ..platform import LiveClient
 
 
 class GameOverlay:
-    def __init__(self):
+    def __init__(self, game_overlay_window: GameOverlayWindow):
         self._live_client = LiveClient()
 
-        self.window = GameOverlayWindow()
+        self.window = game_overlay_window
 
         self._hotkey_to_widget = {
             HotkeyType.ABILITY_1: self.window.ability_1,

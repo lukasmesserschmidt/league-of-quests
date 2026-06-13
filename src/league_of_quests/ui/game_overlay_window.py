@@ -2,7 +2,7 @@ from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import QWidget
 
 from ..platform import LiveClient, User
-from ..data import LiveClientConfigMonitor, LiveClientConfig
+from ..data import LiveClientConfigFetcher, LiveClientConfig
 from ..utils.calculations import interpolate, map_value
 
 
@@ -20,7 +20,7 @@ class GameOverlayWindow(QWidget):
 
         self.live_client = LiveClient()
         self.user = User()
-        self.live_client_config_monitor = LiveClientConfigMonitor()
+        self.live_client_config_fetcher = LiveClientConfigFetcher()
 
         style = "background-color: rgba(255, 0, 0, 0.5);"
 
@@ -83,7 +83,7 @@ class GameOverlayWindow(QWidget):
         self._resource_span = [from_pct, to_pct]
 
     def _update(self):
-        config = self.live_client_config_monitor.get_config()
+        config = self.live_client_config_fetcher.fetch()
 
         if config is None or not self.live_client.is_focused():
             self.hide()

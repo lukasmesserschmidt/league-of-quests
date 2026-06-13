@@ -2,9 +2,10 @@ import json
 
 from .models import Config, DEFAULT_CONFIG
 from .resources import get_config_path
+from ..utils import SingletonMeta
 
 
-class ConfigFetcher:
+class ConfigFetcher(metaclass=SingletonMeta):
     def __init__(self):
         self._config = None
         self._config_path = get_config_path()

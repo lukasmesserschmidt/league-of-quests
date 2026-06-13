@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>quest_frame</class>
+ <widget class="QFrame" name="quest_frame">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>60</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>60</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#quest_frame {
+    background: qlineargradient(
+        x1: 0, y1: 0, x2: 1, y2: 1,
+        stop: 0 rgba(40, 40, 40, 0.8),
+        stop: 0.5 rgba(40, 40, 40, 0.4),
+        stop: 1 rgba(40, 40, 40, 0.6)
+    );
+    border-radius: 8px;
+    border: 1px solid rgba(200, 200, 200, 0.4);
+}</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,4">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="score_frame">
+     <property name="styleSheet">
+      <string notr="true">#score_frame {
+	background-color: rgba(40, 40, 40, 0.5);
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>10</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>10</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="progress_label">
+        <property name="styleSheet">
+         <string notr="true">#progress_label {
+	color: rgba(255, 255, 255, 0.8);
+}</string>
+        </property>
+        <property name="text">
+         <string>00/00</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="time_label">
+        <property name="styleSheet">
+         <string notr="true">#time_label {
+	color: rgba(255, 255, 255, 0.7);
+}</string>
+        </property>
+        <property name="text">
+         <string>00:00</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="quest_label">
+       <property name="styleSheet">
+        <string notr="true">#quest_label {
+	color: rgba(255, 255, 255, 0.8);
+	background-color: qlineargradient(
+		x1: 0, y1: 0, x2: 1, y2: 0,
+		stop: 0 rgba(255, 0, 0, 0.1),
+		stop: 1 rgba(255, 0, 0, 0.0)
+	);
+	border-top-right-radius: 8px;
+}</string>
+       </property>
+       <property name="text">
+        <string>   Quest Label</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="restriction_label">
+       <property name="styleSheet">
+        <string notr="true">#restriction_label {
+	color: rgba(255, 255, 255, 0.7);
+	background-color: qlineargradient(
+		x1: 0, y1: 0, x2: 1, y2: 0,
+		stop: 0 rgba(255, 0, 0, 0.1),
+		stop: 1 rgba(255, 0, 0, 0.0)
+	);
+	border-bottom-right-radius: 8px;
+}</string>
+       </property>
+       <property name="text">
+        <string>   Restriction Label</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

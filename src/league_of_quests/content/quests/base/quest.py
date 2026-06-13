@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from ... import GameEntity
+from ...game_entity import GameEntity
 from ...restrictions import Restriction
 from ....game import GameContext
 from ....data import Config, QuestState
@@ -10,7 +10,7 @@ class Quest(GameEntity):
     duration: float
 
     def __init__(self, config: Config, restriction: Restriction):
-        self._description = self.description
+        super().__init__()
         self._duration = self.duration * config.quests.duration_factor
         self._time_left = self._duration
         self._state = QuestState.INACTIVE
